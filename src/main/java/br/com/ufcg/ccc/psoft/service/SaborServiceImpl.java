@@ -60,9 +60,7 @@ public class SaborServiceImpl implements SaborService {
 		Cardapio cardapio = estabelecimento.getCardapio();
 
 		cardapio.adicionarSabor(sabor);
-		estabelecimento.setCardapio(cardapio);
-		
-		estabelecimentoRepository.save(estabelecimento);
+
 		cardapioRepository.save(cardapio);
 
 	}
@@ -130,9 +128,6 @@ public class SaborServiceImpl implements SaborService {
 		sabores.remove(sabor);
 
 		cardapio.setSabores(sabores);
-		estabelecimento.setCardapio(cardapio);
-		
-		estabelecimentoRepository.save(estabelecimento);
 		cardapioRepository.save(cardapio);
 	}
 }
