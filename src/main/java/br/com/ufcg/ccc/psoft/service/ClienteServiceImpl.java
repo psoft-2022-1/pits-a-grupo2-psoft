@@ -32,13 +32,13 @@ public class ClienteServiceImpl implements ClienteService{
 	                .orElseThrow(() -> new ClienteNotFoundException());
 	    }
 	    @Override
-	    public void removerClienteCadastrado(Long id) throws ClienteNotFoundException {
+	    public void removeClienteCadastrado(Long id) throws ClienteNotFoundException {
 	        Cliente cliente = getClienteId(id);
 	        this.clienteRepository.delete(cliente);
 	    }
 
 	    @Override
-	    public List<ClienteDTO> listarClientes() {
+	    public List<ClienteDTO> listaClientes() {
 	        List<ClienteDTO> clientesDTO = this.clienteRepository.findAll()
 	                .stream()
 	                .map(cliente -> modelMapper.map(cliente, ClienteDTO.class))

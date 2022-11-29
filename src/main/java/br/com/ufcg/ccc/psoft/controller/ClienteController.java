@@ -23,10 +23,10 @@ public class ClienteController {
 	ClienteService clienteService;
 	
 	@DeleteMapping(value = "/cliente/{id}")
-	public ResponseEntity<?> removerCliente(@PathVariable("id") Long id) {
+	public ResponseEntity<?> removeCliente(@PathVariable("id") Long id) {
 			
 		try {
-			clienteService.removerClienteCadastrado(id);
+			clienteService.removeClienteCadastrado(id);
 			return new ResponseEntity<>(HttpStatus.OK);
 		} catch (ClienteNotFoundException e) {
 			return ErroCliente.erroClienteNaoEnconrtrado(id);
@@ -34,9 +34,9 @@ public class ClienteController {
 	}
 	
 	@GetMapping(value = "/clientes")
-	public ResponseEntity<?> listarClientes() {
+	public ResponseEntity<?> listaClientes() {
 		
-		List<ClienteDTO> clientes = clienteService.listarClientes();
+		List<ClienteDTO> clientes = clienteService.listaClientes();
 		if (clientes.isEmpty()) {
 			return ErroCliente.erroSemClientesCadastrados();
 		}
@@ -45,7 +45,7 @@ public class ClienteController {
 	}
 	
 	@PostMapping(value = "/cliente/")
-	public ResponseEntity<?> criarCliente(@RequestBody ClienteDTO clienteDTO) {
+	public ResponseEntity<?> criaCliente(@RequestBody ClienteDTO clienteDTO) {
 
 		try {
 			ClienteDTO cliente = clienteService.criaCliente(clienteDTO);
@@ -56,7 +56,7 @@ public class ClienteController {
 	}
 	
 	@PutMapping(value = "/cliente/{id}")
-	public ResponseEntity<?> atualizarCliente(@PathVariable("id") long id, @RequestBody ClienteDTO clienteDTO) {
+	public ResponseEntity<?> atualizaCliente(@PathVariable("id") long id, @RequestBody ClienteDTO clienteDTO) {
 
 		try {
 			ClienteDTO cliente = clienteService.atualizaCliente(id, clienteDTO);

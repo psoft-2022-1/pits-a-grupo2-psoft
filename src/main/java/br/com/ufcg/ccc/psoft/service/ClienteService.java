@@ -10,9 +10,9 @@ public interface ClienteService {
 
 	 public ClienteDTO getClienteById(Long id) throws ClienteNotFoundException;
 
-	 public void removerClienteCadastrado(Long id) throws ClienteNotFoundException;
+	 public void removeClienteCadastrado(Long id) throws ClienteNotFoundException;
 
-	 public List<ClienteDTO> listarClientes();
+	 public List<ClienteDTO> listaClientes();
 
 	 public ClienteDTO criaCliente(ClienteDTO clienteDTO) throws ClienteAlreadyCreatedException;
 
