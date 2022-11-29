@@ -5,7 +5,9 @@ import java.util.List;
 
 import javax.persistence.*;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import lombok.Data;
 
+@Data
 @Entity
 public class Cardapio {
 

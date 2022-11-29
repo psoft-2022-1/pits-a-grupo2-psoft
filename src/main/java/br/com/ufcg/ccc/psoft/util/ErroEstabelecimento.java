@@ -5,10 +5,10 @@ import org.springframework.http.ResponseEntity;
 
 public class ErroEstabelecimento {
 
-	   static final String ESTABELECIMENTO_NAO_CASTRADO = "Estabelecimento com id %s não está cadastrado";
+	   static final String ESTABELECIMENTO_NAO_CASDASTRADO = "Estabelecimento com id %s não está cadastrado";
 
-	    public static ResponseEntity<CustomErrorType> erroEntregadorNaoEncontrado(long id) {
-	        return new ResponseEntity<CustomErrorType>(new CustomErrorType(String.format(ErroEstabelecimento.ESTABELECIMENTO_NAO_CASTRADO, id)),
+	    public static ResponseEntity<CustomErrorType> erroEstabelecimentoNaoEncontrado(long id) {
+	        return new ResponseEntity<CustomErrorType>(new CustomErrorType(String.format(ErroEstabelecimento.ESTABELECIMENTO_NAO_CASDASTRADO, id)),
 	                HttpStatus.NOT_FOUND);
 	    }
 }

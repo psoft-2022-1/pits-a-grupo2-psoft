@@ -2,9 +2,10 @@ package br.com.ufcg.ccc.psoft.dto;
 
 import br.com.ufcg.ccc.psoft.model.Cardapio;
 import br.com.ufcg.ccc.psoft.model.Funcionario;
+import lombok.Data;
 
 import java.util.List;
-
+@Data
 public class EstabelecimentoDTO {
 
 	private Long id;
@@ -15,19 +16,4 @@ public class EstabelecimentoDTO {
 
 	private List<Funcionario> funcionarios;
 
-	public String getCodigoAcesso() {
-		return codigoAcesso;
-	}
-
-	public Cardapio getCardapio() {
-		return cardapio;
-	}
-
-	public Long getId() {
-		return id;
-	}
-
-	public List<Funcionario> getFuncionarios() {
-		return funcionarios;
-	}
 }

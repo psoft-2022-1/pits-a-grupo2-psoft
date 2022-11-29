@@ -41,7 +41,7 @@ public class SaborController {
 		} catch (SaborAlreadyCreatedException e) {
 			return ErroSabor.erroSaborJaCadastrado(saborDTO);
 		} catch (EstabelecimentoNotFoundException e2) {
-			return ErroEstabelecimento.erroEntregadorNaoEncontrado(idEstabelecimento);
+			return ErroEstabelecimento.erroEstabelecimentoNaoEncontrado(idEstabelecimento);
 		}
 	}
 
@@ -55,7 +55,7 @@ public class SaborController {
 		} catch (SaborNotFoundException e) {
 			return ErroSabor.erroSaborNaoEncontrado(idSabor);
 		} catch (EstabelecimentoNotFoundException e2) {
-			return ErroEstabelecimento.erroEntregadorNaoEncontrado(idEstabelecimento);
+			return ErroEstabelecimento.erroEstabelecimentoNaoEncontrado(idEstabelecimento);
 		}
 	}
 
@@ -69,7 +69,7 @@ public class SaborController {
 		} catch (SaborNotFoundException e) {
 			return ErroSabor.erroSaborNaoEncontrado(idSabor);
 		} catch (EstabelecimentoNotFoundException e2) {
-			return ErroEstabelecimento.erroEntregadorNaoEncontrado(idEstabelecimento);
+			return ErroEstabelecimento.erroEstabelecimentoNaoEncontrado(idEstabelecimento);
 		}
 	}
 
@@ -83,7 +83,7 @@ public class SaborController {
 		} catch (SaborNotFoundException e) {
 			return ErroSabor.erroSaborNaoEncontrado(idSabor);
 		} catch (EstabelecimentoNotFoundException e2) {
-			return ErroEstabelecimento.erroEntregadorNaoEncontrado(idEstabelecimento);
+			return ErroEstabelecimento.erroEstabelecimentoNaoEncontrado(idEstabelecimento);
 		}
 	}
 	
