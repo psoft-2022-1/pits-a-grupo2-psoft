@@ -6,7 +6,6 @@ import java.util.List;
 import javax.persistence.*;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import lombok.Getter;
-import lombok.Setter;
 
 @Entity
 public class Cardapio {
@@ -19,13 +18,11 @@ public class Cardapio {
 	@OneToMany(cascade = CascadeType.ALL, orphanRemoval = true)
 	@JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
 	@Getter
-	@Setter
-	private List <Sabor> sabores;
+	private List <Sabor> sabor;
 
-	public Cardapio() {
-		this.sabores = new ArrayList<>();
-	}
-	public void adicionarSabor(Sabor sabor) {
-		this.sabores.add(sabor);
+	public Cardapio(){}
+
+	public Cardapio(List<Sabor> sabor) {
+		this.sabor = new ArrayList<>();
 	}
 }

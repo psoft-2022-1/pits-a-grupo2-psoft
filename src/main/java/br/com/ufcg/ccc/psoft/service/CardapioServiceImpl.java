@@ -23,7 +23,7 @@ public class CardapioServiceImpl implements CardapioService {
         Optional<Cardapio> opCardapio = cardapioRepository.findById(idCardapio);
         if (opCardapio.isEmpty())
             throw new CardapioNotFoundException();
-        List<SaborDTO> sabores = opCardapio.get().getSabores().stream().filter(s -> s.getTipo().equals(tipoSabor)).map(SaborDTO::new).collect(Collectors.toList());
+        List<SaborDTO> sabores = opCardapio.get().getSabor().stream().filter(s -> s.getTipo().equals(tipoSabor)).map(SaborDTO::new).collect(Collectors.toList());
         return new CardapioDTO(opCardapio.get().getId(), sabores);
     }
 }
