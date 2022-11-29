@@ -29,7 +29,7 @@ public class SaborController {
 	@Autowired
 	private SaborService saborService;
 
-	@PostMapping(value = "estabelecimento/{idEstabelecimento}/sabor/")
+	@PostMapping(value = "estabelecimento/{idEstabelecimento}/cardapio/sabor/")
 	public ResponseEntity<?> criarSabor(@PathVariable("idEstabelecimento") long idEstabelecimento, @RequestBody SaborDTO saborDTO) {
 
 		try {
