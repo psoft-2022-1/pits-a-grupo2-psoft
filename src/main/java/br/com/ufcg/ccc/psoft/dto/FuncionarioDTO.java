@@ -1,5 +1,8 @@
 package br.com.ufcg.ccc.psoft.dto;
 
+import lombok.Data;
+
+@Data
 public class FuncionarioDTO {
 
 	private Long id;
@@ -7,17 +10,5 @@ public class FuncionarioDTO {
 	private String nomeCompleto;
 
 	private String codigoAcesso;
-
-	public Long getId() {
-		return id;
-	}
-
-	public String getNomeCompleto() {
-		return nomeCompleto;
-	}
-
-	public String getCodigoAcesso() {
-		return codigoAcesso;
-	}
 
 }

@@ -8,6 +8,6 @@ import br.com.ufcg.ccc.psoft.model.Funcionario;
 
 public interface FuncionarioRepository extends JpaRepository<Funcionario, Long> {
 
-	Optional<Funcionario> findBynomeCompleto(String nomeCompleto);
+	Optional<Funcionario> findByCodigoAcesso(String codAcesso);
 
 }

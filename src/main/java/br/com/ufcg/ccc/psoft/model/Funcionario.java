@@ -1,7 +1,10 @@
 package br.com.ufcg.ccc.psoft.model;
 
+import lombok.Data;
+
 import javax.persistence.*;
 
+@Data
 @Entity
 public class Funcionario {
 

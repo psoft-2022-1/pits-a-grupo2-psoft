@@ -1,5 +1,8 @@
 package br.com.ufcg.ccc.psoft.dto;
 
+import lombok.Data;
+
+@Data
 public class ClienteDTO {
 
     private Long id;
@@ -10,19 +13,4 @@ public class ClienteDTO {
 
     private String enderecoPrincipal;
 
-    public Long getId() {
-        return id;
-    }
-
-    public String getCodAcesso() {
-        return codAcesso;
-    }
-
-    public String getNomeCompleto() {
-        return nomeCompleto;
-    }
-
-    public String getEnderecoPrincipal() {
-        return enderecoPrincipal;
-    }
 }
