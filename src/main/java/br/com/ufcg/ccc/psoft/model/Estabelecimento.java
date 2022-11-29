@@ -26,9 +26,14 @@ public class Estabelecimento {
 	public Estabelecimento() {
 	}
 
-	public Estabelecimento(String codigoAcesso, Cardapio cardapio, List<Funcionario> funcionarios) {
+	public Estabelecimento(String codigoAcesso, List<Funcionario> funcionarios) {
 		this.codigoAcesso = codigoAcesso;
-		this.cardapio = cardapio;
+		this.cardapio = new Cardapio();
 		this.funcionarios = new ArrayList<>();
 	}
+	
+	public Cardapio getCardapio() {
+		return this.cardapio;
+	}
+	
 }

@@ -1,26 +1,36 @@
 package br.com.ufcg.ccc.psoft.service;
 
-import org.springframework.stereotype.Service;
-
-import br.com.ufcg.ccc.psoft.exception.SaborAlreadyCreatedException;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 
 import br.com.ufcg.ccc.psoft.dto.SaborDTO;
+import br.com.ufcg.ccc.psoft.exception.SaborAlreadyCreatedException;
 import br.com.ufcg.ccc.psoft.exception.SaborNotFoundException;
+import br.com.ufcg.ccc.psoft.exception.EstabelecimentoNotFoundException;
+import br.com.ufcg.ccc.psoft.model.Cardapio;
+import br.com.ufcg.ccc.psoft.model.Estabelecimento;
 import br.com.ufcg.ccc.psoft.model.Sabor;
+import br.com.ufcg.ccc.psoft.repository.EstabelecimentoRepository;
 import br.com.ufcg.ccc.psoft.repository.SaborRepository;
+import br.com.ufcg.ccc.psoft.repository.CardapioRepository;
 
 @Service
 public class SaborServiceImpl implements SaborService {
 
 	@Autowired
 	private SaborRepository saborRepository;
+	
+	@Autowired
+	private EstabelecimentoRepository estabelecimentoRepository;
+	
+	@Autowired
+	private CardapioRepository cardapioRepository;
 
 	@Autowired
 	public ModelMapper modelMapper;
 
-	public SaborDTO criarSabor(SaborDTO saborDTO) throws SaborAlreadyCreatedException {
+	public SaborDTO criarSabor(long idEstabelecimento, SaborDTO saborDTO) throws SaborAlreadyCreatedException, EstabelecimentoNotFoundException {
 		if (isSaborCadastrado(saborDTO.getId())) {
 			throw new SaborAlreadyCreatedException();
 		}
@@ -28,8 +38,10 @@ public class SaborServiceImpl implements SaborService {
 		Sabor sabor = new Sabor(saborDTO.getNomeSabor(), saborDTO.getTipo(), saborDTO.getValorMedio(),
 				saborDTO.getValorGrande());
 
+		//e necessario salvar no repositorio de sabor e em cardapio
 		salvarSabor(sabor);
-
+		salvarSaborNoCardapio(idEstabelecimento, sabor);
+		
 		return modelMapper.map(sabor, SaborDTO.class);
 	}
 
@@ -37,6 +49,18 @@ public class SaborServiceImpl implements SaborService {
 		saborRepository.save(sabor);
 	}
 
+	private void salvarSaborNoCardapio(long idEstabelecimento, Sabor sabor) throws EstabelecimentoNotFoundException {
+		
+		Estabelecimento estabelecimento = estabelecimentoRepository.findById(idEstabelecimento).orElseThrow(() -> new EstabelecimentoNotFoundException());
+		
+		Cardapio cardapio = estabelecimento.getCardapio();
+		
+		cardapio.adicionarSabor(sabor);
+		
+		cardapioRepository.save(cardapio);
+	
+	}
+	
 	private boolean isSaborCadastrado(Long id) {
 		try {
 			getSaborById(id);

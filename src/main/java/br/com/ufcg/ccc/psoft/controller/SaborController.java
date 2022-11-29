@@ -14,9 +14,11 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import br.com.ufcg.ccc.psoft.dto.SaborDTO;
+import br.com.ufcg.ccc.psoft.exception.EstabelecimentoNotFoundException;
 import br.com.ufcg.ccc.psoft.exception.SaborAlreadyCreatedException;
 import br.com.ufcg.ccc.psoft.exception.SaborNotFoundException;
 import br.com.ufcg.ccc.psoft.service.SaborService;
+import br.com.ufcg.ccc.psoft.util.ErroEstabelecimento;
 import br.com.ufcg.ccc.psoft.util.ErroSabor;
 
 @RestController
@@ -27,14 +29,16 @@ public class SaborController {
 	@Autowired
 	private SaborService saborService;
 
-	@PostMapping(value = "/sabor/")
-	public ResponseEntity<?> criarSabor(@RequestBody SaborDTO saborDTO) {
+	@PostMapping(value = "estabelecimento/{idEstabelecimento}/sabor/")
+	public ResponseEntity<?> criarSabor(@PathVariable("idEstabelecimento") long idEstabelecimento, @RequestBody SaborDTO saborDTO) {
 
 		try {
-			SaborDTO sabor = saborService.criarSabor(saborDTO);
+			SaborDTO sabor = saborService.criarSabor(idEstabelecimento, saborDTO);
 			return new ResponseEntity<SaborDTO>(sabor, HttpStatus.CREATED);
 		} catch (SaborAlreadyCreatedException e) {
 			return ErroSabor.erroSaborJaCadastrado(saborDTO);
+		}catch(EstabelecimentoNotFoundException e2) {
+			return ErroEstabelecimento.erroEntregadorNaoEncontrado(idEstabelecimento);
 		}
 	}
 	

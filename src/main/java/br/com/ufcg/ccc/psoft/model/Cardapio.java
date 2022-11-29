@@ -15,11 +15,17 @@ public class Cardapio {
 
 	@OneToMany(cascade = CascadeType.ALL, orphanRemoval = true)
 	@JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
-	private List <Sabor> sabor;
+	private List <Sabor> sabores;
 
+	
 	public Cardapio(){}
 
 	public Cardapio(List<Sabor> sabor) {
-		this.sabor = new ArrayList<>();
+		this.sabores = new ArrayList<>();
 	}
+	
+	public void adicionarSabor(Sabor sabor) {
+		this.sabores.add(sabor);
+	}
+	 
 }
