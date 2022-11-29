@@ -2,10 +2,11 @@ package br.com.ufcg.ccc.psoft.dto;
 
 import java.util.List;
 
+import lombok.Data;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import br.com.ufcg.ccc.psoft.model.Sabor;
-
+@Data
 public class ItemDePedidoDTO {
 
 	private Long id;
@@ -16,19 +17,4 @@ public class ItemDePedidoDTO {
 	
 	private double valor;
 
-	public Long getId() {
-		return id;
-	}
-
-	public List<Sabor> getSabores() {
-		return sabores;
-	}
-
-	public String getTamanho() {
-		return tamanho;
-	}
-
-	public double getValor() {
-		return valor;
-	}
 }

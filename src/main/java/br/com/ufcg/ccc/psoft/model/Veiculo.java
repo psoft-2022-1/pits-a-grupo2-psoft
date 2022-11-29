@@ -1,10 +1,12 @@
 package br.com.ufcg.ccc.psoft.model;
 
+import lombok.Data;
+
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
-
+@Data
 @Entity
 public class Veiculo {
 
@@ -25,17 +27,5 @@ public class Veiculo {
 		this.placaVeiculo = placaVeiculo;
 		this.corVeiculo = corVeiculo;
 		this.tipoVeiculo = tipoVeiculo;
-	}
-
-	public String getPlacaVeiculo() {
-		return placaVeiculo;
-	}
-
-	public String getCorVeiculo() {
-		return corVeiculo;
-	}
-
-	public String getTipoVeiculo() {
-		return tipoVeiculo;
 	}
 }

@@ -1,5 +1,8 @@
 package br.com.ufcg.ccc.psoft.dto;
 
+import lombok.Data;
+
+@Data
 public class PagamentoDTO {
 
 	private Long id;
@@ -8,15 +11,4 @@ public class PagamentoDTO {
 
 	private double valor;
 
-	public Long getId() {
-		return id;
-	}
-
-	public String getTipo() {
-		return tipo;
-	}
-
-	public double getValor() {
-		return valor;
-	}
 }

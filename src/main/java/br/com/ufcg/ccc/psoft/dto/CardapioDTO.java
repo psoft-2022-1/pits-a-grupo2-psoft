@@ -2,7 +2,9 @@ package br.com.ufcg.ccc.psoft.dto;
 
 import java.util.List;
 import br.com.ufcg.ccc.psoft.model.Sabor;
+import lombok.Data;
 
+@Data
 public class CardapioDTO {
 
 	private Long id;
