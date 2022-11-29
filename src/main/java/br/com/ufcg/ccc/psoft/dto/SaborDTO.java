@@ -1,9 +1,12 @@
 package br.com.ufcg.ccc.psoft.dto;
 
-import java.util.Map;
 
-import org.springframework.beans.factory.annotation.Autowired;
+import br.com.ufcg.ccc.psoft.model.Sabor;
+import lombok.Data;
+import lombok.NoArgsConstructor;
 
+@Data
+@NoArgsConstructor
 public class SaborDTO {
 
 	private Long id;
@@ -16,23 +19,11 @@ public class SaborDTO {
 
 	private Double valorGrande;
 
-	public Long getId() {
-		return id;
-	}
-
-	public String getNomeSabor() {
-		return nomeSabor;
-	}
-
-	public String getTipo() {
-		return tipo;
-	}
-
-	public Double getValorMedio() {
-		return valorMedio;
-	}
-
-	public Double getValorGrande() {
-		return valorGrande;
+	public SaborDTO(Sabor sabor) {
+		this.id = sabor.getId();
+		this.nomeSabor = sabor.getNomeSabor();
+		this.tipo = sabor.getTipo();
+		this.valorMedio = sabor.getValorMedio();
+		this.valorGrande = sabor.getValorGrande();
 	}
 }

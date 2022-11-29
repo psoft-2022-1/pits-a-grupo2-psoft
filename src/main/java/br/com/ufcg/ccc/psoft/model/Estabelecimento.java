@@ -1,34 +1,40 @@
 package br.com.ufcg.ccc.psoft.model;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import lombok.AccessLevel;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
 
 import javax.persistence.*;
 import java.util.ArrayList;
 import java.util.List;
 
 @Entity
+@NoArgsConstructor
 public class Estabelecimento {
 
-	@Id
-	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	private Long id;
-	
-	private String codigoAcesso;
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Getter
+    private Long id;
 
-	@OneToOne(targetEntity = Cardapio.class, cascade = CascadeType.ALL, orphanRemoval = true)
-	@JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
-	private Cardapio cardapio;
+    @Setter
+    private String codigoAcesso;
 
-	@OneToMany(cascade = CascadeType.ALL, orphanRemoval = true)
-	@JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
-	private List<Funcionario> funcionarios;
+    @OneToOne(targetEntity = Cardapio.class, cascade = CascadeType.ALL, orphanRemoval = true)
+    @JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
+    @Getter
+    private Cardapio cardapio;
 
-	public Estabelecimento() {
-	}
+    @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true)
+    @JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
+    @Getter
+    private List<Funcionario> funcionarios;
 
-	public Estabelecimento(String codigoAcesso, Cardapio cardapio, List<Funcionario> funcionarios) {
-		this.codigoAcesso = codigoAcesso;
-		this.cardapio = cardapio;
-		this.funcionarios = new ArrayList<>();
-	}
+    public Estabelecimento(String codigoAcesso) {
+        this.codigoAcesso = codigoAcesso;
+        this.cardapio = new Cardapio();
+        this.funcionarios = new ArrayList<>();
+    }
 }
