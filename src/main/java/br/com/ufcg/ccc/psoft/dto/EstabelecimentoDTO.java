@@ -8,7 +8,6 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import java.util.List;
-
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
@@ -22,4 +21,5 @@ public class EstabelecimentoDTO {
 	private Cardapio cardapio;
 
 	private List<Funcionario> funcionarios;
+
 }

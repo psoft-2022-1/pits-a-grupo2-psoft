@@ -3,8 +3,8 @@ package br.com.ufcg.ccc.psoft.service;
 import br.com.ufcg.ccc.psoft.dto.CardapioDTO;
 import br.com.ufcg.ccc.psoft.dto.EstabelecimentoDTO;
 import br.com.ufcg.ccc.psoft.exception.CardapioNotFoundException;
-import br.com.ufcg.ccc.psoft.exception.EntregadorNotFoundException;
 import br.com.ufcg.ccc.psoft.exception.EstabelecimentoNotFoundException;
+import br.com.ufcg.ccc.psoft.exception.IncorretCodigoAcessoException;
 import br.com.ufcg.ccc.psoft.model.Estabelecimento;
 import br.com.ufcg.ccc.psoft.repository.EstabelecimentoRepository;
 import org.modelmapper.ModelMapper;
@@ -13,18 +13,36 @@ import org.springframework.stereotype.Service;
 
 import java.util.Optional;
 
-
 @Service
 public class EstabelecimentoServiceImpl implements EstabelecimentoService {
 
     @Autowired
-    EstabelecimentoRepository estabelecimentoRepository;
+    private EstabelecimentoRepository estabelecimentoRepository;
 
     @Autowired
     CardapioService cardapioService;
 
     @Autowired
-    ModelMapper modelMapper;
+    public ModelMapper modelMapper;
+
+    @Override
+    public EstabelecimentoDTO getById(Long idEstabelecimento) throws EstabelecimentoNotFoundException {
+        Estabelecimento estabelecimento = getEstabelecimentoById(idEstabelecimento);
+        return modelMapper.map(estabelecimento, EstabelecimentoDTO.class);
+    }
+
+    @Override
+    public boolean checkCodAcesso(EstabelecimentoDTO estabelecimentoDTO, String codEstabelecimento) throws IncorretCodigoAcessoException {
+        if (!estabelecimentoDTO.getCodigoAcesso().equals(codEstabelecimento)) {
+            throw new IncorretCodigoAcessoException();
+        }
+        return true;
+    }
+
+    private Estabelecimento getEstabelecimentoById(Long id) throws EstabelecimentoNotFoundException {
+        return estabelecimentoRepository.findById(id)
+                .orElseThrow(() -> new EstabelecimentoNotFoundException());
+    }
 
     private Estabelecimento getEstabelecimentoPorId(Long idEstabelecimeto) throws EstabelecimentoNotFoundException {
         Optional<Estabelecimento> opEstabelecimento = estabelecimentoRepository.findById(idEstabelecimeto);

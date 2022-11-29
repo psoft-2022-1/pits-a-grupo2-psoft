@@ -1,4 +1,4 @@
 package br.com.ufcg.ccc.psoft.exception;
 
-public class ClienteAlreadyCreatedException extends Throwable {
+public class ClienteAlreadyCreatedException extends Exception {
 }

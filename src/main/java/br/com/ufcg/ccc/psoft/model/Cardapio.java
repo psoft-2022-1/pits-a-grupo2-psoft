@@ -5,24 +5,25 @@ import java.util.List;
 
 import javax.persistence.*;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
-import lombok.Getter;
+import lombok.Data;
 
+@Data
 @Entity
 public class Cardapio {
 
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-	@Getter
-    private Long id;
+	@Id
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
+	private Long id;
 
 	@OneToMany(cascade = CascadeType.ALL, orphanRemoval = true)
-	@JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
-	@Getter
-	private List <Sabor> sabor;
+	@JsonIgnoreProperties({ "hibernateLazyInitializer", "handler" })
+	private List<Sabor> sabores;
 
-	public Cardapio(){}
+	public Cardapio() {
+		this.sabores = new ArrayList<>();
+	}
 
-	public Cardapio(List<Sabor> sabor) {
-		this.sabor = new ArrayList<>();
+	public void adicionarSabor(Sabor sabor) {
+		this.sabores.add(sabor);
 	}
 }

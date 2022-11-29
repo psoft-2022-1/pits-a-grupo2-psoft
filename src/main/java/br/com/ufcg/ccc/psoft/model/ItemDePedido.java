@@ -1,12 +1,13 @@
 package br.com.ufcg.ccc.psoft.model;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import lombok.Data;
 
 import java.util.ArrayList;
 import java.util.List;
 
 import javax.persistence.*;
-
+@Data
 @Entity
 public class ItemDePedido {
 
