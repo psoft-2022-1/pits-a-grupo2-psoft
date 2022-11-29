@@ -25,6 +25,7 @@ public class Estabelecimento {
     @OneToOne(targetEntity = Cardapio.class, cascade = CascadeType.ALL, orphanRemoval = true)
     @JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
     @Getter
+	@Setter
     private Cardapio cardapio;
 
     @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true)
