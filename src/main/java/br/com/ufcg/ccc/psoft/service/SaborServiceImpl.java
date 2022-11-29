@@ -117,11 +117,11 @@ public class SaborServiceImpl implements SaborService {
 			throw new SaborNotFoundException();
 		} else {
 			saborRepository.delete(sabor);
-			deletarSaborDoCardapio(estabelecimento,cardapio, sabor);
+			deletarSaborDoCardapio(cardapio, sabor);
 		}
 	}
 
-	private void deletarSaborDoCardapio(Estabelecimento estabelecimento, Cardapio cardapio, Sabor sabor) {
+	private void deletarSaborDoCardapio(Cardapio cardapio, Sabor sabor) {
 
 		List<Sabor> sabores = cardapio.getSabores();
 
