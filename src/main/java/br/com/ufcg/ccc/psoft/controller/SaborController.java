@@ -54,14 +54,16 @@ public class SaborController {
 		}
 	}
 
-	@PutMapping(value = "/sabor/{idSabor}")
-	public ResponseEntity<?> atualizarSabor(@PathVariable("idSabor") long idSabor, @RequestBody SaborDTO saborDTO) {
+	@PutMapping(value = "estabelecimento/{idEstabelecimento}/cardapio/sabor/{idSabor}")
+	public ResponseEntity<?> atualizarSabor(@PathVariable("idEstabelecimento") long idEstabelecimento, @PathVariable("idSabor") long idSabor, @RequestBody SaborDTO saborDTO) {
 
 		try {
-			SaborDTO sabor = saborService.atualizarSabor(idSabor, saborDTO);
+			SaborDTO sabor = saborService.atualizarSabor(idEstabelecimento, idSabor, saborDTO);
 			return new ResponseEntity<SaborDTO>(sabor, HttpStatus.OK);
 		} catch (SaborNotFoundException e) {
 			return ErroSabor.erroSaborNaoEncontrado(idSabor);
+		} catch (EstabelecimentoNotFoundException e2) {
+			return ErroEstabelecimento.erroEntregadorNaoEncontrado(idEstabelecimento);
 		}
 	}
 

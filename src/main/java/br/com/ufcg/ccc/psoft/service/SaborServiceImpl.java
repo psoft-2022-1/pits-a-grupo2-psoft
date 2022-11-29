@@ -83,16 +83,33 @@ public class SaborServiceImpl implements SaborService {
 		return saborRepository.findById(id).orElseThrow(() -> new SaborNotFoundException());
 	}
 
-	public SaborDTO atualizarSabor(Long idSabor, SaborDTO saborDTO) throws SaborNotFoundException {
+	public SaborDTO atualizarSabor(Long idEstabelecimento, Long idSabor, SaborDTO saborDTO)
+			throws SaborNotFoundException, EstabelecimentoNotFoundException {
 
-		Sabor sabor = getSaborId(idSabor);
+		Estabelecimento estabelecimento = estabelecimentoRepository.findById(idEstabelecimento)
+				.orElseThrow(() -> new EstabelecimentoNotFoundException());
 
-		sabor.setNomeSabor(saborDTO.getNomeSabor());
-		sabor.setTipo(saborDTO.getTipo());
-		sabor.setValorMedio(saborDTO.getValorMedio());
-		sabor.setValorGrande(saborDTO.getValorGrande());
+		Cardapio cardapio = estabelecimento.getCardapio();
 
-		salvarSabor(sabor);
+		Sabor sabor = null;
+
+		for (Sabor s : cardapio.getSabores()) {
+			if (s.getId().equals(idSabor)) {
+				sabor = s;
+			}
+		}
+
+		if (sabor == null) {
+			throw new SaborNotFoundException();
+		} else {
+			sabor.setNomeSabor(saborDTO.getNomeSabor());
+			sabor.setTipo(saborDTO.getTipo());
+			sabor.setValorMedio(saborDTO.getValorMedio());
+			sabor.setValorGrande(saborDTO.getValorGrande());
+
+			salvarSabor(sabor);
+
+		}
 
 		return modelMapper.map(sabor, SaborDTO.class);
 	}

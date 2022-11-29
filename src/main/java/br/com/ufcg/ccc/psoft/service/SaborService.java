@@ -11,7 +11,7 @@ public interface SaborService {
 	
 	public SaborDTO getSaborById(Long id) throws SaborNotFoundException;
 	
-	public SaborDTO atualizarSabor(Long id, SaborDTO saborDTO) throws SaborNotFoundException;
+	public SaborDTO atualizarSabor(Long idEstabelecimento, Long idSabor, SaborDTO saborDTO) throws SaborNotFoundException, EstabelecimentoNotFoundException;
 	
 	public void removerSaborCadastrado(long idEstabelecimento, Long idSabor) throws SaborNotFoundException, EstabelecimentoNotFoundException;
 	
