@@ -65,7 +65,7 @@ public class SaborController {
 		}
 	}
 
-	@DeleteMapping(value = "/estabelecimento/{idEstabelecimento}/sabor/{idSabor}")
+	@DeleteMapping(value = "/estabelecimento/{idEstabelecimento}/cardapio/sabor/{idSabor}")
 	public ResponseEntity<?> removerSabor(@PathVariable("idEstabelecimento") long idEstabelecimento,
 			@PathVariable("idSabor") long idSabor) {
 
