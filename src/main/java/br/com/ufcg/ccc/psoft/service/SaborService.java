@@ -10,4 +10,6 @@ public interface SaborService {
 	
 	public SaborDTO getSaborById(Long id) throws SaborNotFoundException;
 	
+	public SaborDTO atualizarSabor(Long id, SaborDTO saborDTO) throws SaborNotFoundException;
+	
 }
