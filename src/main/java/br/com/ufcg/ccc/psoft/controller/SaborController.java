@@ -1,5 +1,7 @@
 package br.com.ufcg.ccc.psoft.controller;
 
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -83,5 +85,16 @@ public class SaborController {
 		} catch (EstabelecimentoNotFoundException e2) {
 			return ErroEstabelecimento.erroEntregadorNaoEncontrado(idEstabelecimento);
 		}
+	}
+	
+	@GetMapping(value = "/estabelecimento/{idEstabelecimento}/cardapio/")
+	public ResponseEntity<?> listarSabores() {
+
+		List<SaborDTO> sabores = saborService.listarSabores();
+		if (sabores.isEmpty()) {
+			return ErroSabor.erroSaborNaoEncontrado(0);
+		}
+
+		return new ResponseEntity<List<SaborDTO>>(sabores, HttpStatus.OK);
 	}
 }

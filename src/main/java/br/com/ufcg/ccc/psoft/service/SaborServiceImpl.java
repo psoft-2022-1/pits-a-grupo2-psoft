@@ -1,6 +1,7 @@
 package br.com.ufcg.ccc.psoft.service;
 
 import java.util.List;
+import java.util.stream.Collectors;
 
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -167,6 +168,14 @@ public class SaborServiceImpl implements SaborService {
 
 		cardapio.setSabores(sabores);
 		cardapioRepository.save(cardapio);
+	}
+	
+	public List<SaborDTO> listarSabores() {
+		List<SaborDTO> sabores = saborRepository.findAll()
+				.stream()
+				.map(sabor -> modelMapper.map(sabor, SaborDTO.class))
+				.collect(Collectors.toList());
+		return sabores;
 	}
 
 }

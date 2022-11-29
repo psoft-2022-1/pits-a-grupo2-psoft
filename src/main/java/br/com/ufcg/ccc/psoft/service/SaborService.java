@@ -1,5 +1,7 @@
 package br.com.ufcg.ccc.psoft.service;
 
+import java.util.List;
+
 import br.com.ufcg.ccc.psoft.dto.SaborDTO;
 import br.com.ufcg.ccc.psoft.exception.EstabelecimentoNotFoundException;
 import br.com.ufcg.ccc.psoft.exception.SaborAlreadyCreatedException;
@@ -19,4 +21,5 @@ public interface SaborService {
 	public void removerSaborCadastrado(Long idEstabelecimento, Long idSabor)
 			throws SaborNotFoundException, EstabelecimentoNotFoundException;
 
+	public List<SaborDTO> listarSabores();
 }

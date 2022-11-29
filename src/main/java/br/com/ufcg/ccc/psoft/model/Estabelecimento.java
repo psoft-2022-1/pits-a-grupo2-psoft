@@ -26,7 +26,7 @@ public class Estabelecimento {
 	public Estabelecimento() {
 	}
 
-	public Estabelecimento(String codigoAcesso, List<Funcionario> funcionarios) {
+	public Estabelecimento(String codigoAcesso) {
 		this.codigoAcesso = codigoAcesso;
 		this.cardapio = new Cardapio();
 		this.funcionarios = new ArrayList<>();
