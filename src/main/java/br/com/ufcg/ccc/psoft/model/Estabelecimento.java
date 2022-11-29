@@ -6,6 +6,7 @@ import lombok.Data;
 import javax.persistence.*;
 import java.util.ArrayList;
 import java.util.List;
+
 @Data
 @Entity
 public class Estabelecimento {
@@ -27,9 +28,9 @@ public class Estabelecimento {
 	public Estabelecimento() {
 	}
 
-	public Estabelecimento(String codigoAcesso, Cardapio cardapio, List<Funcionario> funcionarios) {
+	public Estabelecimento(String codigoAcesso) {
 		this.codigoAcesso = codigoAcesso;
-		this.cardapio = cardapio;
+		this.cardapio = new Cardapio();
 		this.funcionarios = new ArrayList<>();
 	}
 

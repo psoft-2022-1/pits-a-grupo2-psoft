@@ -11,17 +11,30 @@ import lombok.Data;
 @Entity
 public class Cardapio {
 
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
+	@Id
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
+	private Long id;
 
 	@OneToMany(cascade = CascadeType.ALL, orphanRemoval = true)
-	@JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
-	private List <Sabor> sabor;
+	@JsonIgnoreProperties({ "hibernateLazyInitializer", "handler" })
+	private List<Sabor> sabores;
 
-	public Cardapio(){}
+	public Cardapio() {
+	}
 
 	public Cardapio(List<Sabor> sabor) {
-		this.sabor = new ArrayList<>();
+		this.sabores = new ArrayList<>();
+	}
+
+	public void adicionarSabor(Sabor sabor) {
+		this.sabores.add(sabor);
+	}
+
+	public List<Sabor> getSabores() {
+		return this.sabores;
+	}
+
+	public void setSabores(List<Sabor> sabores) {
+		this.sabores = sabores;
 	}
 }
