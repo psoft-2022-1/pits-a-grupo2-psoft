@@ -30,18 +30,19 @@ public class SaborController {
 	private SaborService saborService;
 
 	@PostMapping(value = "estabelecimento/{idEstabelecimento}/cardapio/sabor/")
-	public ResponseEntity<?> criarSabor(@PathVariable("idEstabelecimento") long idEstabelecimento, @RequestBody SaborDTO saborDTO) {
+	public ResponseEntity<?> criarSabor(@PathVariable("idEstabelecimento") long idEstabelecimento,
+			@RequestBody SaborDTO saborDTO) {
 
 		try {
 			SaborDTO sabor = saborService.criarSabor(idEstabelecimento, saborDTO);
 			return new ResponseEntity<SaborDTO>(sabor, HttpStatus.CREATED);
 		} catch (SaborAlreadyCreatedException e) {
 			return ErroSabor.erroSaborJaCadastrado(saborDTO);
-		}catch(EstabelecimentoNotFoundException e2) {
+		} catch (EstabelecimentoNotFoundException e2) {
 			return ErroEstabelecimento.erroEntregadorNaoEncontrado(idEstabelecimento);
 		}
 	}
-	
+
 	@GetMapping(value = "/sabor/{idSabor}")
 	public ResponseEntity<?> consultarSabor(@PathVariable("idSabor") long idSabor) {
 
@@ -52,7 +53,7 @@ public class SaborController {
 			return ErroSabor.erroSaborNaoEncontrado(idSabor);
 		}
 	}
-	
+
 	@PutMapping(value = "/sabor/{idSabor}")
 	public ResponseEntity<?> atualizarSabor(@PathVariable("idSabor") long idSabor, @RequestBody SaborDTO saborDTO) {
 
@@ -63,15 +64,18 @@ public class SaborController {
 			return ErroSabor.erroSaborNaoEncontrado(idSabor);
 		}
 	}
-	
-	@DeleteMapping(value = "/sabor/{idSabor}")
-	public ResponseEntity<?> removerSabor(@PathVariable("idSabor") long idSabor) {
+
+	@DeleteMapping(value = "/estabelecimento/{idEstabelecimento}/sabor/{idSabor}")
+	public ResponseEntity<?> removerSabor(@PathVariable("idEstabelecimento") long idEstabelecimento,
+			@PathVariable("idSabor") long idSabor) {
 
 		try {
-			saborService.removerSaborCadastrado(idSabor);
+			saborService.removerSaborCadastrado(idEstabelecimento, idSabor);
 			return new ResponseEntity<>(HttpStatus.OK);
 		} catch (SaborNotFoundException e) {
 			return ErroSabor.erroSaborNaoEncontrado(idSabor);
+		} catch (EstabelecimentoNotFoundException e2) {
+			return ErroEstabelecimento.erroEntregadorNaoEncontrado(idEstabelecimento);
 		}
 	}
 }

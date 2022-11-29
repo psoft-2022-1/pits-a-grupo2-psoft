@@ -29,6 +29,9 @@ public class Sabor {
 		this.valorGrande = precoTamGrande;
 	}
 	
+	public Long getId() {
+		return this.id;
+	}
 	public void setNomeSabor(String nomeSabor) {
 		this.nomeSabor = nomeSabor;
 	}

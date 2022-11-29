@@ -1,5 +1,7 @@
 package br.com.ufcg.ccc.psoft.service;
 
+import java.util.List;
+
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -20,17 +22,18 @@ public class SaborServiceImpl implements SaborService {
 
 	@Autowired
 	private SaborRepository saborRepository;
-	
+
 	@Autowired
 	private EstabelecimentoRepository estabelecimentoRepository;
-	
+
 	@Autowired
 	private CardapioRepository cardapioRepository;
 
 	@Autowired
 	public ModelMapper modelMapper;
 
-	public SaborDTO criarSabor(long idEstabelecimento, SaborDTO saborDTO) throws SaborAlreadyCreatedException, EstabelecimentoNotFoundException {
+	public SaborDTO criarSabor(long idEstabelecimento, SaborDTO saborDTO)
+			throws SaborAlreadyCreatedException, EstabelecimentoNotFoundException {
 		if (isSaborCadastrado(saborDTO.getId())) {
 			throw new SaborAlreadyCreatedException();
 		}
@@ -38,10 +41,10 @@ public class SaborServiceImpl implements SaborService {
 		Sabor sabor = new Sabor(saborDTO.getNomeSabor(), saborDTO.getTipo(), saborDTO.getValorMedio(),
 				saborDTO.getValorGrande());
 
-		//e necessario salvar no repositorio de sabor e em cardapio
+		// e necessario salvar no repositorio de sabor e em cardapio
 		salvarSabor(sabor);
 		salvarSaborNoCardapio(idEstabelecimento, sabor);
-		
+
 		return modelMapper.map(sabor, SaborDTO.class);
 	}
 
@@ -50,17 +53,20 @@ public class SaborServiceImpl implements SaborService {
 	}
 
 	private void salvarSaborNoCardapio(long idEstabelecimento, Sabor sabor) throws EstabelecimentoNotFoundException {
-		
-		Estabelecimento estabelecimento = estabelecimentoRepository.findById(idEstabelecimento).orElseThrow(() -> new EstabelecimentoNotFoundException());
-		
+
+		Estabelecimento estabelecimento = estabelecimentoRepository.findById(idEstabelecimento)
+				.orElseThrow(() -> new EstabelecimentoNotFoundException());
+
 		Cardapio cardapio = estabelecimento.getCardapio();
-		
+
 		cardapio.adicionarSabor(sabor);
+		estabelecimento.setCardapio(cardapio);
 		
+		estabelecimentoRepository.save(estabelecimento);
 		cardapioRepository.save(cardapio);
-	
+
 	}
-	
+
 	private boolean isSaborCadastrado(Long id) {
 		try {
 			getSaborById(id);
@@ -93,8 +99,40 @@ public class SaborServiceImpl implements SaborService {
 		return modelMapper.map(sabor, SaborDTO.class);
 	}
 
-	public void removerSaborCadastrado(Long id) throws SaborNotFoundException {
-		Sabor sabor = getSaborId(id);
-		saborRepository.delete(sabor);
+	public void removerSaborCadastrado(long idEstabelecimento, Long idSabor)
+			throws SaborNotFoundException, EstabelecimentoNotFoundException {
+
+		Estabelecimento estabelecimento = estabelecimentoRepository.findById(idEstabelecimento)
+				.orElseThrow(() -> new EstabelecimentoNotFoundException());
+
+		Cardapio cardapio = estabelecimento.getCardapio();
+
+		Sabor sabor = null;
+
+		for (Sabor s : cardapio.getSabores()) {
+			if (s.getId().equals(idSabor)) {
+				sabor = s;
+			}
+		}
+
+		if (sabor == null) {
+			throw new SaborNotFoundException();
+		} else {
+			saborRepository.delete(sabor);
+			deletarSaborDoCardapio(estabelecimento,cardapio, sabor);
+		}
+	}
+
+	private void deletarSaborDoCardapio(Estabelecimento estabelecimento, Cardapio cardapio, Sabor sabor) {
+
+		List<Sabor> sabores = cardapio.getSabores();
+
+		sabores.remove(sabor);
+
+		cardapio.setSabores(sabores);
+		estabelecimento.setCardapio(cardapio);
+		
+		estabelecimentoRepository.save(estabelecimento);
+		cardapioRepository.save(cardapio);
 	}
 }

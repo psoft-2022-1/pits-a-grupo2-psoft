@@ -36,4 +36,8 @@ public class Estabelecimento {
 		return this.cardapio;
 	}
 	
+	public void setCardapio(Cardapio cardapio) {
+		this.cardapio = cardapio;
+	}
+	
 }
