@@ -1,11 +1,15 @@
 package br.com.ufcg.ccc.psoft.model;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import lombok.AllArgsConstructor;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
 
 @Data
+@AllArgsConstructor
+@NoArgsConstructor
 @Entity
 public class Entregador {
 
@@ -22,9 +26,6 @@ public class Entregador {
 	private String statusEstabelecimento;
 
 	private String codigoAcesso;
-
-	public Entregador() {
-	}
 
 	public Entregador(String nomeCompleto, Veiculo veiculo, String statusEstabelecimento, String codigoAcesso) {
 		this.nomeCompleto = nomeCompleto;
