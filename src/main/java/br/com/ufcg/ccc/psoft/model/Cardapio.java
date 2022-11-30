@@ -20,21 +20,10 @@ public class Cardapio {
 	private List<Sabor> sabores;
 
 	public Cardapio() {
-	}
-
-	public Cardapio(List<Sabor> sabor) {
 		this.sabores = new ArrayList<>();
 	}
 
 	public void adicionarSabor(Sabor sabor) {
 		this.sabores.add(sabor);
-	}
-
-	public List<Sabor> getSabores() {
-		return this.sabores;
-	}
-
-	public void setSabores(List<Sabor> sabores) {
-		this.sabores = sabores;
 	}
 }

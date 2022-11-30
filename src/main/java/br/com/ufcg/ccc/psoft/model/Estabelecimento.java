@@ -1,6 +1,7 @@
 package br.com.ufcg.ccc.psoft.model;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import lombok.NoArgsConstructor;
 import lombok.Data;
 
 import javax.persistence.*;
@@ -9,6 +10,7 @@ import java.util.List;
 
 @Data
 @Entity
+@NoArgsConstructor
 public class Estabelecimento {
 
 	@Id
@@ -25,13 +27,11 @@ public class Estabelecimento {
 	@JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
 	private List<Funcionario> funcionarios;
 
-	public Estabelecimento() {
-	}
-
 	public Estabelecimento(String codigoAcesso) {
 		this.codigoAcesso = codigoAcesso;
 		this.cardapio = new Cardapio();
 		this.funcionarios = new ArrayList<>();
 	}
+	
 
 }

@@ -1,21 +1,17 @@
 package br.com.ufcg.ccc.psoft.dto;
 
-import java.util.List;
-import br.com.ufcg.ccc.psoft.model.Sabor;
+import lombok.AllArgsConstructor;
 import lombok.Data;
+import lombok.NoArgsConstructor;
+
+import java.util.List;
 
 @Data
+@AllArgsConstructor
+@NoArgsConstructor
 public class CardapioDTO {
 
 	private Long id;
 
-    private List <Sabor> sabores;
-
-    public Long getId() {
-        return id;
-    }
-
-    public List<Sabor> getSabores() {
-        return sabores;
-    }
+    private List <SaborDTO> sabores;
 }
