@@ -28,7 +28,7 @@ public class ItemDePedido {
 
 
 	// ItemDePedido com um sabor apenas
-	public ItemDePedido(Sabor sabor, String tamanho, double valor) {
+	public ItemDePedido(List<Sabor> sabores, String tamanho, double valor) {
 		this.sabores = new ArrayList<>();
 		this.tamanho = tamanho;
 		this.valor = valor;
