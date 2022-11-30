@@ -22,4 +22,7 @@ public interface SaborService {
             throws SaborNotFoundException, EstabelecimentoNotFoundException;
 
     public List<SaborDTO> listarSabores();
+
+    public SaborDTO getSaborById(Long id) throws SaborNotFoundException;
+
 }

@@ -1,5 +1,6 @@
 package br.com.ufcg.ccc.psoft.model;
 
+import com.sun.istack.NotNull;
 import lombok.Data;
 
 import javax.persistence.Entity;
@@ -18,6 +19,7 @@ public class Cliente {
 
     private String nomeCompleto;
 
+    @NotNull
     private String enderecoPrincipal;
 
     public Cliente(){}

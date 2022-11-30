@@ -28,15 +28,8 @@ public class ItemDePedido {
 
 
 	// ItemDePedido com um sabor apenas
-	public ItemDePedido(Sabor sabor, String tamanho, double valor) {
-		this.sabores = new ArrayList<>();
-		this.tamanho = tamanho;
-		this.valor = valor;
-	}
-
-	// ItemDePedido com 2 sabores
-	public ItemDePedido(Sabor sabor1, Sabor sabor2, String tamanho, double valor) {
-		this.sabores = new ArrayList<>();
+	public ItemDePedido(List<Sabor> sabores, String tamanho, double valor) {
+		this.sabores = sabores;
 		this.tamanho = tamanho;
 		this.valor = valor;
 	}

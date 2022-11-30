@@ -21,5 +21,19 @@ public class PedidoDTO {
     private Pagamento pagamento;
 
 	private String enderecoEntrega;
+
+	private Double valorTotal;
+
+	public double calculaTotal(){
+		double total = 0;
+		for(ItemDePedido item : this.itensEscolhidos){
+			total += item.getValor();
+		}
+		return total;
+	}
+
+	public double getValorTotal() {
+		return calculaTotal();
+	}
 	
 }

@@ -82,6 +82,16 @@ public class SaborServiceImpl implements SaborService {
         return modelMapper.map(sabor, SaborDTO.class);
     }
 
+    private Sabor getSaborId(Long id) throws SaborNotFoundException {
+        return saborRepository.findById(id)
+                .orElseThrow(() -> new SaborNotFoundException());
+    }
+
+    public SaborDTO getSaborById(Long id) throws SaborNotFoundException {
+        Sabor sabor = getSaborId(id);
+        return modelMapper.map(sabor, SaborDTO.class);
+    }
+
     private Sabor getSaborId(Long idEstabelecimento, Long idSabor)
             throws SaborNotFoundException, EstabelecimentoNotFoundException {
 
@@ -177,5 +187,5 @@ public class SaborServiceImpl implements SaborService {
                 .collect(Collectors.toList());
         return sabores;
     }
-
 }
+

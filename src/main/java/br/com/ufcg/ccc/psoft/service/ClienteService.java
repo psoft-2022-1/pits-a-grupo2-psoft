@@ -5,6 +5,7 @@ import java.util.List;
 import br.com.ufcg.ccc.psoft.dto.ClienteDTO;
 import br.com.ufcg.ccc.psoft.exception.ClienteAlreadyCreatedException;
 import br.com.ufcg.ccc.psoft.exception.ClienteNotFoundException;
+import br.com.ufcg.ccc.psoft.exception.IncorretCodigoAcessoException;
 
 public interface ClienteService {
 
@@ -17,4 +18,6 @@ public interface ClienteService {
 	 public ClienteDTO criaCliente(ClienteDTO clienteDTO) throws ClienteAlreadyCreatedException;
 
 	 public ClienteDTO atualizaCliente(Long id, ClienteDTO clienteDTO) throws ClienteNotFoundException;
+
+	public boolean checkCodAcesso(ClienteDTO clienteDTO, String codCliente) throws IncorretCodigoAcessoException;
 }

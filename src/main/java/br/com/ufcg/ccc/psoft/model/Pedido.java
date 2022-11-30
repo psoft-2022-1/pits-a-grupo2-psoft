@@ -5,12 +5,14 @@ import java.util.List;
 import javax.persistence.*;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 @Data
+@NoArgsConstructor
 @Entity
 public class Pedido {
 
@@ -31,13 +33,13 @@ public class Pedido {
 
 	private String enderecoEntrega;
 
-	public Pedido(Cliente cliente, List<ItemDePedido> itensEscolhidos, Pagamento pagamento, String enderecoEntrega) {
+	private Double valorTotal;
+
+	public Pedido(Cliente cliente, List<ItemDePedido> itensEscolhidos, Pagamento pagamento, String enderecoEntrega, Double valorTotal) {
 		this.cliente = cliente;
-		this.itensEscolhidos = new ArrayList<>();
+		this.itensEscolhidos = itensEscolhidos;
 		this.pagamento = pagamento;
 		this.enderecoEntrega = enderecoEntrega;
-	}
-
-	public Pedido() {
+		this.valorTotal = valorTotal;
 	}
 }
