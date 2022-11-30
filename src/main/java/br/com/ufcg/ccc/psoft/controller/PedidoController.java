@@ -1,7 +1,7 @@
 package br.com.ufcg.ccc.psoft.controller;
 
 import br.com.ufcg.ccc.psoft.dto.PedidoDTO;
-import br.com.ufcg.ccc.psoft.exception.PedidoNotFoundException;
+import br.com.ufcg.ccc.psoft.exception.*;
 import br.com.ufcg.ccc.psoft.service.PedidoService;
 import br.com.ufcg.ccc.psoft.util.ErroPedido;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -18,7 +18,7 @@ public class PedidoController {
     PedidoService pedidoService;
 
     @PostMapping(value = "/pedido/")
-    public ResponseEntity<?> criarPedido(@RequestBody PedidoDTO pedidoDTO) {
+    public ResponseEntity<?> criarPedido(@RequestBody PedidoDTO pedidoDTO) throws QuantidadeSaboresInvalidosException, SaborNotFoundException, IncorretCodigoAcessoException, ClienteNotFoundException {
         PedidoDTO pedido = pedidoService.criaPedido(pedidoDTO);
         return new ResponseEntity<PedidoDTO>(pedido, HttpStatus.CREATED);
     }
@@ -30,13 +30,13 @@ public class PedidoController {
             pedidoService.removerPedidoCadastrado(id);
             return new ResponseEntity<>(HttpStatus.OK);
         } catch (PedidoNotFoundException e) {
-            return ErroPedido.erroProdutoNaoEncontrado(id);
+            return ErroPedido.erroPedidoNaoEncontrado(id);
         }
     }
 
     @PutMapping(value = "/pedido/{id}")
-    public ResponseEntity<?> atualizarPedido(@PathVariable("id") long id, @RequestBody PedidoDTO pedidoDTO){
-        try{
+    public ResponseEntity<?> atualizarPedido(@PathVariable("id") long id, @RequestBody PedidoDTO pedidoDTO) {
+        try {
             PedidoDTO pedido = pedidoService.atualizarPedido(id, pedidoDTO);
             return new ResponseEntity<>(pedido, HttpStatus.OK);
         } catch (PedidoNotFoundException e) {
@@ -44,4 +44,14 @@ public class PedidoController {
         }
     }
 
+    @GetMapping(value = "pedido/{idPedido}")
+    public ResponseEntity<?> consultarPedido(@PathVariable("idPedido") long idPedido) {
+
+        try {
+            PedidoDTO pedido = pedidoService.getPedidoById(idPedido);
+            return new ResponseEntity<PedidoDTO>(pedido, HttpStatus.OK);
+        } catch (PedidoNotFoundException e) {
+            return ErroPedido.erroPedidoNaoEncontrado(idPedido);
+        }
+    }
 }

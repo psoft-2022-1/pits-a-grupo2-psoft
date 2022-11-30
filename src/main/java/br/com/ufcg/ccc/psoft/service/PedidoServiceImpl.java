@@ -1,16 +1,15 @@
 package br.com.ufcg.ccc.psoft.service;
 
+import br.com.ufcg.ccc.psoft.dto.ClienteDTO;
 import br.com.ufcg.ccc.psoft.dto.PedidoDTO;
-import br.com.ufcg.ccc.psoft.exception.PedidoNotFoundException;
-import br.com.ufcg.ccc.psoft.model.ItemDePedido;
-import br.com.ufcg.ccc.psoft.model.Pagamento;
-import br.com.ufcg.ccc.psoft.model.Pedido;
-import br.com.ufcg.ccc.psoft.model.Sabor;
+import br.com.ufcg.ccc.psoft.exception.*;
+import br.com.ufcg.ccc.psoft.model.*;
 import br.com.ufcg.ccc.psoft.repository.PedidoRepository;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @Service
@@ -20,20 +19,48 @@ public class PedidoServiceImpl implements PedidoService{
     private PedidoRepository pedidoRepository;
 
     @Autowired
+    private SaborService saborService;
+
+    @Autowired
+    private ClienteService clienteService;
+    @Autowired
     public ModelMapper modelMapper;
 
-    public PedidoDTO criaPedido(PedidoDTO pedidoDTO)  {
-        Pagamento pagamento = new Pagamento(pedidoDTO.getPagamento().getTipo(), pedidoDTO.getPagamento().getValor());
+    public PedidoDTO criaPedido(PedidoDTO pedidoDTO) throws SaborNotFoundException, QuantidadeSaboresInvalidosException, ClienteNotFoundException, IncorretCodigoAcessoException {
+        List<ItemDePedido> itensDePedidos = new ArrayList<>();
         for (ItemDePedido itemEscolhido : pedidoDTO.getItensEscolhidos()) {
-            if (itemEscolhido.getTamanho().toUpperCase().equals("GRANDE") && itemEscolhido.getSabores().size()<=2) {
-                List<Sabor> sabores = itemEscolhido.getSabores();
-                ItemDePedido itemDePedido = new ItemDePedido(sabores, itemEscolhido.getTamanho(), itemEscolhido.getValor());
-            } else {
-                
+            Double valor = 0.00;
+            List<Sabor> saboresEscolhidos = new ArrayList<>();
+            if (itemEscolhido.getTamanho().toUpperCase().equals("MEDIO") && itemEscolhido.getSabores().size()>1) {
+                throw new QuantidadeSaboresInvalidosException();
             }
+            if (itemEscolhido.getTamanho().toUpperCase().equals("GRANDE") && itemEscolhido.getSabores().size()<=2) {
+                for (Sabor sabor : itemEscolhido.getSabores()) {
+                    if (saborService.getSaborById(sabor.getId()) == null) {
+                        throw new SaborNotFoundException();
+                    }
+                    valor += sabor.getValorGrande();
+                    saboresEscolhidos.add(sabor);
+                }
+                valor = valor/2;
+            } else if (itemEscolhido.getTamanho().toUpperCase().equals("MEDIO") && itemEscolhido.getSabores().size()==1){
+                saboresEscolhidos.add(itemEscolhido.getSabores().get(0));
+                valor = itemEscolhido.getSabores().get(0).getValorMedio();
+            }
+            ItemDePedido itemDePedido = new ItemDePedido(saboresEscolhidos, itemEscolhido.getTamanho(), valor);
+            itensDePedidos.add(itemDePedido);
+            saboresEscolhidos.clear();
+        }
+        if (pedidoDTO.getEnderecoEntrega().isBlank()) {
+            pedidoDTO.setEnderecoEntrega(pedidoDTO.getCliente().getEnderecoPrincipal());
         }
 
-        Pedido pedido = new Pedido(pedidoDTO.getCliente(), pedidoDTO.getItensEscolhidos(), pagamento, pedidoDTO.getEnderecoEntrega());
+        Pagamento pagamento = new Pagamento(pedidoDTO.getPagamento().getTipo(), pedidoDTO.getPagamento().getValor());
+        ClienteDTO cliente = clienteService.getClienteById(pedidoDTO.getCliente().getId());
+        if (!cliente.getCodAcesso().equals(pedidoDTO.getCliente().getCodAcesso())) {
+            throw new IncorretCodigoAcessoException();
+        }
+        Pedido pedido = new Pedido(pedidoDTO.getCliente(), itensDePedidos, pagamento, pedidoDTO.getEnderecoEntrega(), pedidoDTO.getValorTotal());
         salvarPedidoCadastrado(pedido);
 
         return modelMapper.map(pedido, PedidoDTO.class);
@@ -64,4 +91,10 @@ public class PedidoServiceImpl implements PedidoService{
 
         return modelMapper.map(pedido, PedidoDTO.class);
     }
+
+    public PedidoDTO getPedidoById(Long id) throws PedidoNotFoundException {
+        Pedido pedido = getPedidoId(id);
+        return modelMapper.map(pedido, PedidoDTO.class);
+    }
+
 }
