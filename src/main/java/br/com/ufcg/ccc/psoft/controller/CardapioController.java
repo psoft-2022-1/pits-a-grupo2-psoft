@@ -19,9 +19,8 @@ public class CardapioController {
     @Autowired
     EstabelecimentoService estabelecimentoService;
 
-
     @GetMapping(value = "/estabelecimento/{id}/cardapio/{sabor}")
-    public ResponseEntity<?> findById(@PathVariable("id") long id, @PathVariable("sabor") String sabor) {
+    public ResponseEntity<?> getCardapioPorSabor(@PathVariable("id") long id, @PathVariable("sabor") String sabor) {
         try {
             CardapioDTO cardapio = estabelecimentoService.consultaCarcapioPorSabor(id, sabor);
             return new ResponseEntity<>(cardapio, HttpStatus.OK);
@@ -29,6 +28,16 @@ public class CardapioController {
             return ErroEstabelecimento.erroEstabelecimentoNaoEncontrado(id);
         } catch (CardapioNotFoundException e) {
             return ErroCardapio.erroCardapioNaoEncontrado(id);
+        }
+    }
+
+    @GetMapping(value = "/estabelecimento/{id}/cardapio/")
+    public ResponseEntity<?> getCardapio(@PathVariable("id") long id) {
+        try {
+            CardapioDTO cardapio = estabelecimentoService.getCardapio(id);
+            return new ResponseEntity<>(cardapio, HttpStatus.OK);
+        } catch (EstabelecimentoNotFoundException e) {
+            return ErroEstabelecimento.erroEstabelecimentoNaoEncontrado(id);
         }
     }
 }
