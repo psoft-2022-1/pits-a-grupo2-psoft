@@ -76,4 +76,9 @@ public class EstabelecimentoServiceImpl implements EstabelecimentoService {
 
         return modelMapper.map(estabelecimentoRepository.save(estabelecimento.get()), EstabelecimentoDTO.class);
     }
+
+    @Override
+    public CardapioDTO getCardapio(Long idEstabelecimento) throws EstabelecimentoNotFoundException {
+        return modelMapper.map(getEstabelecimentoById(idEstabelecimento).getCardapio(), CardapioDTO.class);
+    }
 }
