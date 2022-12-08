@@ -10,6 +10,7 @@ import br.com.ufcg.ccc.psoft.exception.FuncionarioNotFoundException;
 import br.com.ufcg.ccc.psoft.exception.IncorretCodigoAcessoException;
 import br.com.ufcg.ccc.psoft.service.EstabelecimentoService;
 import br.com.ufcg.ccc.psoft.service.FuncionarioService;
+import br.com.ufcg.ccc.psoft.util.ErroFuncionario;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -31,7 +32,7 @@ public class FuncionarioController {
         } catch (EstabelecimentoNotFoundException e) {
             throw new RuntimeException(e);
         } catch (FuncionarioNotFoundException e) {
-            throw new RuntimeException(e);
+            return ErroFuncionario.erroFuncionarioNaoEncontrado();
         } catch (IncorretCodigoAcessoException e) {
             throw new RuntimeException(e);
         } catch (EntregadorNotFoundException e) {

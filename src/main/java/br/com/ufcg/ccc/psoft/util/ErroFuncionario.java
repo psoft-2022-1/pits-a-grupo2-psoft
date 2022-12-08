@@ -7,8 +7,10 @@ public class ErroFuncionario {
 
 	static final String FUNCIONARIO_NAO_ENCONTRADO = "Funcionario com id %s não foi encontrado.";
 	
-	public static ResponseEntity<CustomErrorType> erroProdutoNaoEncontradoNoCarrinho(long id) {
-		return new ResponseEntity<CustomErrorType>(new CustomErrorType(String.format(ErroFuncionario.FUNCIONARIO_NAO_ENCONTRADO, id)),
+	public static ResponseEntity<CustomErrorType> erroFuncionarioNaoEncontrado() {
+		return new ResponseEntity<CustomErrorType>(new CustomErrorType(String.format(ErroFuncionario.FUNCIONARIO_NAO_ENCONTRADO)),
 				HttpStatus.NOT_FOUND);
 	}
+
+
 }
