@@ -14,26 +14,12 @@ public class PedidoDTO {
 
 	private Long id;
 	
-   	private Cliente cliente;
+   	private String codCliente;
 
 	private List <ItemDePedido> itensEscolhidos;
    	
-    private Pagamento pagamento;
+    private String tipoPagamento;
 
 	private String enderecoEntrega;
-
-	private Double valorTotal;
-
-	public double calculaTotal(){
-		double total = 0;
-		for(ItemDePedido item : this.itensEscolhidos){
-			total += item.getValor();
-		}
-		return total;
-	}
-
-	public double getValorTotal() {
-		return calculaTotal();
-	}
 	
 }

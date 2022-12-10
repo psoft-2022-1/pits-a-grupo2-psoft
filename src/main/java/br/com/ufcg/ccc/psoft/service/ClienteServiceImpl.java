@@ -83,11 +83,11 @@ public class ClienteServiceImpl implements ClienteService{
 	}
 
 	@Override
-	public boolean checkCodAcesso(ClienteDTO clienteDTO, String codCliente) throws IncorretCodigoAcessoException {
-		if (!clienteDTO.getCodAcesso().equals(codCliente)) {
+	public Cliente checkCodAcesso(Long id, String codCliente) throws IncorretCodigoAcessoException, ClienteNotFoundException {
+		if (!getClienteId(id).getCodAcesso().equals(codCliente)) {
 			throw new IncorretCodigoAcessoException();
 		}
-		return true;
+		return getClienteId(id);
 	}
 
 	

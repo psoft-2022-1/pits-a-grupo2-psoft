@@ -17,9 +17,9 @@ public class PedidoController {
     @Autowired
     PedidoService pedidoService;
 
-    @PostMapping(value = "/pedido/")
-    public ResponseEntity<?> criarPedido(@RequestBody PedidoDTO pedidoDTO) throws QuantidadeSaboresInvalidosException, SaborNotFoundException, IncorretCodigoAcessoException, ClienteNotFoundException {
-        PedidoDTO pedido = pedidoService.criaPedido(pedidoDTO);
+    @PostMapping(value = "/pedido/client/{idCliente}")
+    public ResponseEntity<?> criarPedido(@PathVariable Long idCliente, @RequestBody PedidoDTO pedidoDTO) throws QuantidadeSaboresInvalidosException, SaborNotFoundException, IncorretCodigoAcessoException, ClienteNotFoundException {
+        PedidoDTO pedido = pedidoService.criaPedido(idCliente, pedidoDTO);
         return new ResponseEntity<PedidoDTO>(pedido, HttpStatus.CREATED);
     }
 
