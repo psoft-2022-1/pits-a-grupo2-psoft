@@ -100,19 +100,13 @@ public class SaborServiceImpl implements SaborService {
 
         Cardapio cardapio = estabelecimento.getCardapio();
 
-        Sabor sabor = null;
-
         for (Sabor s : cardapio.getSabores()) {
             if (s.getId().equals(idSabor)) {
-                sabor = s;
+                return s;
             }
         }
+        throw new SaborNotFoundException();
 
-        if (sabor == null) {
-            throw new SaborNotFoundException();
-        } else {
-            return sabor;
-        }
     }
 
     public SaborDTO atualizarSabor(Long idEstabelecimento, Long idSabor, SaborDTO saborDTO)
@@ -187,5 +181,6 @@ public class SaborServiceImpl implements SaborService {
                 .collect(Collectors.toList());
         return sabores;
     }
+
 }
 

@@ -21,7 +21,7 @@ public class Pagamento {
 	public Pagamento() {
 	}
 
-	public Pagamento(String tipo, double valor) {
+	public Pagamento(String tipo, Double valor) {
 		this.tipo = tipo;
 		this.valor = valor;
 	}

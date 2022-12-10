@@ -26,7 +26,6 @@ public class ItemDePedido {
 	public ItemDePedido() {
 	}
 
-
 	// ItemDePedido com um sabor apenas
 	public ItemDePedido(List<Sabor> sabores, String tamanho, double valor) {
 		this.sabores = sabores;
