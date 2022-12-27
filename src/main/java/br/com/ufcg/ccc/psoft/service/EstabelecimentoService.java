@@ -15,7 +15,7 @@ public interface EstabelecimentoService {
 
     public CardapioDTO consultaCarcapioPorSabor(Long idEstabeleicmento, String tipoSabor) throws EstabelecimentoNotFoundException, CardapioNotFoundException;
 
-    public EstabelecimentoDTO criarEstabelecimento(EstabelecimentoDTO codigoAcesso);
+    public EstabelecimentoDTO criarEstabelecimento(String codigoAcesso);
 
     public EstabelecimentoDTO editarEstabelecimento(Long idEstabelecimento, EstabelecimentoDTO codigoAcesso) throws EstabelecimentoNotFoundException;
 

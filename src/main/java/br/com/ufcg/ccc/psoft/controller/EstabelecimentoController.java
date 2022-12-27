@@ -1,13 +1,20 @@
 package br.com.ufcg.ccc.psoft.controller;
 
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.CrossOrigin;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
+
 import br.com.ufcg.ccc.psoft.dto.EstabelecimentoDTO;
 import br.com.ufcg.ccc.psoft.exception.EstabelecimentoNotFoundException;
 import br.com.ufcg.ccc.psoft.service.EstabelecimentoService;
 import br.com.ufcg.ccc.psoft.util.ErroEstabelecimento;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequestMapping("/api")
@@ -18,8 +25,8 @@ public class EstabelecimentoController {
     EstabelecimentoService estabelecimentoService;
 
     @PostMapping(value = "/estabelecimento/")
-    public ResponseEntity<?> criarEstabelecimento(@RequestBody EstabelecimentoDTO estabelecimentoDTO) {
-            EstabelecimentoDTO estabelecimento = estabelecimentoService.criarEstabelecimento(estabelecimentoDTO);
+    public ResponseEntity<?> criarEstabelecimento(@RequestBody String codigoAcesso) {
+            EstabelecimentoDTO estabelecimento = estabelecimentoService.criarEstabelecimento(codigoAcesso);
             return new ResponseEntity<>(estabelecimento, HttpStatus.OK);
     }
 

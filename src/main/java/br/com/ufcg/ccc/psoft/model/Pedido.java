@@ -27,6 +27,7 @@ public class Pedido {
 	@OneToMany(cascade = CascadeType.ALL, orphanRemoval = true)
 	@JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
 	private List <ItemDePedido> itensEscolhidos;
+	
 	@OneToOne(targetEntity = Pagamento.class, cascade = CascadeType.ALL, orphanRemoval = true)
 	@JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
 	private Pagamento pagamento;

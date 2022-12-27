@@ -3,8 +3,10 @@ package br.com.ufcg.ccc.psoft.service;
 import java.util.List;
 
 import br.com.ufcg.ccc.psoft.dto.SaborDTO;
+import br.com.ufcg.ccc.psoft.exception.ClienteNotFoundException;
 import br.com.ufcg.ccc.psoft.exception.EstabelecimentoNotFoundException;
 import br.com.ufcg.ccc.psoft.exception.SaborAlreadyCreatedException;
+import br.com.ufcg.ccc.psoft.exception.SaborEstaDisponivelException;
 import br.com.ufcg.ccc.psoft.exception.SaborNotFoundException;
 
 public interface SaborService {
@@ -24,5 +26,11 @@ public interface SaborService {
     public List<SaborDTO> listarSabores();
 
     public SaborDTO getSaborById(Long id) throws SaborNotFoundException;
+    
+    public SaborDTO editarDisponibilidadeSabor(long idEstabelecimento, long idSabor, boolean estaDisponivel)  
+    		throws SaborNotFoundException, EstabelecimentoNotFoundException;
+    
+	public SaborDTO demonstrarInteresseEmSabor(long idCliente, long idSabor) 
+			throws ClienteNotFoundException, SaborNotFoundException, SaborEstaDisponivelException;
 
 }

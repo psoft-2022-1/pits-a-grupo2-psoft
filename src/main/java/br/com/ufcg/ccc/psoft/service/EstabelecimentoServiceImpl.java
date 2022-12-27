@@ -1,5 +1,11 @@
 package br.com.ufcg.ccc.psoft.service;
 
+import java.util.Optional;
+
+import org.modelmapper.ModelMapper;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+
 import br.com.ufcg.ccc.psoft.dto.CardapioDTO;
 import br.com.ufcg.ccc.psoft.dto.EstabelecimentoDTO;
 import br.com.ufcg.ccc.psoft.exception.CardapioNotFoundException;
@@ -7,11 +13,6 @@ import br.com.ufcg.ccc.psoft.exception.EstabelecimentoNotFoundException;
 import br.com.ufcg.ccc.psoft.exception.IncorretCodigoAcessoException;
 import br.com.ufcg.ccc.psoft.model.Estabelecimento;
 import br.com.ufcg.ccc.psoft.repository.EstabelecimentoRepository;
-import org.modelmapper.ModelMapper;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Service;
-
-import java.util.Optional;
 
 @Service
 public class EstabelecimentoServiceImpl implements EstabelecimentoService {
@@ -59,9 +60,9 @@ public class EstabelecimentoServiceImpl implements EstabelecimentoService {
     }
 
     @Override
-    public EstabelecimentoDTO criarEstabelecimento(EstabelecimentoDTO estabelecimentoDTO) {
+    public EstabelecimentoDTO criarEstabelecimento(String codigoAcesso) {
 
-        Estabelecimento estabelecimento = new Estabelecimento(estabelecimentoDTO.getCodigoAcesso());
+        Estabelecimento estabelecimento = new Estabelecimento(codigoAcesso);
 
         estabelecimentoRepository.save(estabelecimento);
         return modelMapper.map(estabelecimento, EstabelecimentoDTO.class);
