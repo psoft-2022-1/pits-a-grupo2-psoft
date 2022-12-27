@@ -91,6 +91,11 @@ public class FuncionarioServiceImpl implements FuncionarioService {
         return modelMapper.map(funcionario, FuncionarioDTO.class);
     }
 
+    @Override
+    public void removerFuncionarioCadastrado(Long id) throws FuncionarioNotFoundException {
+
+    }
+
     private Funcionario getFuncionarioById(long idFuncionario) throws FuncionarioNotFoundException {
         return funcionarioRepository.findById(idFuncionario)
                 .orElseThrow(() -> new FuncionarioNotFoundException());

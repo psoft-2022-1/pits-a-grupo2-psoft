@@ -29,6 +29,17 @@ public class FuncionarioController {
             return ErroFuncionario.erroFuncionarioJaCadastrado(funcionarioDTO);
         }
     }
+
+    @DeleteMapping(value = "/funcionario/{id}")
+    public ResponseEntity<?> removerFuncionario(@PathVariable("id") Long id) throws FuncionarioNotFoundException {
+
+        try {
+            funcionarioService.removerFuncionarioCadastrado(id);
+            return new ResponseEntity<>(HttpStatus.OK);
+        } catch (FuncionarioNotFoundException e) {
+            return ErroFuncionario.erroFuncionarioNaoEncontrado();
+        }
+    }
     @PutMapping(value = "/avaliar-entregador/")
     public ResponseEntity<?> avaliarEntregador(@RequestBody AnalisarEntregadorRequestDTO analisarEntregadorRequestDTO) {
         try {
