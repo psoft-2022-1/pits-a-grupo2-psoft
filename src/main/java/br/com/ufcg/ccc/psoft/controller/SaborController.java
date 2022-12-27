@@ -16,10 +16,13 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import br.com.ufcg.ccc.psoft.dto.SaborDTO;
+import br.com.ufcg.ccc.psoft.exception.ClienteNotFoundException;
 import br.com.ufcg.ccc.psoft.exception.EstabelecimentoNotFoundException;
 import br.com.ufcg.ccc.psoft.exception.SaborAlreadyCreatedException;
+import br.com.ufcg.ccc.psoft.exception.SaborEstaDisponivelException;
 import br.com.ufcg.ccc.psoft.exception.SaborNotFoundException;
 import br.com.ufcg.ccc.psoft.service.SaborService;
+import br.com.ufcg.ccc.psoft.util.ErroCliente;
 import br.com.ufcg.ccc.psoft.util.ErroEstabelecimento;
 import br.com.ufcg.ccc.psoft.util.ErroSabor;
 
@@ -87,7 +90,7 @@ public class SaborController {
 		}
 	}
 	
-	@GetMapping(value = "/estabelecimento/{idEstabelecimento}/cardapio/")
+	@GetMapping(value = "/estabelecimento/{idEstabelecimento}/cardapio/sabores/")
 	public ResponseEntity<?> listarSabores() {
 
 		List<SaborDTO> sabores = saborService.listarSabores();
@@ -96,5 +99,34 @@ public class SaborController {
 		}
 
 		return new ResponseEntity<List<SaborDTO>>(sabores, HttpStatus.OK);
+	}
+	
+	@PutMapping(value = "estabelecimento/{idEstabelecimento}/cardapio/sabor/{idSabor}/disponibilidade/")
+	public ResponseEntity<?> editarDisponibilidadeSabor(@PathVariable("idEstabelecimento") long idEstabelecimento,
+			@PathVariable("idSabor") long idSabor, @RequestBody boolean estaDisponivel) {
+
+		try {
+			SaborDTO sabor = saborService.editarDisponibilidadeSabor(idEstabelecimento, idSabor, estaDisponivel);
+			return new ResponseEntity<SaborDTO>(sabor, HttpStatus.OK);
+		} catch (SaborNotFoundException e) {
+			return ErroSabor.erroSaborNaoEncontrado(idSabor);
+		} catch (EstabelecimentoNotFoundException e2) {
+			return ErroEstabelecimento.erroEstabelecimentoNaoEncontrado(idEstabelecimento);
+		}
+	}
+	
+	@PutMapping(value = "/cliente/{idCliente}/sabor/")
+	public ResponseEntity<?> demonstrarInteresseEmSabor(@PathVariable("idCliente") long idCliente, @RequestBody long idSabor) {
+
+		try {
+			SaborDTO sabor= saborService.demonstrarInteresseEmSabor(idCliente, idSabor);
+			return new ResponseEntity<SaborDTO>(sabor, HttpStatus.OK);
+		} catch (ClienteNotFoundException e) {
+			return ErroCliente.erroClienteNaoEnconrtrado(idCliente);
+		}catch (SaborNotFoundException e2) {
+			return ErroSabor.erroSaborNaoEncontrado(idSabor);
+		}catch( SaborEstaDisponivelException e3) {
+			return ErroSabor.erroSaborJaDisponivelNoCardapio(idSabor);
+		}
 	}
 }

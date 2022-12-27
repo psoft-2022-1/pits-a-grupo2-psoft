@@ -9,7 +9,9 @@ public class ErroSabor {
 
 	static final String SABOR_NAO_ENCONTRADO = "Sabor com id %s não foi encontrado.";
 	
-	static final String SABOR_JA_CADASTRADO = "O sabor %s de nome %s já esta cadastrado";
+	static final String SABOR_JA_CADASTRADO = "O sabor %s de nome %s ja esta cadastrado";
+	
+	static final String SABOR_JA_DISPONIVEL = "O sabor de id %s  ja esta disponivel no cardapio";
 	
 	public static ResponseEntity<CustomErrorType> erroSaborNaoEncontrado(long id) {
 		return new ResponseEntity<CustomErrorType>(new CustomErrorType(String.format(ErroSabor.SABOR_NAO_ENCONTRADO, id)),
@@ -19,5 +21,10 @@ public class ErroSabor {
 
 	public static ResponseEntity<?> erroSaborJaCadastrado(SaborDTO saborDTO) {
 		return new ResponseEntity<CustomErrorType>(new CustomErrorType(String.format(ErroSabor.SABOR_JA_CADASTRADO,saborDTO.getNomeSabor())), HttpStatus.CONFLICT);
+	}
+
+
+	public static ResponseEntity<?> erroSaborJaDisponivelNoCardapio(long idSabor) {
+		return new ResponseEntity<CustomErrorType>(new CustomErrorType(String.format(ErroSabor.SABOR_JA_DISPONIVEL,idSabor)), HttpStatus.CONFLICT);
 	}
 }
