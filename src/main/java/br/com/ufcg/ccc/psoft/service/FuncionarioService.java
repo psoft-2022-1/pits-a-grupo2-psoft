@@ -16,5 +16,5 @@ public interface FuncionarioService {
 
     FuncionarioDTO criaFuncionario(FuncionarioDTO funcionarioDTO) throws FuncionarioAlreadyCreatedException;
 
-    void removerFuncionarioCadastrado(Long id) throws FuncionarioNotFoundException;
+    void removeFuncionarioCadastrado(Long id) throws FuncionarioNotFoundException;
 }
