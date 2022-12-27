@@ -1,13 +1,8 @@
 package br.com.ufcg.ccc.psoft.service;
 
-import br.com.ufcg.ccc.psoft.dto.AnalisarEntregadorRequestDTO;
-import br.com.ufcg.ccc.psoft.dto.EntregadorDTO;
-import br.com.ufcg.ccc.psoft.dto.EstabelecimentoDTO;
-import br.com.ufcg.ccc.psoft.dto.FuncionarioDTO;
-import br.com.ufcg.ccc.psoft.exception.EntregadorNotFoundException;
-import br.com.ufcg.ccc.psoft.exception.EstabelecimentoNotFoundException;
-import br.com.ufcg.ccc.psoft.exception.FuncionarioNotFoundException;
-import br.com.ufcg.ccc.psoft.exception.IncorretCodigoAcessoException;
+import br.com.ufcg.ccc.psoft.dto.*;
+import br.com.ufcg.ccc.psoft.exception.*;
+import br.com.ufcg.ccc.psoft.model.Cliente;
 import br.com.ufcg.ccc.psoft.model.Entregador;
 import br.com.ufcg.ccc.psoft.model.Funcionario;
 import br.com.ufcg.ccc.psoft.repository.EntregadorRepository;
@@ -66,6 +61,39 @@ public class FuncionarioServiceImpl implements FuncionarioService {
             throw new IncorretCodigoAcessoException();
         }
         return true;
+    }
+
+    private Funcionario getFuncionarioId(Long id) throws FuncionarioNotFoundException {
+        return funcionarioRepository.findById(id)
+                .orElseThrow(() -> new FuncionarioNotFoundException());
+    }
+    public FuncionarioDTO getFuncionarioById(Long id) throws FuncionarioNotFoundException {
+        Funcionario funcionario = getFuncionarioId(id);
+        return modelMapper.map(funcionario, FuncionarioDTO.class);
+    }
+    private boolean isFuncionarioCadastrado(Long id) {
+        try {
+            getFuncionarioById(id);
+            return true;
+        } catch (FuncionarioNotFoundException e) {
+            return false;
+        }
+    }
+    @Override
+    public FuncionarioDTO criaFuncionario(FuncionarioDTO funcionarioDTO) throws FuncionarioAlreadyCreatedException {
+        if(isFuncionarioCadastrado(funcionarioDTO.getId())){
+            throw new FuncionarioAlreadyCreatedException();
+        }
+        Funcionario funcionario = new Funcionario(funcionarioDTO.getNomeCompleto(),funcionarioDTO.getCodigoAcesso());
+
+        this.funcionarioRepository.save(funcionario);
+
+        return modelMapper.map(funcionario, FuncionarioDTO.class);
+    }
+
+    @Override
+    public void removerFuncionarioCadastrado(Long id) throws FuncionarioNotFoundException {
+
     }
 
     private Funcionario getFuncionarioById(long idFuncionario) throws FuncionarioNotFoundException {
