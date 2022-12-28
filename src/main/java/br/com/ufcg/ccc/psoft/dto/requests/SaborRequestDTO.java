@@ -1,6 +1,4 @@
-package br.com.ufcg.ccc.psoft.dto;
-
-import java.util.Map;
+package br.com.ufcg.ccc.psoft.dto.requests;
 
 import br.com.ufcg.ccc.psoft.model.Sabor;
 import lombok.Data;
@@ -8,7 +6,7 @@ import lombok.NoArgsConstructor;
 
 @Data
 @NoArgsConstructor
-public class SaborDTO {
+public class SaborRequestDTO {
 
 	private Long id;
 
@@ -20,7 +18,7 @@ public class SaborDTO {
 
 	private Double valorGrande;
 
-	public SaborDTO(Sabor sabor) {
+	public SaborRequestDTO(Sabor sabor) {
 		this.id = sabor.getId();
 		this.nomeSabor = sabor.getNomeSabor();
 		this.tipo = sabor.getTipo();

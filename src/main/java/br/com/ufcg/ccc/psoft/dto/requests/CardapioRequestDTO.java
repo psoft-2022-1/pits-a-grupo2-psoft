@@ -1,4 +1,4 @@
-package br.com.ufcg.ccc.psoft.dto;
+package br.com.ufcg.ccc.psoft.dto.requests;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -9,9 +9,9 @@ import java.util.List;
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-public class CardapioDTO {
+public class CardapioRequestDTO {
 
 	private Long id;
 
-    private List <SaborDTO> sabores;
+    private List <SaborRequestDTO> sabores;
 }

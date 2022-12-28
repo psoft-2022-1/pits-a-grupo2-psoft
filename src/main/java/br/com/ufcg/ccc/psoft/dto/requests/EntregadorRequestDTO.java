@@ -1,11 +1,11 @@
-package br.com.ufcg.ccc.psoft.dto;
+package br.com.ufcg.ccc.psoft.dto.requests;
 
 import br.com.ufcg.ccc.psoft.model.Veiculo;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.Data;
 
 @Data
-public class EntregadorDTO {
+public class EntregadorRequestDTO {
 
 	private Long id;
 

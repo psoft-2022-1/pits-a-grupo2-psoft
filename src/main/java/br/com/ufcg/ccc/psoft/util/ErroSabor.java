@@ -3,7 +3,7 @@ package br.com.ufcg.ccc.psoft.util;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 
-import br.com.ufcg.ccc.psoft.dto.SaborDTO;
+import br.com.ufcg.ccc.psoft.dto.requests.SaborRequestDTO;
 
 public class ErroSabor {
 
@@ -17,7 +17,7 @@ public class ErroSabor {
 	}
 	
 
-	public static ResponseEntity<?> erroSaborJaCadastrado(SaborDTO saborDTO) {
-		return new ResponseEntity<CustomErrorType>(new CustomErrorType(String.format(ErroSabor.SABOR_JA_CADASTRADO,saborDTO.getNomeSabor())), HttpStatus.CONFLICT);
+	public static ResponseEntity<?> erroSaborJaCadastrado(SaborRequestDTO saborRequestDTO) {
+		return new ResponseEntity<CustomErrorType>(new CustomErrorType(String.format(ErroSabor.SABOR_JA_CADASTRADO, saborRequestDTO.getNomeSabor())), HttpStatus.CONFLICT);
 	}
 }

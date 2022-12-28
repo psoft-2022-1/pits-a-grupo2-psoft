@@ -1,4 +1,4 @@
-package br.com.ufcg.ccc.psoft.dto;
+package br.com.ufcg.ccc.psoft.dto.requests;
 
 import br.com.ufcg.ccc.psoft.model.Cardapio;
 import br.com.ufcg.ccc.psoft.model.Funcionario;

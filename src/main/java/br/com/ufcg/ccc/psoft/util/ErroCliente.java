@@ -3,7 +3,7 @@ package br.com.ufcg.ccc.psoft.util;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 
-import br.com.ufcg.ccc.psoft.dto.ClienteDTO;
+import br.com.ufcg.ccc.psoft.dto.requests.ClienteRequestDTO;
 
 public class ErroCliente {
 
@@ -27,8 +27,8 @@ static final String CLIENTE_NAO_CASTRADO = "Cliente com id %s não está cadastr
 				HttpStatus.NO_CONTENT);
 	}
 
-	public static ResponseEntity<?> erroClienteJaCadastrado(ClienteDTO clienteDTO) {
+	public static ResponseEntity<?> erroClienteJaCadastrado(ClienteRequestDTO clienteRequestDTO) {
 		return new ResponseEntity<CustomErrorType>(new CustomErrorType(String.format(ErroCliente.CLIENTE_JA_CADASTRADO,
-				clienteDTO.getNomeCompleto(), clienteDTO.getEnderecoPrincipal())), HttpStatus.CONFLICT);
+				clienteRequestDTO.getNomeCompleto(), clienteRequestDTO.getEnderecoPrincipal())), HttpStatus.CONFLICT);
 	}
 }

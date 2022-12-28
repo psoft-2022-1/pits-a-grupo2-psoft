@@ -1,16 +1,12 @@
-package br.com.ufcg.ccc.psoft.dto;
+package br.com.ufcg.ccc.psoft.dto.requests;
 
 import java.util.List;
 
 import br.com.ufcg.ccc.psoft.model.ItemDePedido;
 import lombok.Data;
-import org.springframework.beans.factory.annotation.Autowired;
 
-import br.com.ufcg.ccc.psoft.model.Cliente;
-import br.com.ufcg.ccc.psoft.model.Pagamento;
-import br.com.ufcg.ccc.psoft.model.Sabor;
 @Data
-public class PedidoDTO {
+public class PedidoRequestDTO {
 
 	private Long id;
 	

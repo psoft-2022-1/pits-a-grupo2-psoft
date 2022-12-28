@@ -1,6 +1,6 @@
 package br.com.ufcg.ccc.psoft.controller;
 
-import br.com.ufcg.ccc.psoft.dto.EntregadorDTO;
+import br.com.ufcg.ccc.psoft.dto.requests.EntregadorRequestDTO;
 import br.com.ufcg.ccc.psoft.exception.EntregadorAlreadyCreatedException;
 import br.com.ufcg.ccc.psoft.exception.EntregadorNotFoundException;
 import br.com.ufcg.ccc.psoft.service.EntregadorService;
@@ -21,22 +21,22 @@ public class EntregadorController {
     EntregadorService entregadorService;
 
     @PostMapping(value = "/entregador/")
-    public ResponseEntity<?> criarEntregador(@RequestBody EntregadorDTO entregadorDTO) {
+    public ResponseEntity<?> criarEntregador(@RequestBody EntregadorRequestDTO entregadorRequestDTO) {
         try {
-            EntregadorDTO entregador = entregadorService.criaEntregador(entregadorDTO);
-            return new ResponseEntity<EntregadorDTO>(entregador, HttpStatus.CREATED);
+            EntregadorRequestDTO entregador = entregadorService.criaEntregador(entregadorRequestDTO);
+            return new ResponseEntity<EntregadorRequestDTO>(entregador, HttpStatus.CREATED);
         } catch (EntregadorAlreadyCreatedException e) {
-            return ErroEntregador.erroEntregadorJaCadastrado(entregadorDTO);
+            return ErroEntregador.erroEntregadorJaCadastrado(entregadorRequestDTO);
         }
     }
 
     @GetMapping(value = "/entregadores")
     public ResponseEntity<?> listarEntregadores() {
-        List<EntregadorDTO> entregadores = entregadorService.listarEntregadores();
+        List<EntregadorRequestDTO> entregadores = entregadorService.listarEntregadores();
         if (entregadores.isEmpty()) {
             return ErroEntregador.erroSemEntregadoresCadastrados();
         }
-        return new ResponseEntity<List<EntregadorDTO>>(entregadores, HttpStatus.OK);
+        return new ResponseEntity<List<EntregadorRequestDTO>>(entregadores, HttpStatus.OK);
     }
 
     @DeleteMapping(value = "/entregador/{id}")
@@ -54,19 +54,19 @@ public class EntregadorController {
     public ResponseEntity<?> consultarEntregador(@PathVariable("id") long id) {
 
         try {
-            EntregadorDTO entregador = entregadorService.getEntregadorById(id);
-            return new ResponseEntity<EntregadorDTO>(entregador, HttpStatus.OK);
+            EntregadorRequestDTO entregador = entregadorService.getEntregadorById(id);
+            return new ResponseEntity<EntregadorRequestDTO>(entregador, HttpStatus.OK);
         } catch (EntregadorNotFoundException e) {
             return ErroEntregador.erroEntregadorNaoEncontrado(id);
         }
     }
 
     @PutMapping(value = "/entregador/{id}")
-    public ResponseEntity<?> atualizarEntregador(@PathVariable("id") long id, @RequestBody EntregadorDTO entregadorDTO) {
+    public ResponseEntity<?> atualizarEntregador(@PathVariable("id") long id, @RequestBody EntregadorRequestDTO entregadorRequestDTO) {
 
         try {
-            EntregadorDTO entregador = entregadorService.atualizaEntregador(id, entregadorDTO);
-            return new ResponseEntity<EntregadorDTO>(entregador, HttpStatus.OK);
+            EntregadorRequestDTO entregador = entregadorService.atualizaEntregador(id, entregadorRequestDTO);
+            return new ResponseEntity<EntregadorRequestDTO>(entregador, HttpStatus.OK);
         } catch (EntregadorNotFoundException e) {
             return ErroEntregador.erroEntregadorNaoEncontrado(id);
         }

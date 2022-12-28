@@ -1,7 +1,6 @@
 package br.com.ufcg.ccc.psoft.util;
 
-import br.com.ufcg.ccc.psoft.dto.ClienteDTO;
-import br.com.ufcg.ccc.psoft.dto.FuncionarioDTO;
+import br.com.ufcg.ccc.psoft.dto.requests.FuncionarioRequestDTO;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 
@@ -15,9 +14,9 @@ public class ErroFuncionario {
 				HttpStatus.NOT_FOUND);
 	}
 
-	public static ResponseEntity<?> erroFuncionarioJaCadastrado(FuncionarioDTO funcionarioDTO) {
+	public static ResponseEntity<?> erroFuncionarioJaCadastrado(FuncionarioRequestDTO funcionarioRequestDTO) {
 		return new ResponseEntity<CustomErrorType>(new CustomErrorType(String.format(ErroFuncionario.FUNCIONARIO_JA_CADASTRADO,
-				funcionarioDTO.getNomeCompleto())), HttpStatus.CONFLICT);
+				funcionarioRequestDTO.getNomeCompleto())), HttpStatus.CONFLICT);
 	}
 
 

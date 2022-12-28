@@ -1,10 +1,10 @@
-package br.com.ufcg.ccc.psoft.dto;
+package br.com.ufcg.ccc.psoft.dto.requests;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.Data;
 
 @Data
-public class ClienteDTO {
+public class ClienteRequestDTO {
 
     private Long id;
 

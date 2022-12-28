@@ -1,6 +1,6 @@
 package br.com.ufcg.ccc.psoft.util;
 
-import br.com.ufcg.ccc.psoft.dto.EntregadorDTO;
+import br.com.ufcg.ccc.psoft.dto.requests.EntregadorRequestDTO;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 
@@ -22,9 +22,9 @@ public class ErroEntregador {
                 HttpStatus.NO_CONTENT);
     }
 
-    public static ResponseEntity<?> erroEntregadorJaCadastrado(EntregadorDTO entregadorDTO) {
+    public static ResponseEntity<?> erroEntregadorJaCadastrado(EntregadorRequestDTO entregadorRequestDTO) {
         return new ResponseEntity<CustomErrorType>(new CustomErrorType(String.format(ErroEntregador.ENTREGADOR_JA_CADASTRADO,
-                entregadorDTO.getNomeCompleto())), HttpStatus.CONFLICT);
+                entregadorRequestDTO.getNomeCompleto())), HttpStatus.CONFLICT);
     }
 
 }

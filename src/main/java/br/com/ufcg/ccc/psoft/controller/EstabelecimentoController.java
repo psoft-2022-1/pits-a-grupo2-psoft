@@ -1,6 +1,6 @@
 package br.com.ufcg.ccc.psoft.controller;
 
-import br.com.ufcg.ccc.psoft.dto.EstabelecimentoDTO;
+import br.com.ufcg.ccc.psoft.dto.requests.EstabelecimentoDTO;
 import br.com.ufcg.ccc.psoft.exception.EstabelecimentoNotFoundException;
 import br.com.ufcg.ccc.psoft.service.EstabelecimentoService;
 import br.com.ufcg.ccc.psoft.util.ErroEstabelecimento;
