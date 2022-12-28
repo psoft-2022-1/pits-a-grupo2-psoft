@@ -8,7 +8,6 @@ public class ClienteRequestDTO {
 
     private Long id;
 
-    @JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
     private String codAcesso;
 
     private String nomeCompleto;

@@ -15,7 +15,6 @@ public class EstabelecimentoDTO {
 
 	private Long id;
 
-	@JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
 	private String codigoAcesso;
 
 	private Cardapio cardapio;

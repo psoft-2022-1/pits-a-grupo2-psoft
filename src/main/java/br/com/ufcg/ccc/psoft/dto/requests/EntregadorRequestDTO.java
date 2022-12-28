@@ -15,7 +15,6 @@ public class EntregadorRequestDTO {
 
 	private String statusEstabelecimento;
 
-	@JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
 	private String codigoAcesso;
 
 }
