@@ -8,7 +8,6 @@ import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import br.com.ufcg.ccc.psoft.dto.ClienteDTO;
 import br.com.ufcg.ccc.psoft.exception.ClienteAlreadyCreatedException;
 import br.com.ufcg.ccc.psoft.exception.ClienteNotFoundException;
 import br.com.ufcg.ccc.psoft.model.Cliente;
@@ -89,7 +88,5 @@ public class ClienteServiceImpl implements ClienteService{
 		}
 		return getClienteId(id);
 	}
-
-	
 }
 

@@ -1,10 +1,16 @@
 package br.com.ufcg.ccc.psoft.controller;
 
 import br.com.ufcg.ccc.psoft.dto.ClienteDTO;
+import br.com.ufcg.ccc.psoft.dto.EntregadorDTO;
+import br.com.ufcg.ccc.psoft.dto.PedidoDTO;
 import br.com.ufcg.ccc.psoft.exception.ClienteAlreadyCreatedException;
 import br.com.ufcg.ccc.psoft.exception.ClienteNotFoundException;
+import br.com.ufcg.ccc.psoft.exception.EntregadorNotFoundException;
+import br.com.ufcg.ccc.psoft.exception.PedidoNotFoundException;
 import br.com.ufcg.ccc.psoft.model.Cliente;
+import br.com.ufcg.ccc.psoft.model.Pedido;
 import br.com.ufcg.ccc.psoft.service.ClienteService;
+import br.com.ufcg.ccc.psoft.service.PedidoService;
 import br.com.ufcg.ccc.psoft.util.ErroCliente;
 
 import java.util.List;
@@ -21,6 +27,9 @@ public class ClienteController {
 
 	@Autowired
 	ClienteService clienteService;
+
+	@Autowired
+	PedidoService pedidoService;
 	
 	@DeleteMapping(value = "/cliente/{id}")
 	public ResponseEntity<?> removeCliente(@PathVariable("id") Long id) {
@@ -42,6 +51,18 @@ public class ClienteController {
 		}
 		
 		return new ResponseEntity<List<ClienteDTO>>(clientes, HttpStatus.OK);
+	}
+
+	@GetMapping(value = "/cliente/{id}/pedido/{idPedido}")
+	public ResponseEntity<?> pedidoCliente(@PathVariable("idPedido") long idPedido, @PathVariable("id") long idCliente) {
+
+		try {
+			ClienteDTO cliente = clienteService.getClienteById(idCliente);
+			Pedido pedido = pedidoService.getPedidoByClienteById(cliente, idPedido);
+			return new ResponseEntity<>(pedido, HttpStatus.OK);
+		} catch (ClienteNotFoundException e) {
+			return ErroCliente.erroClienteNaoEnconrtrado(idPedido);
+		}
 	}
 	
 	@PostMapping(value = "/cliente/")

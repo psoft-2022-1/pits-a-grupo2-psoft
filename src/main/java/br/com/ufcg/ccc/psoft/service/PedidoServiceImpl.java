@@ -1,9 +1,9 @@
 package br.com.ufcg.ccc.psoft.service;
 
+import br.com.ufcg.ccc.psoft.dto.ClienteDTO;
 import br.com.ufcg.ccc.psoft.dto.PedidoDTO;
 import br.com.ufcg.ccc.psoft.exception.*;
 import br.com.ufcg.ccc.psoft.model.*;
-import br.com.ufcg.ccc.psoft.repository.ClienteRepository;
 import br.com.ufcg.ccc.psoft.repository.PedidoRepository;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -28,14 +28,9 @@ public class PedidoServiceImpl implements PedidoService{
     private ItemDePedidoService itemDePedidoService;
 
     @Autowired
-    private PagamentoService pagamentoService;
-
-    @Autowired
-    private ClienteRepository clienteRepository;
-    @Autowired
     public ModelMapper modelMapper;
 
-    public PedidoDTO criaPedido(Long idCliente,PedidoDTO pedidoDTO) throws SaborNotFoundException, QuantidadeSaboresInvalidosException, ClienteNotFoundException, IncorretCodigoAcessoException {
+    public PedidoDTO criaPedido(Long idCliente, PedidoDTO pedidoDTO) throws SaborNotFoundException, QuantidadeSaboresInvalidosException, ClienteNotFoundException, IncorretCodigoAcessoException {
         List<ItemDePedido> itensDePedidos = new ArrayList<>();
         for (ItemDePedido itemDePedido : pedidoDTO.getItensEscolhidos()) {
             Double value = itemDePedidoService.checkItem(itemDePedido);
@@ -94,6 +89,17 @@ public class PedidoServiceImpl implements PedidoService{
     public PedidoDTO getPedidoById(Long id) throws PedidoNotFoundException {
         Pedido pedido = getPedidoId(id);
         return modelMapper.map(pedido, PedidoDTO.class);
+    }
+
+    @Override
+    public Pedido getPedidoByClienteById(ClienteDTO cliente, Long idProduto) {
+        Cliente c = modelMapper.map(cliente, Cliente.class);
+        return pedidoRepository.findPedidoByClienteAndId(c, idProduto);
+    }
+
+    @Override
+    public List<Pedido> getPedidosByClienteByIdProduto(ClienteDTO cliente, String Status) {
+        return null;
     }
 
 }

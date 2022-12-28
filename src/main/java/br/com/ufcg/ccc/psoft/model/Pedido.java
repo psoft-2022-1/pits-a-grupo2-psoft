@@ -1,6 +1,5 @@
 package br.com.ufcg.ccc.psoft.model;
 
-import java.util.ArrayList;
 import java.util.List;
 import javax.persistence.*;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
