@@ -2,9 +2,7 @@ package br.com.ufcg.ccc.psoft.controller;
 
 import br.com.ufcg.ccc.psoft.dto.*;
 import br.com.ufcg.ccc.psoft.exception.*;
-import br.com.ufcg.ccc.psoft.service.EstabelecimentoService;
 import br.com.ufcg.ccc.psoft.service.FuncionarioService;
-import br.com.ufcg.ccc.psoft.util.ErroCliente;
 import br.com.ufcg.ccc.psoft.util.ErroFuncionario;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;

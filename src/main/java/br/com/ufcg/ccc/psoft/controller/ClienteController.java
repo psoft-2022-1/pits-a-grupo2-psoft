@@ -77,7 +77,7 @@ public class ClienteController {
 	}
 
 	@GetMapping(value = "/cliente/{idCliente}/historicoPedidos/status/{status}")
-	public ResponseEntity<?> historicoPedidoCliente(@PathVariable("idCliente") long idCliente, @PathVariable("status") String statusPedido ) {
+	public ResponseEntity<?> historicoPedidoClienteStatus(@PathVariable("idCliente") long idCliente, @PathVariable("status") String statusPedido ) {
 
 		try {
 			ClienteDTO cliente = clienteService.getClienteById(idCliente);
