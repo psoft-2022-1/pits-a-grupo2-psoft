@@ -13,4 +13,6 @@ public interface PedidoService {
 
     public PedidoDTO getPedidoById(Long idPedido) throws PedidoNotFoundException;
 
+    PedidoDTO confirmarPedido(Long id, PedidoDTO pedidoDTO) throws PedidoNotFoundException;
+
 }

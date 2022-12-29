@@ -3,6 +3,7 @@ package br.com.ufcg.ccc.psoft.service;
 import br.com.ufcg.ccc.psoft.dto.PedidoDTO;
 import br.com.ufcg.ccc.psoft.exception.*;
 import br.com.ufcg.ccc.psoft.model.*;
+import br.com.ufcg.ccc.psoft.model.Enum.StatusPedido;
 import br.com.ufcg.ccc.psoft.repository.ClienteRepository;
 import br.com.ufcg.ccc.psoft.repository.PedidoRepository;
 import org.modelmapper.ModelMapper;
@@ -96,4 +97,16 @@ public class PedidoServiceImpl implements PedidoService{
         return modelMapper.map(pedido, PedidoDTO.class);
     }
 
+<<<<<<< Updated upstream
 }
+=======
+    @Override
+    public PedidoDTO confirmarPedido(Long id, PedidoDTO pedidoDTO) throws PedidoNotFoundException {
+        Pedido pedido = getPedidoId(id);
+        pedido.setStatusPedido(StatusPedido.EM_PREPARO);
+        pedidoRepository.save(pedido);
+
+        return modelMapper.map(pedido, PedidoDTO.class);
+    }
+}
+>>>>>>> Stashed changes

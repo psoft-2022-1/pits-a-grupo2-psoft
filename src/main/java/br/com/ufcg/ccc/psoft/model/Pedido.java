@@ -3,6 +3,11 @@ package br.com.ufcg.ccc.psoft.model;
 import java.util.ArrayList;
 import java.util.List;
 import javax.persistence.*;
+<<<<<<< Updated upstream
+=======
+
+import br.com.ufcg.ccc.psoft.model.Enum.StatusPedido;
+>>>>>>> Stashed changes
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -35,11 +40,15 @@ public class Pedido {
 
 	private Double valorTotal;
 
+	@Enumerated(value = EnumType.STRING)
+	private StatusPedido statusPedido;
+
 	public Pedido(Cliente cliente, List<ItemDePedido> itensEscolhidos, Pagamento pagamento, String enderecoEntrega, Double valorTotal) {
 		this.cliente = cliente;
 		this.itensEscolhidos = itensEscolhidos;
 		this.pagamento = pagamento;
 		this.enderecoEntrega = enderecoEntrega;
 		this.valorTotal = valorTotal;
+		this.statusPedido = StatusPedido.valueOf("Pedido recebido");
 	}
 }
