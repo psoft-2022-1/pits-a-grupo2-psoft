@@ -14,4 +14,10 @@ public class CardapioDTO {
 	private Long id;
 
     private List <SaborDTO> sabores;
+
+	public CardapioDTO(Long id, List<SaborDTO> sabores) {
+		this.id = id;
+		this.sabores = sabores;
+	}
+
 }

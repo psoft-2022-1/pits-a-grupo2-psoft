@@ -54,4 +54,34 @@ public class PedidoController {
             return ErroPedido.erroPedidoNaoEncontrado(idPedido);
         }
     }
+    
+    @PutMapping(value = " cliente/{idCliente}/pedido/{idPedido}")
+    public ResponseEntity<?> confirmaPedido (@PathVariable("idPedido") long idPedido, @PathVariable("idCliente") Long idCliente) {
+        try {
+            PedidoDTO pedido = pedidoService.confirmaPedido(idPedido,idCliente);
+            return new ResponseEntity<PedidoDTO>(pedido, HttpStatus.OK);
+        } catch (PedidoNotFoundException e) {
+            return ErroPedido.erroPedidoNaoEncontrado(idPedido);
+        } catch (PedidoNaoPertenceAEsseClienteException e) {
+			
+        	return ErroPedido.pedidoNaoPertenceAEsseCliente(idPedido, idCliente);
+
+		}
+    }
+     
+    
+    @DeleteMapping(value = "cliente/{idCliente}/pedido/{idPedido}")
+    public ResponseEntity<?>  cancelaPedido(@PathVariable("idPedido") long idPedido, @PathVariable("idCliente") Long idCliente) {
+
+        try {
+        	pedidoService.cancelaPedido(idPedido, idCliente);
+            return new ResponseEntity<>(HttpStatus.OK);
+        } catch (PedidoNotFoundException e) {
+            return ErroPedido.erroPedidoNaoEncontrado(idPedido);
+        } catch (PedidoJaEstaProntoException e) {
+        	return ErroPedido.pedidoJaEstaPronto(idPedido);
+		} catch (PedidoNaoPertenceAEsseClienteException e) {
+			return ErroPedido.pedidoNaoPertenceAEsseCliente(idPedido, idCliente);
+		}
+    }
 }

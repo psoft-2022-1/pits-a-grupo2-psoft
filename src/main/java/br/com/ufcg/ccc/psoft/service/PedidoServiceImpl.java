@@ -1,5 +1,6 @@
 package br.com.ufcg.ccc.psoft.service;
 
+import br.com.ufcg.ccc.psoft.dto.ClienteDTO;
 import br.com.ufcg.ccc.psoft.dto.PedidoDTO;
 import br.com.ufcg.ccc.psoft.exception.*;
 import br.com.ufcg.ccc.psoft.model.*;
@@ -96,4 +97,31 @@ public class PedidoServiceImpl implements PedidoService{
         return modelMapper.map(pedido, PedidoDTO.class);
     }
 
+    @Override
+    public PedidoDTO confirmaPedido(Long idPedido, Long idCliente) throws PedidoNotFoundException, PedidoNaoPertenceAEsseClienteException {
+    	Pedido pedido = getPedidoId(idPedido);
+    	if(!pedido.getCliente().getId().equals(idCliente)){
+			 throw new PedidoNaoPertenceAEsseClienteException();
+		}
+    	
+    	pedido.setStatusDePedido("Pedido Entregue");
+    	this.pedidoRepository.save(pedido);
+    	return modelMapper.map(pedido, PedidoDTO.class);
+    }
+    
+    @Override
+    public void cancelaPedido(Long idPedido, Long idCliente) throws PedidoNotFoundException, PedidoJaEstaProntoException, PedidoNaoPertenceAEsseClienteException {
+    		Pedido pedido = getPedidoId(idPedido);
+
+    		if (pedido.getStatusDePedido().equals("Pedido pronto")) {
+    			throw new PedidoJaEstaProntoException();
+    		}
+
+    			if(!pedido.getCliente().getId().equals(idCliente)){
+    				 throw new PedidoNaoPertenceAEsseClienteException();
+    			}
+    			
+    			pedidoRepository.delete(pedido);
+   
+    }
 }

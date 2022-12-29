@@ -34,7 +34,7 @@ public class FuncionarioController {
     public ResponseEntity<?> removerFuncionario(@PathVariable("id") Long id) throws FuncionarioNotFoundException {
 
         try {
-            funcionarioService.removerFuncionarioCadastrado(id);
+            funcionarioService.removeFuncionarioCadastrado(id);
             return new ResponseEntity<>(HttpStatus.OK);
         } catch (FuncionarioNotFoundException e) {
             return ErroFuncionario.erroFuncionarioNaoEncontrado();

@@ -15,4 +15,11 @@ public class ClienteDTO {
 
     private String enderecoPrincipal;
 
+	public ClienteDTO(Long id, String codAcesso, String nomeCompleto, String enderecoPrincipal) {
+		this.id = id;
+		this.codAcesso = codAcesso;
+		this.nomeCompleto = nomeCompleto;
+		this.enderecoPrincipal = enderecoPrincipal;
+	}
+
 }

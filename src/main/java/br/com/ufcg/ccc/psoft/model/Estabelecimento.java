@@ -32,6 +32,6 @@ public class Estabelecimento {
 		this.cardapio = new Cardapio();
 		this.funcionarios = new ArrayList<>();
 	}
-	
 
+	
 }
