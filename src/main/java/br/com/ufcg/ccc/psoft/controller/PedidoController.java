@@ -17,13 +17,9 @@ public class PedidoController {
     @Autowired
     PedidoService pedidoService;
 
-<<<<<<< Updated upstream
-    @PostMapping(value = "/pedido/client/{idCliente}")
-    public ResponseEntity<?> criarPedido(@PathVariable Long idCliente, @RequestBody PedidoDTO pedidoDTO) throws QuantidadeSaboresInvalidosException, SaborNotFoundException, IncorretCodigoAcessoException, ClienteNotFoundException {
-=======
+
     @PostMapping(value = "/pedido/cliente/{idCliente}")
     public ResponseEntity<?> criarPedido(@PathVariable Long idCliente, @RequestBody PedidoDTO pedidoDTO) throws QuantidadeSaboresInvalidosException, SaborNotFoundException, IncorretCodigoAcessoException, ClienteNotFoundException, PagamentoInvalidException {
->>>>>>> Stashed changes
         PedidoDTO pedido = pedidoService.criaPedido(idCliente, pedidoDTO);
         return new ResponseEntity<PedidoDTO>(pedido, HttpStatus.CREATED);
     }
@@ -60,7 +56,7 @@ public class PedidoController {
         }
     }
 
-    @PutMapping(value = "/pedido/{id}")
+    @PutMapping(value = "/pedido/confirmarPedido/{id}")
     public ResponseEntity<?> confirmarPedido(@PathVariable("id") long id, @RequestBody PedidoDTO pedidoDTO) {
         try {
             PedidoDTO pedido = pedidoService.confirmarPedido(id, pedidoDTO);

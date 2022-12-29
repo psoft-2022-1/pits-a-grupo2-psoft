@@ -3,6 +3,7 @@ package br.com.ufcg.ccc.psoft.service;
 import br.com.ufcg.ccc.psoft.dto.PedidoDTO;
 import br.com.ufcg.ccc.psoft.exception.*;
 import br.com.ufcg.ccc.psoft.model.*;
+import br.com.ufcg.ccc.psoft.model.Enum.StatusPedido;
 import br.com.ufcg.ccc.psoft.repository.ClienteRepository;
 import br.com.ufcg.ccc.psoft.repository.PedidoRepository;
 import org.modelmapper.ModelMapper;
