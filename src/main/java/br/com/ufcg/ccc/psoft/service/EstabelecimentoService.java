@@ -5,6 +5,7 @@ import br.com.ufcg.ccc.psoft.dto.EstabelecimentoDTO;
 import br.com.ufcg.ccc.psoft.exception.CardapioNotFoundException;
 import br.com.ufcg.ccc.psoft.exception.EstabelecimentoNotFoundException;
 import br.com.ufcg.ccc.psoft.exception.IncorretCodigoAcessoException;
+import br.com.ufcg.ccc.psoft.exception.senhaInvalidaException;
 
 
 public interface EstabelecimentoService {
@@ -15,9 +16,9 @@ public interface EstabelecimentoService {
 
     public CardapioDTO consultaCarcapioPorSabor(Long idEstabeleicmento, String tipoSabor) throws EstabelecimentoNotFoundException, CardapioNotFoundException;
 
-    public EstabelecimentoDTO criarEstabelecimento(EstabelecimentoDTO codigoAcesso);
+    public EstabelecimentoDTO criarEstabelecimento(EstabelecimentoDTO codigoAcesso) throws senhaInvalidaException;
 
-    public EstabelecimentoDTO editarEstabelecimento(Long idEstabelecimento, EstabelecimentoDTO codigoAcesso) throws EstabelecimentoNotFoundException;
+    public EstabelecimentoDTO editarEstabelecimento(Long idEstabelecimento, EstabelecimentoDTO codigoAcesso) throws EstabelecimentoNotFoundException, IncorretCodigoAcessoException, senhaInvalidaException;
 
 
     public CardapioDTO getCardapio(Long idEstabelecimento) throws EstabelecimentoNotFoundException;

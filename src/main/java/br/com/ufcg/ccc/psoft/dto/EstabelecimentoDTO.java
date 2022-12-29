@@ -18,6 +18,9 @@ public class EstabelecimentoDTO {
 	@JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
 	private String codigoAcesso;
 
+	@JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
+	private String novoCodigoAcesso;
+
 	private Cardapio cardapio;
 
 	private List<Funcionario> funcionarios;

@@ -5,6 +5,7 @@ import br.com.ufcg.ccc.psoft.dto.EstabelecimentoDTO;
 import br.com.ufcg.ccc.psoft.exception.CardapioNotFoundException;
 import br.com.ufcg.ccc.psoft.exception.EstabelecimentoNotFoundException;
 import br.com.ufcg.ccc.psoft.exception.IncorretCodigoAcessoException;
+import br.com.ufcg.ccc.psoft.exception.senhaInvalidaException;
 import br.com.ufcg.ccc.psoft.model.Estabelecimento;
 import br.com.ufcg.ccc.psoft.repository.EstabelecimentoRepository;
 import org.modelmapper.ModelMapper;
@@ -59,7 +60,10 @@ public class EstabelecimentoServiceImpl implements EstabelecimentoService {
     }
 
     @Override
-    public EstabelecimentoDTO criarEstabelecimento(EstabelecimentoDTO estabelecimentoDTO) {
+    public EstabelecimentoDTO criarEstabelecimento(EstabelecimentoDTO estabelecimentoDTO) throws senhaInvalidaException {
+
+        if(estabelecimentoDTO.getCodigoAcesso().length() != 6)
+            throw new senhaInvalidaException();
 
         Estabelecimento estabelecimento = new Estabelecimento(estabelecimentoDTO.getCodigoAcesso());
 
@@ -68,10 +72,16 @@ public class EstabelecimentoServiceImpl implements EstabelecimentoService {
     }
 
     @Override
-    public EstabelecimentoDTO editarEstabelecimento(Long idEstabelecimento, EstabelecimentoDTO estabelecimentoDTO) throws EstabelecimentoNotFoundException {
+    public EstabelecimentoDTO editarEstabelecimento(Long idEstabelecimento, EstabelecimentoDTO estabelecimentoDTO) throws EstabelecimentoNotFoundException, IncorretCodigoAcessoException, senhaInvalidaException {
         Optional<Estabelecimento> estabelecimento = estabelecimentoRepository.findById(idEstabelecimento);
+
         if(estabelecimento.isEmpty())
             throw new EstabelecimentoNotFoundException();
+        else if (!estabelecimento.get().getCodigoAcesso().equals(estabelecimentoDTO.getCodigoAcesso()))
+            throw new IncorretCodigoAcessoException();
+        else if(estabelecimentoDTO.getNovoCodigoAcesso().length() != 6)
+            throw new senhaInvalidaException();
+
         estabelecimento.get().setCodigoAcesso(estabelecimentoDTO.getCodigoAcesso());
 
         return modelMapper.map(estabelecimentoRepository.save(estabelecimento.get()), EstabelecimentoDTO.class);
