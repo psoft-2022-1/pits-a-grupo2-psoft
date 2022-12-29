@@ -82,7 +82,7 @@ public class EstabelecimentoServiceImpl implements EstabelecimentoService {
         else if(estabelecimentoDTO.getNovoCodigoAcesso().length() != 6)
             throw new senhaInvalidaException();
 
-        estabelecimento.get().setCodigoAcesso(estabelecimentoDTO.getCodigoAcesso());
+        estabelecimento.get().setCodigoAcesso(estabelecimentoDTO.getNovoCodigoAcesso());
 
         return modelMapper.map(estabelecimentoRepository.save(estabelecimento.get()), EstabelecimentoDTO.class);
     }
