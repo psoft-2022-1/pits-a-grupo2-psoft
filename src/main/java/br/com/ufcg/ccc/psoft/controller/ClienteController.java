@@ -1,13 +1,8 @@
 package br.com.ufcg.ccc.psoft.controller;
 
 import br.com.ufcg.ccc.psoft.dto.ClienteDTO;
-import br.com.ufcg.ccc.psoft.dto.EntregadorDTO;
-import br.com.ufcg.ccc.psoft.dto.PedidoDTO;
 import br.com.ufcg.ccc.psoft.exception.ClienteAlreadyCreatedException;
 import br.com.ufcg.ccc.psoft.exception.ClienteNotFoundException;
-import br.com.ufcg.ccc.psoft.exception.EntregadorNotFoundException;
-import br.com.ufcg.ccc.psoft.exception.PedidoNotFoundException;
-import br.com.ufcg.ccc.psoft.model.Cliente;
 import br.com.ufcg.ccc.psoft.model.Pedido;
 import br.com.ufcg.ccc.psoft.service.ClienteService;
 import br.com.ufcg.ccc.psoft.service.PedidoService;
@@ -15,6 +10,7 @@ import br.com.ufcg.ccc.psoft.util.ErroCliente;
 
 import java.util.List;
 
+import br.com.ufcg.ccc.psoft.util.ErroPedido;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -59,9 +55,24 @@ public class ClienteController {
 		try {
 			ClienteDTO cliente = clienteService.getClienteById(idCliente);
 			Pedido pedido = pedidoService.getPedidoByClienteById(cliente, idPedido);
+			if (pedido == null) {
+				return ErroPedido.erroPedidoClienteNaoEncontrado(cliente.getNomeCompleto(), idPedido);
+			}
 			return new ResponseEntity<>(pedido, HttpStatus.OK);
 		} catch (ClienteNotFoundException e) {
 			return ErroCliente.erroClienteNaoEnconrtrado(idPedido);
+		}
+	}
+
+	@GetMapping(value = "/cliente/{id}/historicoPedido/status/{status}")
+	public ResponseEntity<?> historicoPedidoCliente(@PathVariable("id") long idCliente, @PathVariable("status") String statusPedido ) {
+
+		try {
+			ClienteDTO cliente = clienteService.getClienteById(idCliente);
+			List<Pedido> pedidos = pedidoService.getPedidosByClienteByStatus(cliente, statusPedido);
+			return new ResponseEntity<>(pedidos, HttpStatus.OK);
+		} catch (ClienteNotFoundException e) {
+			return ErroCliente.erroClienteNaoEnconrtrado(idCliente);
 		}
 	}
 	

@@ -3,7 +3,6 @@ package br.com.ufcg.ccc.psoft.dto;
 import java.util.List;
 
 import lombok.Data;
-import org.springframework.beans.factory.annotation.Autowired;
 
 import br.com.ufcg.ccc.psoft.model.Sabor;
 @Data

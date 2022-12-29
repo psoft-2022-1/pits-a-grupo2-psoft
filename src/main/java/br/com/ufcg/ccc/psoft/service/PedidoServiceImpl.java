@@ -5,6 +5,8 @@ import br.com.ufcg.ccc.psoft.dto.PedidoDTO;
 import br.com.ufcg.ccc.psoft.exception.*;
 import br.com.ufcg.ccc.psoft.model.*;
 import br.com.ufcg.ccc.psoft.repository.PedidoRepository;
+import br.com.ufcg.ccc.psoft.util.ErroPedido;
+import net.bytebuddy.asm.Advice;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -17,9 +19,6 @@ public class PedidoServiceImpl implements PedidoService{
 
     @Autowired
     private PedidoRepository pedidoRepository;
-
-    @Autowired
-    private SaborService saborService;
 
     @Autowired
     private ClienteService clienteService;
@@ -92,14 +91,17 @@ public class PedidoServiceImpl implements PedidoService{
     }
 
     @Override
-    public Pedido getPedidoByClienteById(ClienteDTO cliente, Long idProduto) {
-        Cliente c = modelMapper.map(cliente, Cliente.class);
-        return pedidoRepository.findPedidoByClienteAndId(c, idProduto);
+    public Pedido getPedidoByClienteById(ClienteDTO clienteDTO, Long idPedido) {
+        Cliente cliente = modelMapper.map(clienteDTO, Cliente.class);
+        return pedidoRepository.findPedidoByClienteAndId(cliente, idPedido);
     }
 
     @Override
-    public List<Pedido> getPedidosByClienteByIdProduto(ClienteDTO cliente, String Status) {
+    public List<Pedido> getPedidosByClienteByStatus(ClienteDTO clienteDTO, String status) {
+        Cliente cliente = modelMapper.map(clienteDTO, Cliente.class);
+//        return pedidoRepository.findPedidoByClienteAndStatusAndOrderByIdDesc(cliente, status);
         return null;
     }
+
 
 }

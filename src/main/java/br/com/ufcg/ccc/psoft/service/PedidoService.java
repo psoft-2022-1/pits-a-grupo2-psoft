@@ -3,7 +3,6 @@ package br.com.ufcg.ccc.psoft.service;
 import br.com.ufcg.ccc.psoft.dto.ClienteDTO;
 import br.com.ufcg.ccc.psoft.dto.PedidoDTO;
 import br.com.ufcg.ccc.psoft.exception.*;
-import br.com.ufcg.ccc.psoft.model.Cliente;
 import br.com.ufcg.ccc.psoft.model.Pedido;
 
 import java.util.List;
@@ -20,6 +19,6 @@ public interface PedidoService {
 
     public Pedido getPedidoByClienteById(ClienteDTO cliente, Long idPedido);
 
-    public List<Pedido> getPedidosByClienteByIdProduto(ClienteDTO cliente, String Status);
+    public List<Pedido> getPedidosByClienteByStatus(ClienteDTO cliente, String Status);
 
 }
