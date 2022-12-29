@@ -1,7 +1,6 @@
 package br.com.ufcg.ccc.psoft.service;
 
 import br.com.ufcg.ccc.psoft.exception.PagamentoNotFoundException;
-import br.com.ufcg.ccc.psoft.exception.PedidoNotFoundException;
 import br.com.ufcg.ccc.psoft.model.Pagamento;
 import br.com.ufcg.ccc.psoft.repository.PagamentoRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -15,7 +14,6 @@ public class PagamentoServiceImpl implements PagamentoService {
 
     @Override
     public Pagamento getPagamentoById(Long id) throws PagamentoNotFoundException {
-        return pagamentoRepository.findById(id)
-                .orElseThrow(() -> new PagamentoNotFoundException());
+        return null;
     }
 }

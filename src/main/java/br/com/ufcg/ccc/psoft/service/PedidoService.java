@@ -5,7 +5,7 @@ import br.com.ufcg.ccc.psoft.exception.*;
 
 public interface PedidoService {
 
-    public PedidoDTO criaPedido(Long idCliente, PedidoDTO pedidoDTO) throws SaborNotFoundException, QuantidadeSaboresInvalidosException, ClienteNotFoundException, IncorretCodigoAcessoException;
+    public PedidoDTO criaPedido(Long idCliente, PedidoDTO pedidoDTO) throws SaborNotFoundException, QuantidadeSaboresInvalidosException, ClienteNotFoundException, IncorretCodigoAcessoException, PagamentoInvalidException;
 
     public void removerPedidoCadastrado(Long id) throws PedidoNotFoundException;
 
