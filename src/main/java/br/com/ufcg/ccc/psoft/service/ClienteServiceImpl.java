@@ -1,9 +1,11 @@
 package br.com.ufcg.ccc.psoft.service;
+
 import java.util.List;
 import java.util.stream.Collectors;
 
 import br.com.ufcg.ccc.psoft.dto.ClienteDTO;
 import br.com.ufcg.ccc.psoft.exception.IncorretCodigoAcessoException;
+import br.com.ufcg.ccc.psoft.exception.senhaInvalidaException;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -15,81 +17,83 @@ import br.com.ufcg.ccc.psoft.model.Cliente;
 import br.com.ufcg.ccc.psoft.repository.ClienteRepository;
 
 @Service
-public class ClienteServiceImpl implements ClienteService{
+public class ClienteServiceImpl implements ClienteService {
 
-	@Autowired
-	private ClienteRepository clienteRepository;
+    @Autowired
+    private ClienteRepository clienteRepository;
 
-	@Autowired
-	public ModelMapper modelMapper;
+    @Autowired
+    public ModelMapper modelMapper;
 
-	@Override
-	public ClienteDTO getClienteById(Long id) throws ClienteNotFoundException {
-		Cliente cliente = getClienteId(id);
-		return modelMapper.map(cliente, ClienteDTO.class);
-	}
+    @Override
+    public ClienteDTO getClienteById(Long id) throws ClienteNotFoundException {
+        Cliente cliente = getClienteId(id);
+        return modelMapper.map(cliente, ClienteDTO.class);
+    }
 
-	private Cliente getClienteId(Long id) throws ClienteNotFoundException {
-		return clienteRepository.findById(id)
-				.orElseThrow(() -> new ClienteNotFoundException());
-	}
-	@Override
-	public void removeClienteCadastrado(Long id) throws ClienteNotFoundException {
-		Cliente cliente = getClienteId(id);
-		this.clienteRepository.delete(cliente);
-	}
+    private Cliente getClienteId(Long id) throws ClienteNotFoundException {
+        return clienteRepository.findById(id)
+                .orElseThrow(() -> new ClienteNotFoundException());
+    }
 
-	@Override
-	public List<ClienteDTO> listaClientes() {
-		List<ClienteDTO> clientesDTO = this.clienteRepository.findAll()
-				.stream()
-				.map(cliente -> modelMapper.map(cliente, ClienteDTO.class))
-				.collect(Collectors.toList());
+    @Override
+    public ClienteDTO removeClienteCadastrado(Long id, ClienteDTO clienteDTO) throws IncorretCodigoAcessoException, ClienteNotFoundException {
 
-		return clientesDTO;
-	}
+        Cliente cliente = getClienteId(id);
 
-	@Override
-	public ClienteDTO criaCliente(ClienteDTO clienteDTO) throws ClienteAlreadyCreatedException {
-		if(isClienteCadastrado(clienteDTO.getId())){
-			throw new ClienteAlreadyCreatedException();
-		}
-		Cliente cliente = new Cliente(clienteDTO.getCodAcesso(),clienteDTO.getNomeCompleto(),
-				clienteDTO.getEnderecoPrincipal());
+        if (cliente.getCodAcesso().equals(clienteDTO.getCodigoAcesso()))
+            throw new IncorretCodigoAcessoException();
 
-		this.clienteRepository.save(cliente);
+        this.clienteRepository.delete(cliente);
 
-		return modelMapper.map(cliente, ClienteDTO.class);
-	}
+        return modelMapper.map(cliente, ClienteDTO.class);
+    }
 
-	private boolean isClienteCadastrado(Long id) {
-		try {
-			getClienteById(id);
-			return true;
-		} catch (ClienteNotFoundException e) {
-			return false;
-		}
-	}
+    @Override
+    public List<ClienteDTO> listaClientes() {
+        List<ClienteDTO> clientesDTO = this.clienteRepository.findAll()
+                .stream()
+                .map(cliente -> modelMapper.map(cliente, ClienteDTO.class))
+                .collect(Collectors.toList());
 
-	@Override
-	public ClienteDTO atualizaCliente(Long id, ClienteDTO clienteDTO) throws ClienteNotFoundException {
-		Cliente cliente = getClienteId(id);
+        return clientesDTO;
+    }
 
-		cliente.setEnderecoPrincipal(clienteDTO.getEnderecoPrincipal());
-		cliente.setNomeCompleto(clienteDTO.getNomeCompleto());
-		this.clienteRepository.save(cliente);
+    @Override
+    public ClienteDTO criaCliente(ClienteDTO clienteDTO) throws senhaInvalidaException {
 
-		return modelMapper.map(cliente, ClienteDTO.class);
-	}
+        if (clienteDTO.getCodigoAcesso().length() != 6)
+            throw new senhaInvalidaException();
 
-	@Override
-	public Cliente checkCodAcesso(Long id, String codCliente) throws IncorretCodigoAcessoException, ClienteNotFoundException {
-		if (!getClienteId(id).getCodAcesso().equals(codCliente)) {
-			throw new IncorretCodigoAcessoException();
-		}
-		return getClienteId(id);
-	}
+        Cliente cliente = new Cliente(clienteDTO);
 
-	
+        this.clienteRepository.save(cliente);
+
+        return modelMapper.map(cliente, ClienteDTO.class);
+    }
+
+    @Override
+    public ClienteDTO atualizaCliente(Long id, ClienteDTO clienteDTO) throws ClienteNotFoundException, IncorretCodigoAcessoException, senhaInvalidaException {
+        Cliente cliente = getClienteId(id);
+
+        if (!clienteDTO.getCodigoAcesso().equals(cliente.getCodAcesso()))
+            throw new IncorretCodigoAcessoException();
+        else if (clienteDTO.getNovoCodigoAcesso().length() != 6)
+            throw new senhaInvalidaException();
+
+        cliente.setEnderecoPrincipal(clienteDTO.getEnderecoPrincipal());
+        cliente.setNomeCompleto(clienteDTO.getNomeCompleto());
+        cliente.setCodAcesso(clienteDTO.getNovoCodigoAcesso());
+        this.clienteRepository.save(cliente);
+
+        return modelMapper.map(cliente, ClienteDTO.class);
+    }
+
+    @Override
+    public Cliente checkCodAcesso(Long id, String codCliente) throws IncorretCodigoAcessoException, ClienteNotFoundException {
+        if (!getClienteId(id).getCodAcesso().equals(codCliente)) {
+            throw new IncorretCodigoAcessoException();
+        }
+        return getClienteId(id);
+    }
 }
-

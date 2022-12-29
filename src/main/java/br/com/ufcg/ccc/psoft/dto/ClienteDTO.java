@@ -9,7 +9,10 @@ public class ClienteDTO {
     private Long id;
 
     @JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
-    private String codAcesso;
+    private String codigoAcesso;
+
+    @JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
+    private String novoCodigoAcesso;
 
     private String nomeCompleto;
 

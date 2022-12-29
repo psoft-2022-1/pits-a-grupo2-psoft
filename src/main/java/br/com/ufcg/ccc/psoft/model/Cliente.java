@@ -1,5 +1,6 @@
 package br.com.ufcg.ccc.psoft.model;
 
+import br.com.ufcg.ccc.psoft.dto.ClienteDTO;
 import com.sun.istack.NotNull;
 import lombok.Data;
 
@@ -24,10 +25,9 @@ public class Cliente {
 
     public Cliente(){}
 
-    public Cliente(String codAcesso, String nomeCompleto, String enderecoPrincipal){
-        this.codAcesso = codAcesso;
-        this.nomeCompleto = nomeCompleto;
-        this.enderecoPrincipal = enderecoPrincipal;
+    public Cliente(ClienteDTO clienteDTO){
+        this.codAcesso = clienteDTO.getCodigoAcesso();
+        this.nomeCompleto = clienteDTO.getNomeCompleto();
+        this.enderecoPrincipal = clienteDTO.getEnderecoPrincipal();
     }
-
 }
