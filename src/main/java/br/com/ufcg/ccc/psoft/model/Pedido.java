@@ -32,6 +32,9 @@ public class Pedido {
 
 	private String enderecoEntrega;
 
+	//Apagar depois que mergear com o de Andreza
+	private String status;
+
 	private Double valorTotal;
 
 	public Pedido(Cliente cliente, List<ItemDePedido> itensEscolhidos, Pagamento pagamento, String enderecoEntrega, Double valorTotal) {

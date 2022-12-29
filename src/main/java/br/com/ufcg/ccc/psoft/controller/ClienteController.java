@@ -64,8 +64,20 @@ public class ClienteController {
 		}
 	}
 
-	@GetMapping(value = "/cliente/{id}/historicoPedido/status/{status}")
-	public ResponseEntity<?> historicoPedidoCliente(@PathVariable("id") long idCliente, @PathVariable("status") String statusPedido ) {
+	@GetMapping(value = "/cliente/{idCliente}/historicoPedidos/}")
+	public ResponseEntity<?> historicoPedidoCliente(@PathVariable("idCliente") long idCliente ) {
+
+		try {
+			ClienteDTO cliente = clienteService.getClienteById(idCliente);
+			List<Pedido> pedidos = pedidoService.getPedidosByCliente(cliente);
+			return new ResponseEntity<>(pedidos, HttpStatus.OK);
+		} catch (ClienteNotFoundException e) {
+			return ErroCliente.erroClienteNaoEnconrtrado(idCliente);
+		}
+	}
+
+	@GetMapping(value = "/cliente/{idCliente}/historicoPedidos/status/{status}")
+	public ResponseEntity<?> historicoPedidoCliente(@PathVariable("idCliente") long idCliente, @PathVariable("status") String statusPedido ) {
 
 		try {
 			ClienteDTO cliente = clienteService.getClienteById(idCliente);

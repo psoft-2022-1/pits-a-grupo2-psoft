@@ -17,8 +17,10 @@ public interface PedidoService {
 
     public PedidoDTO getPedidoById(Long idPedido) throws PedidoNotFoundException;
 
-    public Pedido getPedidoByClienteById(ClienteDTO cliente, Long idPedido);
+    public Pedido getPedidoByClienteById(ClienteDTO clienteDTO, Long idPedido);
 
-    public List<Pedido> getPedidosByClienteByStatus(ClienteDTO cliente, String Status);
+    public List<Pedido> getPedidosByCliente(ClienteDTO clienteDTO);
+
+    public List<Pedido> getPedidosByClienteByStatus(ClienteDTO clienteDTO, String status);
 
 }

@@ -10,7 +10,8 @@ public interface PedidoRepository extends JpaRepository<Pedido, Long>{
 
     Pedido findPedidoByClienteAndId(Cliente cliente, Long idPedido);
 
-    //colocar status que andreza fizer
-//    List<Pedido> findPedidoByClienteAndStatusAndOrderByIdDesc(Cliente cliente, String status);
+    List<Pedido> findPedidosByClienteOrderByIdDesc(Cliente cliente);
+
+    List<Pedido> findPedidosByClienteAndStatusOrderByIdDesc(Cliente cliente, String status);
 
 }
