@@ -22,4 +22,6 @@ public class PedidoDTO {
 
 	private String enderecoEntrega;
 	
+	private String statusDePedido;
+	
 }

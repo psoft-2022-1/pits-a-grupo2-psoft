@@ -17,4 +17,6 @@ public class ItemDePedidoDTO {
 	
 	private double valor;
 
+
+	
 }

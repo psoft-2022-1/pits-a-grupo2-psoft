@@ -34,6 +34,8 @@ public class Pedido {
 	private String enderecoEntrega;
 
 	private Double valorTotal;
+	
+	private String statusDePedido;
 
 	public Pedido(Cliente cliente, List<ItemDePedido> itensEscolhidos, Pagamento pagamento, String enderecoEntrega, Double valorTotal) {
 		this.cliente = cliente;
@@ -42,4 +44,6 @@ public class Pedido {
 		this.enderecoEntrega = enderecoEntrega;
 		this.valorTotal = valorTotal;
 	}
+
+
 }

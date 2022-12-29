@@ -28,4 +28,5 @@ public class Veiculo {
 		this.corVeiculo = corVeiculo;
 		this.tipoVeiculo = tipoVeiculo;
 	}
+	
 }
