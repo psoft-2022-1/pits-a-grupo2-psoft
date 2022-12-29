@@ -79,7 +79,7 @@ public class EstabelecimentoServiceImpl implements EstabelecimentoService {
     }
 
     @Override
-    public CardapioRequestDTO getCardapio(Long idEstabelecimento) throws EstabelecimentoNotFoundException {
-        return modelMapper.map(getEstabelecimentoById(idEstabelecimento).getCardapio(), CardapioRequestDTO.class);
+    public CardapioResponseDTO getCardapio(Long idEstabelecimento) throws EstabelecimentoNotFoundException {
+        return modelMapper.map(getEstabelecimentoById(idEstabelecimento).getCardapio(), CardapioResponseDTO.class);
     }
 }

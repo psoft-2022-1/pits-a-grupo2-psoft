@@ -1,6 +1,7 @@
 package br.com.ufcg.ccc.psoft.controller;
 
 import br.com.ufcg.ccc.psoft.dto.requests.ClienteRequestDTO;
+import br.com.ufcg.ccc.psoft.dto.responses.ClienteResponseDTO;
 import br.com.ufcg.ccc.psoft.exception.ClienteAlreadyCreatedException;
 import br.com.ufcg.ccc.psoft.exception.ClienteNotFoundException;
 import br.com.ufcg.ccc.psoft.service.ClienteService;
@@ -35,12 +36,12 @@ public class ClienteController {
 	@GetMapping(value = "/clientes")
 	public ResponseEntity<?> listaClientes() {
 		
-		List<ClienteRequestDTO> clientes = clienteService.listaClientes();
+		List<ClienteResponseDTO> clientes = clienteService.listaClientes();
 		if (clientes.isEmpty()) {
 			return ErroCliente.erroSemClientesCadastrados();
 		}
 		
-		return new ResponseEntity<List<ClienteRequestDTO>>(clientes, HttpStatus.OK);
+		return new ResponseEntity<List<ClienteResponseDTO>>(clientes, HttpStatus.OK);
 	}
 	
 	@PostMapping(value = "/cliente/")

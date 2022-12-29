@@ -21,5 +21,5 @@ public interface EstabelecimentoService {
     public EstabelecimentoRequestDTO editarEstabelecimento(Long idEstabelecimento, EstabelecimentoRequestDTO codigoAcesso) throws EstabelecimentoNotFoundException;
 
 
-    public CardapioRequestDTO getCardapio(Long idEstabelecimento) throws EstabelecimentoNotFoundException;
+    public CardapioResponseDTO getCardapio(Long idEstabelecimento) throws EstabelecimentoNotFoundException;
 }

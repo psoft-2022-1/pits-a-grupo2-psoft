@@ -1,6 +1,7 @@
 package br.com.ufcg.ccc.psoft.service;
 
 import br.com.ufcg.ccc.psoft.dto.requests.PedidoRequestDTO;
+import br.com.ufcg.ccc.psoft.dto.responses.PedidoResponseDTO;
 import br.com.ufcg.ccc.psoft.exception.*;
 import br.com.ufcg.ccc.psoft.model.*;
 import br.com.ufcg.ccc.psoft.repository.ClienteRepository;
@@ -19,19 +20,11 @@ public class PedidoServiceImpl implements PedidoService{
     private PedidoRepository pedidoRepository;
 
     @Autowired
-    private SaborService saborService;
-
-    @Autowired
     private ClienteService clienteService;
 
     @Autowired
     private ItemDePedidoService itemDePedidoService;
 
-    @Autowired
-    private PagamentoService pagamentoService;
-
-    @Autowired
-    private ClienteRepository clienteRepository;
     @Autowired
     public ModelMapper modelMapper;
 
@@ -91,9 +84,9 @@ public class PedidoServiceImpl implements PedidoService{
     }
 
 
-    public PedidoRequestDTO getPedidoById(Long id) throws PedidoNotFoundException {
+    public PedidoResponseDTO getPedidoById(Long id) throws PedidoNotFoundException {
         Pedido pedido = getPedidoId(id);
-        return modelMapper.map(pedido, PedidoRequestDTO.class);
+        return modelMapper.map(pedido, PedidoResponseDTO.class);
     }
 
 }

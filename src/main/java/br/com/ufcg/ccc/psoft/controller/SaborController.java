@@ -2,6 +2,7 @@ package br.com.ufcg.ccc.psoft.controller;
 
 import java.util.List;
 
+import br.com.ufcg.ccc.psoft.dto.responses.SaborResponseDTO;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -50,8 +51,8 @@ public class SaborController {
 			@PathVariable("idSabor") long idSabor) {
 
 		try {
-			SaborRequestDTO sabor = saborService.getSaborById(idEstabelecimento, idSabor);
-			return new ResponseEntity<SaborRequestDTO>(sabor, HttpStatus.OK);
+			SaborResponseDTO sabor = saborService.getSaborById(idEstabelecimento, idSabor);
+			return new ResponseEntity<SaborResponseDTO>(sabor, HttpStatus.OK);
 		} catch (SaborNotFoundException e) {
 			return ErroSabor.erroSaborNaoEncontrado(idSabor);
 		} catch (EstabelecimentoNotFoundException e2) {
@@ -90,11 +91,11 @@ public class SaborController {
 	@GetMapping(value = "/estabelecimento/{idEstabelecimento}/cardapio/")
 	public ResponseEntity<?> listarSabores() {
 
-		List<SaborRequestDTO> sabores = saborService.listarSabores();
+		List<SaborResponseDTO> sabores = saborService.listarSabores();
 		if (sabores.isEmpty()) {
 			return ErroSabor.erroSaborNaoEncontrado(0);
 		}
 
-		return new ResponseEntity<List<SaborRequestDTO>>(sabores, HttpStatus.OK);
+		return new ResponseEntity<List<SaborResponseDTO>>(sabores, HttpStatus.OK);
 	}
 }

@@ -3,6 +3,7 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 import br.com.ufcg.ccc.psoft.dto.requests.ClienteRequestDTO;
+import br.com.ufcg.ccc.psoft.dto.responses.ClienteResponseDTO;
 import br.com.ufcg.ccc.psoft.exception.IncorretCodigoAcessoException;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -39,10 +40,10 @@ public class ClienteServiceImpl implements ClienteService{
 	}
 
 	@Override
-	public List<ClienteRequestDTO> listaClientes() {
-		List<ClienteRequestDTO> clientesDTO = this.clienteRepository.findAll()
+	public List<ClienteResponseDTO> listaClientes() {
+		List<ClienteResponseDTO> clientesDTO = this.clienteRepository.findAll()
 				.stream()
-				.map(cliente -> modelMapper.map(cliente, ClienteRequestDTO.class))
+				.map(cliente -> modelMapper.map(cliente, ClienteResponseDTO.class))
 				.collect(Collectors.toList());
 
 		return clientesDTO;

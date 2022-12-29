@@ -1,6 +1,7 @@
 package br.com.ufcg.ccc.psoft.controller;
 
 import br.com.ufcg.ccc.psoft.dto.requests.PedidoRequestDTO;
+import br.com.ufcg.ccc.psoft.dto.responses.PedidoResponseDTO;
 import br.com.ufcg.ccc.psoft.exception.*;
 import br.com.ufcg.ccc.psoft.service.PedidoService;
 import br.com.ufcg.ccc.psoft.service.util.ErroPedido;
@@ -48,8 +49,8 @@ public class PedidoController {
     public ResponseEntity<?> consultarPedido(@PathVariable("idPedido") long idPedido) {
 
         try {
-            PedidoRequestDTO pedido = pedidoService.getPedidoById(idPedido);
-            return new ResponseEntity<PedidoRequestDTO>(pedido, HttpStatus.OK);
+            PedidoResponseDTO pedido = pedidoService.getPedidoById(idPedido);
+            return new ResponseEntity<PedidoResponseDTO>(pedido, HttpStatus.OK);
         } catch (PedidoNotFoundException e) {
             return ErroPedido.erroPedidoNaoEncontrado(idPedido);
         }

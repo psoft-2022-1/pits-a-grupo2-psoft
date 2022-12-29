@@ -1,6 +1,7 @@
 package br.com.ufcg.ccc.psoft.service;
 
 import br.com.ufcg.ccc.psoft.dto.requests.EntregadorRequestDTO;
+import br.com.ufcg.ccc.psoft.dto.responses.EntregadorResponseDTO;
 import br.com.ufcg.ccc.psoft.exception.EntregadorAlreadyCreatedException;
 import br.com.ufcg.ccc.psoft.exception.EntregadorNotFoundException;
 import br.com.ufcg.ccc.psoft.model.Entregador;
@@ -38,10 +39,10 @@ public class EntregadorServiceImpl implements EntregadorService {
         return modelMapper.map(entregador, EntregadorRequestDTO.class);
     }
 
-    public List<EntregadorRequestDTO> listarEntregadores() {
-        List<EntregadorRequestDTO> entregadores = entregadorRepository.findAll()
+    public List<EntregadorResponseDTO> listarEntregadores() {
+        List<EntregadorResponseDTO> entregadores = entregadorRepository.findAll()
                 .stream()
-                .map(entregador -> modelMapper.map(entregador, EntregadorRequestDTO.class))
+                .map(entregador -> modelMapper.map(entregador, EntregadorResponseDTO.class))
                 .collect(Collectors.toList());
         return entregadores;
     }
@@ -69,9 +70,9 @@ public class EntregadorServiceImpl implements EntregadorService {
                 .orElseThrow(() -> new EntregadorNotFoundException());
     }
 
-    public EntregadorRequestDTO getEntregadorById(Long id) throws EntregadorNotFoundException {
+    public EntregadorResponseDTO getEntregadorById(Long id) throws EntregadorNotFoundException {
         Entregador entregador = getEntregadorId(id);
-        return modelMapper.map(entregador, EntregadorRequestDTO.class);
+        return modelMapper.map(entregador, EntregadorResponseDTO.class);
     }
 
     private boolean isEntregadorCadastrado(String nome) {

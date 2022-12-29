@@ -3,6 +3,7 @@ package br.com.ufcg.ccc.psoft.service;
 import java.util.List;
 import java.util.stream.Collectors;
 
+import br.com.ufcg.ccc.psoft.dto.responses.SaborResponseDTO;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -74,11 +75,11 @@ public class SaborServiceImpl implements SaborService {
         }
     }
 
-    public SaborRequestDTO getSaborById(Long idEstabelecimento, Long idSabor)
+    public SaborResponseDTO getSaborById(Long idEstabelecimento, Long idSabor)
             throws SaborNotFoundException, EstabelecimentoNotFoundException {
 
         Sabor sabor = getSaborId(idEstabelecimento, idSabor);
-        return modelMapper.map(sabor, SaborRequestDTO.class);
+        return modelMapper.map(sabor, SaborResponseDTO.class);
     }
 
     private Sabor getSaborId(Long id) throws SaborNotFoundException {
@@ -173,10 +174,10 @@ public class SaborServiceImpl implements SaborService {
         cardapioRepository.save(cardapio);
     }
 
-    public List<SaborRequestDTO> listarSabores() {
-        List<SaborRequestDTO> sabores = saborRepository.findAll()
+    public List<SaborResponseDTO> listarSabores() {
+        List<SaborResponseDTO> sabores = saborRepository.findAll()
                 .stream()
-                .map(sabor -> modelMapper.map(sabor, SaborRequestDTO.class))
+                .map(sabor -> modelMapper.map(sabor, SaborResponseDTO.class))
                 .collect(Collectors.toList());
         return sabores;
     }

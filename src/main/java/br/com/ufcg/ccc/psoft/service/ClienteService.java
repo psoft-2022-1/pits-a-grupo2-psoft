@@ -3,6 +3,7 @@ package br.com.ufcg.ccc.psoft.service;
 import java.util.List;
 
 import br.com.ufcg.ccc.psoft.dto.requests.ClienteRequestDTO;
+import br.com.ufcg.ccc.psoft.dto.responses.ClienteResponseDTO;
 import br.com.ufcg.ccc.psoft.exception.ClienteAlreadyCreatedException;
 import br.com.ufcg.ccc.psoft.exception.ClienteNotFoundException;
 import br.com.ufcg.ccc.psoft.exception.IncorretCodigoAcessoException;
@@ -14,7 +15,7 @@ public interface ClienteService {
 
 	 public void removeClienteCadastrado(Long id) throws ClienteNotFoundException;
 
-	 public List<ClienteRequestDTO> listaClientes();
+	 public List<ClienteResponseDTO> listaClientes();
 
 	 public ClienteRequestDTO criaCliente(ClienteRequestDTO clienteRequestDTO) throws ClienteAlreadyCreatedException;
 
