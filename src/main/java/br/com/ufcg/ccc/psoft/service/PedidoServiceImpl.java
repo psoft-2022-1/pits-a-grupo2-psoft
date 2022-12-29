@@ -116,4 +116,13 @@ public class PedidoServiceImpl implements PedidoService {
 
         return modelMapper.map(pedido, PedidoDTO.class);
     }
+
+    @Override
+    public PedidoDTO finalizarPedido(Long id, PedidoDTO pedidoDTO) throws PedidoNotFoundException {
+        Pedido pedido = getPedidoId(id);
+        pedido.setStatusPedido(StatusPedido.PRONTO);
+        pedidoRepository.save(pedido);
+
+        return modelMapper.map(pedido, PedidoDTO.class);
+    }
 }

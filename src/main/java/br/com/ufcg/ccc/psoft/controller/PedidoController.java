@@ -65,4 +65,14 @@ public class PedidoController {
             throw new RuntimeException(e);
         }
     }
+
+    @PutMapping(value = "/pedido/finalizarPedido/{id}")
+    public ResponseEntity<?> finalizarPedido(@PathVariable("id") long id, @RequestBody PedidoDTO pedidoDTO) {
+        try {
+            PedidoDTO pedido = pedidoService.finalizarPedido(id, pedidoDTO);
+            return new ResponseEntity<>(pedido, HttpStatus.OK);
+        } catch (PedidoNotFoundException e) {
+            throw new RuntimeException(e);
+        }
+    }
 }

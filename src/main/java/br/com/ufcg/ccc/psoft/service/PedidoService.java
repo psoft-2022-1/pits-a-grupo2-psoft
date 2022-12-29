@@ -15,4 +15,6 @@ public interface PedidoService {
 
     PedidoDTO confirmarPedido(Long id, PedidoDTO pedidoDTO) throws PedidoNotFoundException;
 
+    PedidoDTO finalizarPedido(Long id, PedidoDTO pedidoDTO) throws PedidoNotFoundException;
+
 }
