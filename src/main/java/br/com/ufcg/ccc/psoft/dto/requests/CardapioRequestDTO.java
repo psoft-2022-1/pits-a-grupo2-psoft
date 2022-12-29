@@ -11,7 +11,5 @@ import java.util.List;
 @NoArgsConstructor
 public class CardapioRequestDTO {
 
-	private Long id;
-
     private List <SaborRequestDTO> sabores;
 }

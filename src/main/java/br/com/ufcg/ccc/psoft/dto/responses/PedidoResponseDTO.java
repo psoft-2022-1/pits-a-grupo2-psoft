@@ -1,14 +1,14 @@
-package br.com.ufcg.ccc.psoft.dto.requests;
-
-import java.util.List;
+package br.com.ufcg.ccc.psoft.dto.responses;
 
 import br.com.ufcg.ccc.psoft.model.ItemDePedido;
 import lombok.Data;
 
-@Data
-public class PedidoRequestDTO {
+import java.util.List;
 
-   	private String codCliente;
+@Data
+public class PedidoResponseDTO {
+
+	private Long id;
 
 	private List <ItemDePedido> itensEscolhidos;
    	

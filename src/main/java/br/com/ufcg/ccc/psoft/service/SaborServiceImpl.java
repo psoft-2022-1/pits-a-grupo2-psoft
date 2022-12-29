@@ -35,14 +35,13 @@ public class SaborServiceImpl implements SaborService {
 
     public SaborRequestDTO criarSabor(Long idEstabelecimento, SaborRequestDTO saborRequestDTO)
             throws SaborAlreadyCreatedException, EstabelecimentoNotFoundException {
-        if (isSaborCadastrado(saborRequestDTO.getId())) {
+        if (isSaborCadastrado(saborRequestDTO.getNomeSabor())) {
             throw new SaborAlreadyCreatedException();
         }
 
         Sabor sabor = new Sabor(saborRequestDTO.getNomeSabor(), saborRequestDTO.getTipo(), saborRequestDTO.getValorMedio(),
                 saborRequestDTO.getValorGrande());
 
-        // e necessario salvar no repositorio de sabor e em cardapio
         salvarSabor(sabor);
         salvarSaborNoCardapio(idEstabelecimento, sabor);
 
@@ -66,9 +65,9 @@ public class SaborServiceImpl implements SaborService {
 
     }
 
-    private boolean isSaborCadastrado(Long id) {
+    private boolean isSaborCadastrado(String nomeSabor) {
         try {
-            saborRepository.findById(id).orElseThrow(() -> new SaborNotFoundException());
+            saborRepository.findByNomeSabor(nomeSabor).orElseThrow(() -> new SaborNotFoundException());
             return true;
         } catch (SaborNotFoundException e) {
             return false;

@@ -20,8 +20,8 @@ import br.com.ufcg.ccc.psoft.exception.EstabelecimentoNotFoundException;
 import br.com.ufcg.ccc.psoft.exception.SaborAlreadyCreatedException;
 import br.com.ufcg.ccc.psoft.exception.SaborNotFoundException;
 import br.com.ufcg.ccc.psoft.service.SaborService;
-import br.com.ufcg.ccc.psoft.util.ErroEstabelecimento;
-import br.com.ufcg.ccc.psoft.util.ErroSabor;
+import br.com.ufcg.ccc.psoft.service.util.ErroEstabelecimento;
+import br.com.ufcg.ccc.psoft.service.util.ErroSabor;
 
 @RestController
 @RequestMapping("/api")

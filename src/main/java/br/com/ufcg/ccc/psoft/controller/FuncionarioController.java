@@ -5,7 +5,7 @@ import br.com.ufcg.ccc.psoft.dto.requests.EntregadorRequestDTO;
 import br.com.ufcg.ccc.psoft.dto.requests.FuncionarioRequestDTO;
 import br.com.ufcg.ccc.psoft.exception.*;
 import br.com.ufcg.ccc.psoft.service.FuncionarioService;
-import br.com.ufcg.ccc.psoft.util.ErroFuncionario;
+import br.com.ufcg.ccc.psoft.service.util.ErroFuncionario;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -40,7 +40,7 @@ public class FuncionarioController {
             return ErroFuncionario.erroFuncionarioNaoEncontrado();
         }
     }
-    @PutMapping(value = "/avaliar-entregador/")
+    @PutMapping(value = "/estabelecimento/funcionario/avaliar-entregador/")
     public ResponseEntity<?> avaliarEntregador(@RequestBody AnalisarEntregadorRequestDTO analisarEntregadorRequestDTO) {
         try {
             EntregadorRequestDTO entregadorRequestDTO = funcionarioService.analisarEntregador(analisarEntregadorRequestDTO);

@@ -6,8 +6,6 @@ import lombok.Data;
 @Data
 public class ClienteRequestDTO {
 
-    private Long id;
-
     private String codAcesso;
 
     private String nomeCompleto;

@@ -1,4 +1,4 @@
-package br.com.ufcg.ccc.psoft.util;
+package br.com.ufcg.ccc.psoft.service.util;
 
 import br.com.ufcg.ccc.psoft.dto.requests.EntregadorRequestDTO;
 import org.springframework.http.HttpStatus;

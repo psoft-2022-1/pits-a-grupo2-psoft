@@ -5,8 +5,6 @@ import lombok.Data;
 @Data
 public class FuncionarioRequestDTO {
 
-	private Long id;
-
 	private String nomeCompleto;
 
 	private String codigoAcesso;

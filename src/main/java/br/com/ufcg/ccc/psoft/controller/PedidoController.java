@@ -3,7 +3,7 @@ package br.com.ufcg.ccc.psoft.controller;
 import br.com.ufcg.ccc.psoft.dto.requests.PedidoRequestDTO;
 import br.com.ufcg.ccc.psoft.exception.*;
 import br.com.ufcg.ccc.psoft.service.PedidoService;
-import br.com.ufcg.ccc.psoft.util.ErroPedido;
+import br.com.ufcg.ccc.psoft.service.util.ErroPedido;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;

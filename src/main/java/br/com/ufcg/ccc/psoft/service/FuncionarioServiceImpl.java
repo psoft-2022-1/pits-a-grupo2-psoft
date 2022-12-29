@@ -2,7 +2,7 @@ package br.com.ufcg.ccc.psoft.service;
 
 import br.com.ufcg.ccc.psoft.dto.requests.AnalisarEntregadorRequestDTO;
 import br.com.ufcg.ccc.psoft.dto.requests.EntregadorRequestDTO;
-import br.com.ufcg.ccc.psoft.dto.requests.EstabelecimentoDTO;
+import br.com.ufcg.ccc.psoft.dto.requests.EstabelecimentoRequestDTO;
 import br.com.ufcg.ccc.psoft.dto.requests.FuncionarioRequestDTO;
 import br.com.ufcg.ccc.psoft.exception.*;
 import br.com.ufcg.ccc.psoft.model.Entregador;
@@ -30,7 +30,7 @@ public class FuncionarioServiceImpl implements FuncionarioService {
     public ModelMapper modelMapper;
 
     public EntregadorRequestDTO analisarEntregador(AnalisarEntregadorRequestDTO analisarEntregadorRequestDTO) throws EntregadorNotFoundException, EstabelecimentoNotFoundException, FuncionarioNotFoundException, IncorretCodigoAcessoException {
-        EstabelecimentoDTO estabelecimentoDTO = estabelecimentoService.getById(analisarEntregadorRequestDTO.getIdEstabelecimento());
+        EstabelecimentoRequestDTO estabelecimentoDTO = estabelecimentoService.getById(analisarEntregadorRequestDTO.getIdEstabelecimento());
         FuncionarioRequestDTO funcionarioRequestDTO = getById(analisarEntregadorRequestDTO.getIdFuncionario());
 
         if(!estabelecimentoDTO.getCodigoAcesso().equals(analisarEntregadorRequestDTO.getCodEstabelecimento())){
@@ -73,19 +73,8 @@ public class FuncionarioServiceImpl implements FuncionarioService {
         Funcionario funcionario = getFuncionarioId(id);
         return modelMapper.map(funcionario, FuncionarioRequestDTO.class);
     }
-    private boolean isFuncionarioCadastrado(Long id) {
-        try {
-            getFuncionarioById(id);
-            return true;
-        } catch (FuncionarioNotFoundException e) {
-            return false;
-        }
-    }
     @Override
     public FuncionarioRequestDTO criaFuncionario(FuncionarioRequestDTO funcionarioRequestDTO) throws FuncionarioAlreadyCreatedException {
-        if(isFuncionarioCadastrado(funcionarioRequestDTO.getId())){
-            throw new FuncionarioAlreadyCreatedException();
-        }
         Funcionario funcionario = new Funcionario(funcionarioRequestDTO.getNomeCompleto(), funcionarioRequestDTO.getCodigoAcesso());
 
         this.funcionarioRepository.save(funcionario);

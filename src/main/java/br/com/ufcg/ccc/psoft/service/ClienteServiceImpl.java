@@ -50,24 +50,12 @@ public class ClienteServiceImpl implements ClienteService{
 
 	@Override
 	public ClienteRequestDTO criaCliente(ClienteRequestDTO clienteRequestDTO) throws ClienteAlreadyCreatedException {
-		if(isClienteCadastrado(clienteRequestDTO.getId())){
-			throw new ClienteAlreadyCreatedException();
-		}
 		Cliente cliente = new Cliente(clienteRequestDTO.getCodAcesso(), clienteRequestDTO.getNomeCompleto(),
 				clienteRequestDTO.getEnderecoPrincipal());
 
 		this.clienteRepository.save(cliente);
 
 		return modelMapper.map(cliente, ClienteRequestDTO.class);
-	}
-
-	private boolean isClienteCadastrado(Long id) {
-		try {
-			getClienteById(id);
-			return true;
-		} catch (ClienteNotFoundException e) {
-			return false;
-		}
 	}
 
 	@Override

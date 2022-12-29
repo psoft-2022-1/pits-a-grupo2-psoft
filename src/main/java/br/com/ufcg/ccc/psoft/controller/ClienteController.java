@@ -4,7 +4,7 @@ import br.com.ufcg.ccc.psoft.dto.requests.ClienteRequestDTO;
 import br.com.ufcg.ccc.psoft.exception.ClienteAlreadyCreatedException;
 import br.com.ufcg.ccc.psoft.exception.ClienteNotFoundException;
 import br.com.ufcg.ccc.psoft.service.ClienteService;
-import br.com.ufcg.ccc.psoft.util.ErroCliente;
+import br.com.ufcg.ccc.psoft.service.util.ErroCliente;
 
 import java.util.List;
 
