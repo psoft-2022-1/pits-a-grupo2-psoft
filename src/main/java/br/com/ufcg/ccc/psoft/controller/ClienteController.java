@@ -70,6 +70,9 @@ public class ClienteController {
 		try {
 			ClienteDTO cliente = clienteService.getClienteById(idCliente);
 			List<Pedido> pedidos = pedidoService.getPedidosByCliente(cliente);
+			if (pedidos.isEmpty()) {
+				return ErroPedido.erroClientesSemPedidos(cliente.getNomeCompleto());
+			}
 			return new ResponseEntity<>(pedidos, HttpStatus.OK);
 		} catch (ClienteNotFoundException e) {
 			return ErroCliente.erroClienteNaoEnconrtrado(idCliente);
@@ -82,6 +85,9 @@ public class ClienteController {
 		try {
 			ClienteDTO cliente = clienteService.getClienteById(idCliente);
 			List<Pedido> pedidos = pedidoService.getPedidosByClienteByStatus(cliente, statusPedido);
+			if (pedidos.isEmpty()) {
+				return ErroPedido.erroClientesSemPedidosStatus(cliente.getNomeCompleto(), statusPedido);
+			}
 			return new ResponseEntity<>(pedidos, HttpStatus.OK);
 		} catch (ClienteNotFoundException e) {
 			return ErroCliente.erroClienteNaoEnconrtrado(idCliente);
