@@ -1,7 +1,6 @@
 package br.com.ufcg.ccc.psoft.controller;
 
 import br.com.ufcg.ccc.psoft.dto.requests.AnalisarEntregadorRequestDTO;
-import br.com.ufcg.ccc.psoft.dto.requests.EntregadorRequestDTO;
 import br.com.ufcg.ccc.psoft.dto.requests.FuncionarioRequestDTO;
 import br.com.ufcg.ccc.psoft.dto.responses.EntregadorResponseDTO;
 import br.com.ufcg.ccc.psoft.dto.responses.FuncionarioResponseDTO;
