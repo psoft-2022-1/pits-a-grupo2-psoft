@@ -12,6 +12,8 @@ public class EntregadorResponseDTO {
 
 	private Veiculo veiculo;
 
+	private String status;
+
 	private String statusEstabelecimento;
 
 }
