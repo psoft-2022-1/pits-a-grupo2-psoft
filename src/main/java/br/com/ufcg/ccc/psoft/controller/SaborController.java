@@ -2,6 +2,7 @@ package br.com.ufcg.ccc.psoft.controller;
 
 import java.util.List;
 
+import br.com.ufcg.ccc.psoft.dto.responses.SaborResponseDTO;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -36,13 +37,13 @@ public class SaborController {
 
 	@PostMapping(value = "estabelecimento/{idEstabelecimento}/cardapio/sabor/")
 	public ResponseEntity<?> criarSabor(@PathVariable("idEstabelecimento") long idEstabelecimento,
-			@RequestBody SaborDTO saborDTO) {
+			@RequestBody SaborRequestDTO saborRequestDTO) {
 
 		try {
-			SaborDTO sabor = saborService.criarSabor(idEstabelecimento, saborDTO);
-			return new ResponseEntity<SaborDTO>(sabor, HttpStatus.CREATED);
+			SaborRequestDTO sabor = saborService.criarSabor(idEstabelecimento, saborRequestDTO);
+			return new ResponseEntity<SaborRequestDTO>(sabor, HttpStatus.CREATED);
 		} catch (SaborAlreadyCreatedException e) {
-			return ErroSabor.erroSaborJaCadastrado(saborDTO);
+			return ErroSabor.erroSaborJaCadastrado(saborRequestDTO);
 		} catch (EstabelecimentoNotFoundException e2) {
 			return ErroEstabelecimento.erroEstabelecimentoNaoEncontrado(idEstabelecimento);
 		}
@@ -53,8 +54,8 @@ public class SaborController {
 			@PathVariable("idSabor") long idSabor) {
 
 		try {
-			SaborDTO sabor = saborService.getSaborById(idEstabelecimento, idSabor);
-			return new ResponseEntity<SaborDTO>(sabor, HttpStatus.OK);
+			SaborResponseDTO sabor = saborService.getSaborById(idEstabelecimento, idSabor);
+			return new ResponseEntity<SaborResponseDTO>(sabor, HttpStatus.OK);
 		} catch (SaborNotFoundException e) {
 			return ErroSabor.erroSaborNaoEncontrado(idSabor);
 		} catch (EstabelecimentoNotFoundException e2) {
@@ -64,11 +65,11 @@ public class SaborController {
 
 	@PutMapping(value = "estabelecimento/{idEstabelecimento}/cardapio/sabor/{idSabor}")
 	public ResponseEntity<?> atualizarSabor(@PathVariable("idEstabelecimento") long idEstabelecimento,
-			@PathVariable("idSabor") long idSabor, @RequestBody SaborDTO saborDTO) {
+			@PathVariable("idSabor") long idSabor, @RequestBody SaborRequestDTO saborRequestDTO) {
 
 		try {
-			SaborDTO sabor = saborService.atualizarSabor(idEstabelecimento, idSabor, saborDTO);
-			return new ResponseEntity<SaborDTO>(sabor, HttpStatus.OK);
+			SaborRequestDTO sabor = saborService.atualizarSabor(idEstabelecimento, idSabor, saborRequestDTO);
+			return new ResponseEntity<SaborRequestDTO>(sabor, HttpStatus.OK);
 		} catch (SaborNotFoundException e) {
 			return ErroSabor.erroSaborNaoEncontrado(idSabor);
 		} catch (EstabelecimentoNotFoundException e2) {
@@ -93,12 +94,12 @@ public class SaborController {
 	@GetMapping(value = "/estabelecimento/{idEstabelecimento}/cardapio/sabores/")
 	public ResponseEntity<?> listarSabores() {
 
-		List<SaborDTO> sabores = saborService.listarSabores();
+		List<SaborResponseDTO> sabores = saborService.listarSabores();
 		if (sabores.isEmpty()) {
 			return ErroSabor.erroSaborNaoEncontrado(0);
 		}
 
-		return new ResponseEntity<List<SaborDTO>>(sabores, HttpStatus.OK);
+		return new ResponseEntity<List<SaborResponseDTO>>(sabores, HttpStatus.OK);
 	}
 	
 	@PutMapping(value = "estabelecimento/{idEstabelecimento}/cardapio/sabor/{idSabor}/disponibilidade/")

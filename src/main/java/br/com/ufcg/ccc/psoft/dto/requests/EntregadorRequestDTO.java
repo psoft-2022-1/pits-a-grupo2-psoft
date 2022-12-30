@@ -1,13 +1,11 @@
-package br.com.ufcg.ccc.psoft.dto;
+package br.com.ufcg.ccc.psoft.dto.requests;
 
 import br.com.ufcg.ccc.psoft.model.Veiculo;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.Data;
 
 @Data
-public class EntregadorDTO {
-
-	private Long id;
+public class EntregadorRequestDTO {
 
 	private String nomeCompleto;
 
@@ -15,7 +13,6 @@ public class EntregadorDTO {
 
 	private String statusEstabelecimento;
 
-	@JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
 	private String codigoAcesso;
 
 }

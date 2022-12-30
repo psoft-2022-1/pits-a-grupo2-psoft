@@ -1,9 +1,9 @@
-package br.com.ufcg.ccc.psoft.dto;
+package br.com.ufcg.ccc.psoft.dto.responses;
 
 import lombok.Data;
 
 @Data
-public class PagamentoDTO {
+public class PagamentoResponseDTO {
 
 	private Long id;
 

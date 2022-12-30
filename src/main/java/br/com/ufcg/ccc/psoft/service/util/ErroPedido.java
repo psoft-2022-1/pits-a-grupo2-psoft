@@ -1,4 +1,4 @@
-package br.com.ufcg.ccc.psoft.util;
+package br.com.ufcg.ccc.psoft.service.util;
 
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;

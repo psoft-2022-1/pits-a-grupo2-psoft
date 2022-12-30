@@ -1,16 +1,12 @@
 package br.com.ufcg.ccc.psoft.service;
 
-import java.util.Optional;
-
-import org.modelmapper.ModelMapper;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Service;
-
-import br.com.ufcg.ccc.psoft.dto.CardapioDTO;
-import br.com.ufcg.ccc.psoft.dto.EstabelecimentoDTO;
+import br.com.ufcg.ccc.psoft.dto.requests.CardapioRequestDTO;
+import br.com.ufcg.ccc.psoft.dto.requests.EstabelecimentoRequestDTO;
+import br.com.ufcg.ccc.psoft.dto.responses.CardapioResponseDTO;
 import br.com.ufcg.ccc.psoft.exception.CardapioNotFoundException;
 import br.com.ufcg.ccc.psoft.exception.EstabelecimentoNotFoundException;
 import br.com.ufcg.ccc.psoft.exception.IncorretCodigoAcessoException;
+import br.com.ufcg.ccc.psoft.exception.InvalidCodigoAcessoException;
 import br.com.ufcg.ccc.psoft.model.Estabelecimento;
 import br.com.ufcg.ccc.psoft.repository.EstabelecimentoRepository;
 
@@ -27,13 +23,13 @@ public class EstabelecimentoServiceImpl implements EstabelecimentoService {
     public ModelMapper modelMapper;
 
     @Override
-    public EstabelecimentoDTO getById(Long idEstabelecimento) throws EstabelecimentoNotFoundException {
+    public EstabelecimentoRequestDTO getById(Long idEstabelecimento) throws EstabelecimentoNotFoundException {
         Estabelecimento estabelecimento = getEstabelecimentoById(idEstabelecimento);
-        return modelMapper.map(estabelecimento, EstabelecimentoDTO.class);
+        return modelMapper.map(estabelecimento, EstabelecimentoRequestDTO.class);
     }
 
     @Override
-    public boolean checkCodAcesso(EstabelecimentoDTO estabelecimentoDTO, String codEstabelecimento) throws IncorretCodigoAcessoException {
+    public boolean checkCodAcesso(EstabelecimentoRequestDTO estabelecimentoDTO, String codEstabelecimento) throws IncorretCodigoAcessoException {
         if (!estabelecimentoDTO.getCodigoAcesso().equals(codEstabelecimento)) {
             throw new IncorretCodigoAcessoException();
         }
@@ -54,32 +50,34 @@ public class EstabelecimentoServiceImpl implements EstabelecimentoService {
     }
 
     @Override
-    public CardapioDTO consultaCarcapioPorSabor(Long idEstabelecimento, String tipoSabor) throws EstabelecimentoNotFoundException, CardapioNotFoundException {
+    public CardapioResponseDTO consultaCarcapioPorSabor(Long idEstabelecimento, String tipoSabor) throws EstabelecimentoNotFoundException, CardapioNotFoundException {
         Long idCardapio = getEstabelecimentoPorId(idEstabelecimento).getCardapio().getId();
         return cardapioService.consultaCardapioPorSabor(idCardapio, tipoSabor);
     }
 
     @Override
-    public EstabelecimentoDTO criarEstabelecimento(String codigoAcesso) {
-
-        Estabelecimento estabelecimento = new Estabelecimento(codigoAcesso);
+    public EstabelecimentoRequestDTO criarEstabelecimento(EstabelecimentoRequestDTO estabelecimentoDTO) throws InvalidCodigoAcessoException {
+        if(estabelecimentoDTO.getCodigoAcesso().length() != 6){
+            throw new InvalidCodigoAcessoException();
+        }
+        Estabelecimento estabelecimento = new Estabelecimento(estabelecimentoDTO.getCodigoAcesso());
 
         estabelecimentoRepository.save(estabelecimento);
-        return modelMapper.map(estabelecimento, EstabelecimentoDTO.class);
+        return modelMapper.map(estabelecimento, EstabelecimentoRequestDTO.class);
     }
 
     @Override
-    public EstabelecimentoDTO editarEstabelecimento(Long idEstabelecimento, EstabelecimentoDTO estabelecimentoDTO) throws EstabelecimentoNotFoundException {
+    public EstabelecimentoRequestDTO editarEstabelecimento(Long idEstabelecimento, EstabelecimentoRequestDTO estabelecimentoDTO) throws EstabelecimentoNotFoundException {
         Optional<Estabelecimento> estabelecimento = estabelecimentoRepository.findById(idEstabelecimento);
         if(estabelecimento.isEmpty())
             throw new EstabelecimentoNotFoundException();
         estabelecimento.get().setCodigoAcesso(estabelecimentoDTO.getCodigoAcesso());
 
-        return modelMapper.map(estabelecimentoRepository.save(estabelecimento.get()), EstabelecimentoDTO.class);
+        return modelMapper.map(estabelecimentoRepository.save(estabelecimento.get()), EstabelecimentoRequestDTO.class);
     }
 
     @Override
-    public CardapioDTO getCardapio(Long idEstabelecimento) throws EstabelecimentoNotFoundException {
-        return modelMapper.map(getEstabelecimentoById(idEstabelecimento).getCardapio(), CardapioDTO.class);
+    public CardapioResponseDTO getCardapio(Long idEstabelecimento) throws EstabelecimentoNotFoundException {
+        return modelMapper.map(getEstabelecimentoById(idEstabelecimento).getCardapio(), CardapioResponseDTO.class);
     }
 }

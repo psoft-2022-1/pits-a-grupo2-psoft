@@ -1,9 +1,9 @@
-package br.com.ufcg.ccc.psoft.util;
+package br.com.ufcg.ccc.psoft.service.util;
 
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 
-import br.com.ufcg.ccc.psoft.dto.ClienteDTO;
+import br.com.ufcg.ccc.psoft.dto.requests.ClienteRequestDTO;
 
 public class ErroCliente {
 
@@ -16,6 +16,8 @@ static final String CLIENTE_NAO_CASTRADO = "Cliente com id %s não está cadastr
 
 	static final String CLIENTE_JA_CADASTRADO = "O cliente nome %s já esta cadastrado com o enderecoPrincipal %s";
 
+	static final String CODIGO_ACESSO_INVALIDO = "O código de acesso deve possuir 6 dígitos.";
+
 	
 	public static ResponseEntity<CustomErrorType> erroClienteNaoEnconrtrado(long id) {
 		return new ResponseEntity<CustomErrorType>(new CustomErrorType(String.format(ErroCliente.CLIENTE_NAO_CASTRADO, id)),
@@ -27,8 +29,13 @@ static final String CLIENTE_NAO_CASTRADO = "Cliente com id %s não está cadastr
 				HttpStatus.NO_CONTENT);
 	}
 
-	public static ResponseEntity<?> erroClienteJaCadastrado(ClienteDTO clienteDTO) {
+	public static ResponseEntity<CustomErrorType> erroCodigoAcessoInvalido() {
+		return new ResponseEntity<CustomErrorType>(new CustomErrorType(ErroCliente.CODIGO_ACESSO_INVALIDO),
+				HttpStatus.NOT_ACCEPTABLE);
+	}
+
+	public static ResponseEntity<?> erroClienteJaCadastrado(ClienteRequestDTO clienteRequestDTO) {
 		return new ResponseEntity<CustomErrorType>(new CustomErrorType(String.format(ErroCliente.CLIENTE_JA_CADASTRADO,
-				clienteDTO.getNomeCompleto(), clienteDTO.getEnderecoPrincipal())), HttpStatus.CONFLICT);
+				clienteRequestDTO.getNomeCompleto(), clienteRequestDTO.getEnderecoPrincipal())), HttpStatus.CONFLICT);
 	}
 }

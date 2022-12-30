@@ -1,4 +1,4 @@
-package br.com.ufcg.ccc.psoft.util;
+package br.com.ufcg.ccc.psoft.service.util;
 
 public class CustomErrorType {
 

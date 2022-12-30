@@ -1,21 +1,21 @@
-package br.com.ufcg.ccc.psoft.dto;
-
-import java.util.Map;
+package br.com.ufcg.ccc.psoft.dto.responses;
 
 import br.com.ufcg.ccc.psoft.model.Sabor;
+import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
 @Data
 @NoArgsConstructor
-public class SaborDTO {
+@AllArgsConstructor
+public class SaborResponseDTO {
 
 	private Long id;
 
 	private String nomeSabor;
 
-	private String tipo; 
-	
+	private String tipo;
+
 	private Double valorMedio;
 
 	private Double valorGrande;

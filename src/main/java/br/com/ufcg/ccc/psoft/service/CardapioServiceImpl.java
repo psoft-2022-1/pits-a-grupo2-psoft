@@ -21,7 +21,7 @@ public class CardapioServiceImpl implements CardapioService {
     CardapioRepository cardapioRepository;
 
     @Override
-    public CardapioDTO consultaCardapioPorSabor(Long idCardapio, String tipoSabor) throws CardapioNotFoundException {
+    public CardapioResponseDTO consultaCardapioPorSabor(Long idCardapio, String tipoSabor) throws CardapioNotFoundException {
         Optional<Cardapio> opCardapio = cardapioRepository.findById(idCardapio);
         if (opCardapio.isEmpty())
             throw new CardapioNotFoundException();
