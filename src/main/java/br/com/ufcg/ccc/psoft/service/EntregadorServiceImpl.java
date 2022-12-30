@@ -27,7 +27,7 @@ public class EntregadorServiceImpl implements EntregadorService {
     @Autowired
     public ModelMapper modelMapper;
 
-    public EntregadorRequestDTO criaEntregador(EntregadorRequestDTO entregadorRequestDTO) throws EntregadorAlreadyCreatedException, InvalidCodigoAcessoException {
+    public EntregadorResponseDTO criaEntregador(EntregadorRequestDTO entregadorRequestDTO) throws EntregadorAlreadyCreatedException, InvalidCodigoAcessoException {
         if(entregadorRequestDTO.getCodigoAcesso().length() != 6){
             throw new InvalidCodigoAcessoException();
         }
@@ -36,11 +36,12 @@ public class EntregadorServiceImpl implements EntregadorService {
             throw new EntregadorAlreadyCreatedException();
         }
 
-        Veiculo veiculo = salvarVeiculoEntregador(entregadorRequestDTO.getVeiculo());
-        Entregador entregador = new Entregador(entregadorRequestDTO.getNomeCompleto(), veiculo, entregadorRequestDTO.getStatusEstabelecimento(), entregadorRequestDTO.getCodigoAcesso());
+        Veiculo veiculo = new Veiculo(entregadorRequestDTO.getVeiculo().getPlacaVeiculo(), entregadorRequestDTO.getVeiculo().getCorVeiculo(), entregadorRequestDTO.getVeiculo().getTipoVeiculo());
+        salvarVeiculoEntregador(veiculo);
+        Entregador entregador = new Entregador(entregadorRequestDTO.getNomeCompleto(), veiculo, "Sob análise", entregadorRequestDTO.getCodigoAcesso());
         salvarEntregadorCadastrado(entregador);
 
-        return modelMapper.map(entregador, EntregadorRequestDTO.class);
+        return modelMapper.map(entregador, EntregadorResponseDTO.class);
     }
 
     public List<EntregadorResponseDTO> listarEntregadores() {
@@ -61,9 +62,10 @@ public class EntregadorServiceImpl implements EntregadorService {
         Entregador entregador = getEntregadorId(id);
 
         entregador.setNomeCompleto(entregadorRequestDTO.getNomeCompleto());
-        entregador.setStatusEstabelecimento(entregadorRequestDTO.getStatusEstabelecimento());
         entregador.setCodigoAcesso(entregadorRequestDTO.getCodigoAcesso());
-        entregador.setVeiculo(entregadorRequestDTO.getVeiculo());
+        entregador.getVeiculo().setCorVeiculo(entregadorRequestDTO.getVeiculo().getCorVeiculo());
+        entregador.getVeiculo().setPlacaVeiculo(entregadorRequestDTO.getVeiculo().getPlacaVeiculo());
+        entregador.getVeiculo().setTipoVeiculo(entregadorRequestDTO.getVeiculo().getTipoVeiculo());
         salvarEntregadorCadastrado(entregador);
 
         return modelMapper.map(entregador, EntregadorRequestDTO.class);

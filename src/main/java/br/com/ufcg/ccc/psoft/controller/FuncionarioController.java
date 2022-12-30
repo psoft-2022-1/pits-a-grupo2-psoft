@@ -3,8 +3,11 @@ package br.com.ufcg.ccc.psoft.controller;
 import br.com.ufcg.ccc.psoft.dto.requests.AnalisarEntregadorRequestDTO;
 import br.com.ufcg.ccc.psoft.dto.requests.EntregadorRequestDTO;
 import br.com.ufcg.ccc.psoft.dto.requests.FuncionarioRequestDTO;
+import br.com.ufcg.ccc.psoft.dto.responses.FuncionarioResponseDTO;
 import br.com.ufcg.ccc.psoft.exception.*;
 import br.com.ufcg.ccc.psoft.service.FuncionarioService;
+import br.com.ufcg.ccc.psoft.service.util.ErroEntregador;
+import br.com.ufcg.ccc.psoft.service.util.ErroEstabelecimento;
 import br.com.ufcg.ccc.psoft.service.util.ErroFuncionario;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -23,7 +26,7 @@ public class FuncionarioController {
     public ResponseEntity<?> criarFuncionario(@RequestBody FuncionarioRequestDTO funcionarioRequestDTO){
 
         try {
-            FuncionarioRequestDTO funcionario = funcionarioService.criaFuncionario(funcionarioRequestDTO);
+            FuncionarioResponseDTO funcionario = funcionarioService.criaFuncionario(funcionarioRequestDTO);
             return new ResponseEntity<>(funcionario, HttpStatus.CREATED);
         } catch (FuncionarioAlreadyCreatedException e) {
             return ErroFuncionario.erroFuncionarioJaCadastrado(funcionarioRequestDTO);
@@ -52,9 +55,9 @@ public class FuncionarioController {
         } catch (FuncionarioNotFoundException e) {
             return ErroFuncionario.erroFuncionarioNaoEncontrado();
         } catch (IncorretCodigoAcessoException e) {
-            throw new RuntimeException(e);
+            return ErroEstabelecimento.erroCodigoAcessoIncorreto();
         } catch (EntregadorNotFoundException e) {
-            throw new RuntimeException(e);
+            return ErroEntregador.erroEntregadorNaoEncontrado(analisarEntregadorRequestDTO.getIdEntregador());
         }
     }
 }

@@ -9,9 +9,7 @@ public class EntregadorRequestDTO {
 
 	private String nomeCompleto;
 
-	private Veiculo veiculo;
-
-	private String statusEstabelecimento;
+	private VeiculoRequestDTO veiculo;
 
 	private String codigoAcesso;
 
