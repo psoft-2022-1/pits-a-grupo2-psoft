@@ -33,11 +33,7 @@ public class SaborServiceImpl implements SaborService {
     @Autowired
     public ModelMapper modelMapper;
 
-    public SaborDTO criarSabor(Long idEstabelecimento, SaborDTO saborDTO)
-            throws SaborAlreadyCreatedException, EstabelecimentoNotFoundException {
-        if (isSaborCadastrado(saborDTO.getId())) {
-            throw new SaborAlreadyCreatedException();
-        }
+    public SaborDTO criarSabor(Long idEstabelecimento, SaborDTO saborDTO) throws EstabelecimentoNotFoundException {
 
         Sabor sabor = new Sabor(saborDTO.getNomeSabor(), saborDTO.getTipo(), saborDTO.getValorMedio(),
                 saborDTO.getValorGrande());
