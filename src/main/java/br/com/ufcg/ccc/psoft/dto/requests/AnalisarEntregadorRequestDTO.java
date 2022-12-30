@@ -16,4 +16,5 @@ public class AnalisarEntregadorRequestDTO {
     private Long idEntregador;
 
     private String status;
+    
 }

@@ -36,6 +36,8 @@ public class Pedido {
 	private String enderecoEntrega;
 
 	private Double valorTotal;
+	
+	private String statusDePedido;
 
 	@Enumerated(value = EnumType.STRING)
 	private StatusPedido statusPedido;
@@ -59,4 +61,6 @@ public class Pedido {
 			+ "Nome: " + entregador.getNomeCompleto()
 			+ entregador.getVeiculo().toString());
 	}
+
+
 }

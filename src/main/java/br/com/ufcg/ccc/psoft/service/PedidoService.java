@@ -2,6 +2,7 @@ package br.com.ufcg.ccc.psoft.service;
 
 import br.com.ufcg.ccc.psoft.dto.requests.PedidoRequestDTO;
 import br.com.ufcg.ccc.psoft.dto.responses.PedidoResponseDTO;
+import br.com.ufcg.ccc.psoft.dto.responses.PedidoResponseDTO;
 import br.com.ufcg.ccc.psoft.exception.*;
 
 public interface PedidoService {
@@ -17,5 +18,9 @@ public interface PedidoService {
     PedidoResponseDTO confirmarPedido(Long id, PedidoRequestDTO pedidoRequestDTO) throws PedidoNotFoundException;
 
     PedidoResponseDTO finalizarPedido(Long id, PedidoRequestDTO pedidoRequestDTO) throws PedidoNotFoundException;
+
+	public PedidoResponseDTO confirmaPedido(Long idPedido, Long idCliente)throws PedidoNotFoundException, PedidoNaoPertenceAEsseClienteException;
+
+	public void cancelaPedido(Long idPedido, Long idCliente) throws PedidoNotFoundException, PedidoJaEstaProntoException, PedidoNaoPertenceAEsseClienteException;
 
 }

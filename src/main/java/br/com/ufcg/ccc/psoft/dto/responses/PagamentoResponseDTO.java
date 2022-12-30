@@ -11,4 +11,5 @@ public class PagamentoResponseDTO {
 
 	private double valor;
 
+	
 }

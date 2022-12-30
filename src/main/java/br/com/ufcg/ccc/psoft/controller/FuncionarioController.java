@@ -3,6 +3,7 @@ package br.com.ufcg.ccc.psoft.controller;
 import br.com.ufcg.ccc.psoft.dto.requests.AnalisarEntregadorRequestDTO;
 import br.com.ufcg.ccc.psoft.dto.requests.EntregadorRequestDTO;
 import br.com.ufcg.ccc.psoft.dto.requests.FuncionarioRequestDTO;
+import br.com.ufcg.ccc.psoft.dto.responses.EntregadorResponseDTO;
 import br.com.ufcg.ccc.psoft.dto.responses.FuncionarioResponseDTO;
 import br.com.ufcg.ccc.psoft.exception.*;
 import br.com.ufcg.ccc.psoft.service.FuncionarioService;
@@ -48,8 +49,8 @@ public class FuncionarioController {
     @PutMapping(value = "/estabelecimento/funcionario/avaliar-entregador/")
     public ResponseEntity<?> avaliarEntregador(@RequestBody AnalisarEntregadorRequestDTO analisarEntregadorRequestDTO) {
         try {
-            EntregadorRequestDTO entregadorRequestDTO = funcionarioService.analisarEntregador(analisarEntregadorRequestDTO);
-            return new ResponseEntity<>(entregadorRequestDTO, HttpStatus.OK);
+            EntregadorResponseDTO entregadorResponseDTO = funcionarioService.analisarEntregador(analisarEntregadorRequestDTO);
+            return new ResponseEntity<>(entregadorResponseDTO, HttpStatus.OK);
         } catch (EstabelecimentoNotFoundException e) {
             throw new RuntimeException(e);
         } catch (FuncionarioNotFoundException e) {
