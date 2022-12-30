@@ -1,6 +1,7 @@
 package br.com.ufcg.ccc.psoft.service;
 
-import br.com.ufcg.ccc.psoft.dto.EntregadorDTO;
+import br.com.ufcg.ccc.psoft.dto.requests.EntregadorRequestDTO;
+import br.com.ufcg.ccc.psoft.dto.responses.EntregadorResponseDTO;
 import br.com.ufcg.ccc.psoft.exception.EntregadorAlreadyCreatedException;
 import br.com.ufcg.ccc.psoft.exception.EntregadorNotFoundException;
 import br.com.ufcg.ccc.psoft.model.Entregador;
@@ -25,23 +26,23 @@ public class EntregadorServiceImpl implements EntregadorService {
     @Autowired
     public ModelMapper modelMapper;
 
-    public EntregadorDTO criaEntregador(EntregadorDTO entregadorDTO) throws EntregadorAlreadyCreatedException {
+    public EntregadorRequestDTO criaEntregador(EntregadorRequestDTO entregadorRequestDTO) throws EntregadorAlreadyCreatedException {
 
-        if(isEntregadorCadastrado(entregadorDTO.getNomeCompleto())) {
+        if(isEntregadorCadastrado(entregadorRequestDTO.getNomeCompleto())) {
             throw new EntregadorAlreadyCreatedException();
         }
 
-        Veiculo veiculo = salvarVeiculoEntregador(entregadorDTO.getVeiculo());
-        Entregador entregador = new Entregador(entregadorDTO.getNomeCompleto(), veiculo, entregadorDTO.getStatusEstabelecimento(), entregadorDTO.getCodigoAcesso());
+        Veiculo veiculo = salvarVeiculoEntregador(entregadorRequestDTO.getVeiculo());
+        Entregador entregador = new Entregador(entregadorRequestDTO.getNomeCompleto(), veiculo, entregadorRequestDTO.getStatusEstabelecimento(), entregadorRequestDTO.getCodigoAcesso());
         salvarEntregadorCadastrado(entregador);
 
-        return modelMapper.map(entregador, EntregadorDTO.class);
+        return modelMapper.map(entregador, EntregadorRequestDTO.class);
     }
 
-    public List<EntregadorDTO> listarEntregadores() {
-        List<EntregadorDTO> entregadores = entregadorRepository.findAll()
+    public List<EntregadorResponseDTO> listarEntregadores() {
+        List<EntregadorResponseDTO> entregadores = entregadorRepository.findAll()
                 .stream()
-                .map(entregador -> modelMapper.map(entregador, EntregadorDTO.class))
+                .map(entregador -> modelMapper.map(entregador, EntregadorResponseDTO.class))
                 .collect(Collectors.toList());
         return entregadores;
     }
@@ -51,17 +52,17 @@ public class EntregadorServiceImpl implements EntregadorService {
         entregadorRepository.delete(entregador);
     }
 
-    public EntregadorDTO atualizaEntregador(Long id, EntregadorDTO entregadorDTO) throws EntregadorNotFoundException {
+    public EntregadorRequestDTO atualizaEntregador(Long id, EntregadorRequestDTO entregadorRequestDTO) throws EntregadorNotFoundException {
 
         Entregador entregador = getEntregadorId(id);
 
-        entregador.setNomeCompleto(entregadorDTO.getNomeCompleto());
-        entregador.setStatusEstabelecimento(entregadorDTO.getStatusEstabelecimento());
-        entregador.setCodigoAcesso(entregadorDTO.getCodigoAcesso());
-        entregador.setVeiculo(entregadorDTO.getVeiculo());
+        entregador.setNomeCompleto(entregadorRequestDTO.getNomeCompleto());
+        entregador.setStatusEstabelecimento(entregadorRequestDTO.getStatusEstabelecimento());
+        entregador.setCodigoAcesso(entregadorRequestDTO.getCodigoAcesso());
+        entregador.setVeiculo(entregadorRequestDTO.getVeiculo());
         salvarEntregadorCadastrado(entregador);
 
-        return modelMapper.map(entregador, EntregadorDTO.class);
+        return modelMapper.map(entregador, EntregadorRequestDTO.class);
     }
 
     private Entregador getEntregadorId(Long id) throws EntregadorNotFoundException {
@@ -69,9 +70,9 @@ public class EntregadorServiceImpl implements EntregadorService {
                 .orElseThrow(() -> new EntregadorNotFoundException());
     }
 
-    public EntregadorDTO getEntregadorById(Long id) throws EntregadorNotFoundException {
+    public EntregadorResponseDTO getEntregadorById(Long id) throws EntregadorNotFoundException {
         Entregador entregador = getEntregadorId(id);
-        return modelMapper.map(entregador, EntregadorDTO.class);
+        return modelMapper.map(entregador, EntregadorResponseDTO.class);
     }
 
     private boolean isEntregadorCadastrado(String nome) {
@@ -83,10 +84,10 @@ public class EntregadorServiceImpl implements EntregadorService {
         }
     }
 
-    public EntregadorDTO getEntregadorByNomeCompleto(String codigo) throws EntregadorNotFoundException {
+    public EntregadorRequestDTO getEntregadorByNomeCompleto(String codigo) throws EntregadorNotFoundException {
         Entregador entregador = entregadorRepository.findByNomeCompleto(codigo)
                 .orElseThrow(() -> new EntregadorNotFoundException());
-        return modelMapper.map(entregador, EntregadorDTO.class);
+        return modelMapper.map(entregador, EntregadorRequestDTO.class);
     }
 
     private Veiculo salvarVeiculoEntregador(Veiculo veiculo) {

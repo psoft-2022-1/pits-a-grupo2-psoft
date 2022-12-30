@@ -2,13 +2,13 @@ package br.com.ufcg.ccc.psoft.service;
 import java.util.List;
 import java.util.stream.Collectors;
 
-import br.com.ufcg.ccc.psoft.dto.ClienteDTO;
+import br.com.ufcg.ccc.psoft.dto.requests.ClienteRequestDTO;
+import br.com.ufcg.ccc.psoft.dto.responses.ClienteResponseDTO;
 import br.com.ufcg.ccc.psoft.exception.IncorretCodigoAcessoException;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import br.com.ufcg.ccc.psoft.dto.ClienteDTO;
 import br.com.ufcg.ccc.psoft.exception.ClienteAlreadyCreatedException;
 import br.com.ufcg.ccc.psoft.exception.ClienteNotFoundException;
 import br.com.ufcg.ccc.psoft.model.Cliente;
@@ -24,9 +24,9 @@ public class ClienteServiceImpl implements ClienteService{
 	public ModelMapper modelMapper;
 
 	@Override
-	public ClienteDTO getClienteById(Long id) throws ClienteNotFoundException {
+	public ClienteRequestDTO getClienteById(Long id) throws ClienteNotFoundException {
 		Cliente cliente = getClienteId(id);
-		return modelMapper.map(cliente, ClienteDTO.class);
+		return modelMapper.map(cliente, ClienteRequestDTO.class);
 	}
 
 	private Cliente getClienteId(Long id) throws ClienteNotFoundException {
@@ -40,46 +40,34 @@ public class ClienteServiceImpl implements ClienteService{
 	}
 
 	@Override
-	public List<ClienteDTO> listaClientes() {
-		List<ClienteDTO> clientesDTO = this.clienteRepository.findAll()
+	public List<ClienteResponseDTO> listaClientes() {
+		List<ClienteResponseDTO> clientesDTO = this.clienteRepository.findAll()
 				.stream()
-				.map(cliente -> modelMapper.map(cliente, ClienteDTO.class))
+				.map(cliente -> modelMapper.map(cliente, ClienteResponseDTO.class))
 				.collect(Collectors.toList());
 
 		return clientesDTO;
 	}
 
 	@Override
-	public ClienteDTO criaCliente(ClienteDTO clienteDTO) throws ClienteAlreadyCreatedException {
-		if(isClienteCadastrado(clienteDTO.getId())){
-			throw new ClienteAlreadyCreatedException();
-		}
-		Cliente cliente = new Cliente(clienteDTO.getCodAcesso(),clienteDTO.getNomeCompleto(),
-				clienteDTO.getEnderecoPrincipal());
+	public ClienteRequestDTO criaCliente(ClienteRequestDTO clienteRequestDTO) throws ClienteAlreadyCreatedException {
+		Cliente cliente = new Cliente(clienteRequestDTO.getCodAcesso(), clienteRequestDTO.getNomeCompleto(),
+				clienteRequestDTO.getEnderecoPrincipal());
 
 		this.clienteRepository.save(cliente);
 
-		return modelMapper.map(cliente, ClienteDTO.class);
-	}
-
-	private boolean isClienteCadastrado(Long id) {
-		try {
-			getClienteById(id);
-			return true;
-		} catch (ClienteNotFoundException e) {
-			return false;
-		}
+		return modelMapper.map(cliente, ClienteRequestDTO.class);
 	}
 
 	@Override
-	public ClienteDTO atualizaCliente(Long id, ClienteDTO clienteDTO) throws ClienteNotFoundException {
+	public ClienteRequestDTO atualizaCliente(Long id, ClienteRequestDTO clienteRequestDTO) throws ClienteNotFoundException {
 		Cliente cliente = getClienteId(id);
 
-		cliente.setEnderecoPrincipal(clienteDTO.getEnderecoPrincipal());
-		cliente.setNomeCompleto(clienteDTO.getNomeCompleto());
+		cliente.setEnderecoPrincipal(clienteRequestDTO.getEnderecoPrincipal());
+		cliente.setNomeCompleto(clienteRequestDTO.getNomeCompleto());
 		this.clienteRepository.save(cliente);
 
-		return modelMapper.map(cliente, ClienteDTO.class);
+		return modelMapper.map(cliente, ClienteRequestDTO.class);
 	}
 
 	@Override

@@ -1,11 +1,11 @@
 package br.com.ufcg.ccc.psoft.controller;
 
-import br.com.ufcg.ccc.psoft.dto.*;
+import br.com.ufcg.ccc.psoft.dto.requests.AnalisarEntregadorRequestDTO;
+import br.com.ufcg.ccc.psoft.dto.requests.EntregadorRequestDTO;
+import br.com.ufcg.ccc.psoft.dto.requests.FuncionarioRequestDTO;
 import br.com.ufcg.ccc.psoft.exception.*;
-import br.com.ufcg.ccc.psoft.service.EstabelecimentoService;
 import br.com.ufcg.ccc.psoft.service.FuncionarioService;
-import br.com.ufcg.ccc.psoft.util.ErroCliente;
-import br.com.ufcg.ccc.psoft.util.ErroFuncionario;
+import br.com.ufcg.ccc.psoft.service.util.ErroFuncionario;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -20,13 +20,13 @@ public class FuncionarioController {
     FuncionarioService funcionarioService;
 
     @PostMapping(value = "/funcionario/")
-    public ResponseEntity<?> criarFuncionario(@RequestBody FuncionarioDTO funcionarioDTO) throws FuncionarioAlreadyCreatedException {
+    public ResponseEntity<?> criarFuncionario(@RequestBody FuncionarioRequestDTO funcionarioRequestDTO) throws FuncionarioAlreadyCreatedException {
 
         try {
-            FuncionarioDTO funcionario = funcionarioService.criaFuncionario(funcionarioDTO);
+            FuncionarioRequestDTO funcionario = funcionarioService.criaFuncionario(funcionarioRequestDTO);
             return new ResponseEntity<>(funcionario, HttpStatus.CREATED);
         } catch (FuncionarioAlreadyCreatedException e) {
-            return ErroFuncionario.erroFuncionarioJaCadastrado(funcionarioDTO);
+            return ErroFuncionario.erroFuncionarioJaCadastrado(funcionarioRequestDTO);
         }
     }
 
@@ -40,11 +40,11 @@ public class FuncionarioController {
             return ErroFuncionario.erroFuncionarioNaoEncontrado();
         }
     }
-    @PutMapping(value = "/avaliar-entregador/")
+    @PutMapping(value = "/estabelecimento/funcionario/avaliar-entregador/")
     public ResponseEntity<?> avaliarEntregador(@RequestBody AnalisarEntregadorRequestDTO analisarEntregadorRequestDTO) {
         try {
-            EntregadorDTO entregadorDTO = funcionarioService.analisarEntregador(analisarEntregadorRequestDTO);
-            return new ResponseEntity<>(entregadorDTO, HttpStatus.OK);
+            EntregadorRequestDTO entregadorRequestDTO = funcionarioService.analisarEntregador(analisarEntregadorRequestDTO);
+            return new ResponseEntity<>(entregadorRequestDTO, HttpStatus.OK);
         } catch (EstabelecimentoNotFoundException e) {
             throw new RuntimeException(e);
         } catch (FuncionarioNotFoundException e) {

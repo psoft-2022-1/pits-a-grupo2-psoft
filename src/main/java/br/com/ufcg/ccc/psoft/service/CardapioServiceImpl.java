@@ -1,7 +1,9 @@
 package br.com.ufcg.ccc.psoft.service;
 
-import br.com.ufcg.ccc.psoft.dto.CardapioDTO;
-import br.com.ufcg.ccc.psoft.dto.SaborDTO;
+import br.com.ufcg.ccc.psoft.dto.requests.CardapioRequestDTO;
+import br.com.ufcg.ccc.psoft.dto.requests.SaborRequestDTO;
+import br.com.ufcg.ccc.psoft.dto.responses.CardapioResponseDTO;
+import br.com.ufcg.ccc.psoft.dto.responses.SaborResponseDTO;
 import br.com.ufcg.ccc.psoft.exception.CardapioNotFoundException;
 import br.com.ufcg.ccc.psoft.model.Cardapio;
 import br.com.ufcg.ccc.psoft.repository.CardapioRepository;
@@ -19,11 +21,11 @@ public class CardapioServiceImpl implements CardapioService {
     CardapioRepository cardapioRepository;
 
     @Override
-    public CardapioDTO consultaCardapioPorSabor(Long idCardapio, String tipoSabor) throws CardapioNotFoundException {
+    public CardapioResponseDTO consultaCardapioPorSabor(Long idCardapio, String tipoSabor) throws CardapioNotFoundException {
         Optional<Cardapio> opCardapio = cardapioRepository.findById(idCardapio);
         if (opCardapio.isEmpty())
             throw new CardapioNotFoundException();
-        List<SaborDTO> sabores = opCardapio.get().getSabores().stream().filter(s -> s.getTipo().equals(tipoSabor)).map(SaborDTO::new).collect(Collectors.toList());
-        return new CardapioDTO(opCardapio.get().getId(), sabores);
+        List<SaborResponseDTO> sabores = opCardapio.get().getSabores().stream().filter(s -> s.getTipo().equals(tipoSabor)).map(SaborResponseDTO::new).collect(Collectors.toList());
+        return new CardapioResponseDTO(opCardapio.get().getId(), sabores);
     }
 }

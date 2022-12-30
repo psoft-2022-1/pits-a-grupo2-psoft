@@ -1,9 +1,10 @@
 package br.com.ufcg.ccc.psoft.controller;
 
-import br.com.ufcg.ccc.psoft.dto.PedidoDTO;
+import br.com.ufcg.ccc.psoft.dto.requests.PedidoRequestDTO;
+import br.com.ufcg.ccc.psoft.dto.responses.PedidoResponseDTO;
 import br.com.ufcg.ccc.psoft.exception.*;
 import br.com.ufcg.ccc.psoft.service.PedidoService;
-import br.com.ufcg.ccc.psoft.util.ErroPedido;
+import br.com.ufcg.ccc.psoft.service.util.ErroPedido;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -18,9 +19,9 @@ public class PedidoController {
     PedidoService pedidoService;
 
     @PostMapping(value = "/pedido/client/{idCliente}")
-    public ResponseEntity<?> criarPedido(@PathVariable Long idCliente, @RequestBody PedidoDTO pedidoDTO) throws QuantidadeSaboresInvalidosException, SaborNotFoundException, IncorretCodigoAcessoException, ClienteNotFoundException {
-        PedidoDTO pedido = pedidoService.criaPedido(idCliente, pedidoDTO);
-        return new ResponseEntity<PedidoDTO>(pedido, HttpStatus.CREATED);
+    public ResponseEntity<?> criarPedido(@PathVariable Long idCliente, @RequestBody PedidoRequestDTO pedidoDTO) throws QuantidadeSaboresInvalidosException, SaborNotFoundException, IncorretCodigoAcessoException, ClienteNotFoundException {
+        PedidoRequestDTO pedido = pedidoService.criaPedido(idCliente, pedidoDTO);
+        return new ResponseEntity<PedidoRequestDTO>(pedido, HttpStatus.CREATED);
     }
 
     @DeleteMapping(value = "/pedido/{id}")
@@ -35,9 +36,9 @@ public class PedidoController {
     }
 
     @PutMapping(value = "/pedido/{id}")
-    public ResponseEntity<?> atualizarPedido(@PathVariable("id") long id, @RequestBody PedidoDTO pedidoDTO) {
+    public ResponseEntity<?> atualizarPedido(@PathVariable("id") long id, @RequestBody PedidoRequestDTO pedidoDTO) {
         try {
-            PedidoDTO pedido = pedidoService.atualizarPedido(id, pedidoDTO);
+            PedidoRequestDTO pedido = pedidoService.atualizarPedido(id, pedidoDTO);
             return new ResponseEntity<>(pedido, HttpStatus.OK);
         } catch (PedidoNotFoundException e) {
             throw new RuntimeException(e);
@@ -48,8 +49,8 @@ public class PedidoController {
     public ResponseEntity<?> consultarPedido(@PathVariable("idPedido") long idPedido) {
 
         try {
-            PedidoDTO pedido = pedidoService.getPedidoById(idPedido);
-            return new ResponseEntity<PedidoDTO>(pedido, HttpStatus.OK);
+            PedidoResponseDTO pedido = pedidoService.getPedidoById(idPedido);
+            return new ResponseEntity<PedidoResponseDTO>(pedido, HttpStatus.OK);
         } catch (PedidoNotFoundException e) {
             return ErroPedido.erroPedidoNaoEncontrado(idPedido);
         }
