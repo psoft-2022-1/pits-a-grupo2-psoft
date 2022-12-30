@@ -4,6 +4,7 @@ import br.com.ufcg.ccc.psoft.dto.requests.EntregadorRequestDTO;
 import br.com.ufcg.ccc.psoft.dto.responses.EntregadorResponseDTO;
 import br.com.ufcg.ccc.psoft.exception.EntregadorAlreadyCreatedException;
 import br.com.ufcg.ccc.psoft.exception.EntregadorNotFoundException;
+import br.com.ufcg.ccc.psoft.exception.InvalidCodigoAcessoException;
 import br.com.ufcg.ccc.psoft.service.EntregadorService;
 import br.com.ufcg.ccc.psoft.service.util.ErroEntregador;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -24,10 +25,12 @@ public class EntregadorController {
     @PostMapping(value = "/entregador/")
     public ResponseEntity<?> criarEntregador(@RequestBody EntregadorRequestDTO entregadorRequestDTO) {
         try {
-            EntregadorRequestDTO entregador = entregadorService.criaEntregador(entregadorRequestDTO);
-            return new ResponseEntity<EntregadorRequestDTO>(entregador, HttpStatus.CREATED);
+            EntregadorResponseDTO entregador = entregadorService.criaEntregador(entregadorRequestDTO);
+            return new ResponseEntity<EntregadorResponseDTO>(entregador, HttpStatus.CREATED);
         } catch (EntregadorAlreadyCreatedException e) {
             return ErroEntregador.erroEntregadorJaCadastrado(entregadorRequestDTO);
+        } catch (InvalidCodigoAcessoException e) {
+            return ErroEntregador.erroCodigoAcessoInvalido();
         }
     }
 

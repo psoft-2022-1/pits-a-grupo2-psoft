@@ -27,6 +27,8 @@ public class FuncionarioController {
             return new ResponseEntity<>(funcionario, HttpStatus.CREATED);
         } catch (FuncionarioAlreadyCreatedException e) {
             return ErroFuncionario.erroFuncionarioJaCadastrado(funcionarioRequestDTO);
+        } catch (InvalidCodigoAcessoException e) {
+            return ErroFuncionario.erroCodigoAcessoInvalido();
         }
     }
 

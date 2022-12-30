@@ -5,6 +5,7 @@ import java.util.stream.Collectors;
 import br.com.ufcg.ccc.psoft.dto.requests.ClienteRequestDTO;
 import br.com.ufcg.ccc.psoft.dto.responses.ClienteResponseDTO;
 import br.com.ufcg.ccc.psoft.exception.IncorretCodigoAcessoException;
+import br.com.ufcg.ccc.psoft.exception.InvalidCodigoAcessoException;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -50,24 +51,27 @@ public class ClienteServiceImpl implements ClienteService{
 	}
 
 	@Override
-	public ClienteRequestDTO criaCliente(ClienteRequestDTO clienteRequestDTO) throws ClienteAlreadyCreatedException {
+	public ClienteResponseDTO criaCliente(ClienteRequestDTO clienteRequestDTO) throws InvalidCodigoAcessoException {
+		if(clienteRequestDTO.getCodAcesso().length() != 6){
+			throw new InvalidCodigoAcessoException();
+		}
 		Cliente cliente = new Cliente(clienteRequestDTO.getCodAcesso(), clienteRequestDTO.getNomeCompleto(),
 				clienteRequestDTO.getEnderecoPrincipal());
 
 		this.clienteRepository.save(cliente);
 
-		return modelMapper.map(cliente, ClienteRequestDTO.class);
+		return modelMapper.map(cliente, ClienteResponseDTO.class);
 	}
 
 	@Override
-	public ClienteRequestDTO atualizaCliente(Long id, ClienteRequestDTO clienteRequestDTO) throws ClienteNotFoundException {
+	public ClienteResponseDTO atualizaCliente(Long id, ClienteRequestDTO clienteRequestDTO) throws ClienteNotFoundException {
 		Cliente cliente = getClienteId(id);
 
 		cliente.setEnderecoPrincipal(clienteRequestDTO.getEnderecoPrincipal());
 		cliente.setNomeCompleto(clienteRequestDTO.getNomeCompleto());
 		this.clienteRepository.save(cliente);
 
-		return modelMapper.map(cliente, ClienteRequestDTO.class);
+		return modelMapper.map(cliente, ClienteResponseDTO.class);
 	}
 
 	@Override

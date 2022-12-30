@@ -7,6 +7,7 @@ import br.com.ufcg.ccc.psoft.dto.responses.ClienteResponseDTO;
 import br.com.ufcg.ccc.psoft.exception.ClienteAlreadyCreatedException;
 import br.com.ufcg.ccc.psoft.exception.ClienteNotFoundException;
 import br.com.ufcg.ccc.psoft.exception.IncorretCodigoAcessoException;
+import br.com.ufcg.ccc.psoft.exception.InvalidCodigoAcessoException;
 import br.com.ufcg.ccc.psoft.model.Cliente;
 
 public interface ClienteService {
@@ -17,9 +18,9 @@ public interface ClienteService {
 
 	 public List<ClienteResponseDTO> listaClientes();
 
-	 public ClienteRequestDTO criaCliente(ClienteRequestDTO clienteRequestDTO) throws ClienteAlreadyCreatedException;
+	 public ClienteResponseDTO criaCliente(ClienteRequestDTO clienteRequestDTO) throws ClienteAlreadyCreatedException, InvalidCodigoAcessoException;
 
-	 public ClienteRequestDTO atualizaCliente(Long id, ClienteRequestDTO clienteRequestDTO) throws ClienteNotFoundException;
+	 public ClienteResponseDTO atualizaCliente(Long id, ClienteRequestDTO clienteRequestDTO) throws ClienteNotFoundException;
 
 	public Cliente checkCodAcesso(Long id, String codCliente) throws IncorretCodigoAcessoException, ClienteNotFoundException;
 }

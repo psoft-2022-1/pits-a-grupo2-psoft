@@ -74,7 +74,10 @@ public class FuncionarioServiceImpl implements FuncionarioService {
         return modelMapper.map(funcionario, FuncionarioRequestDTO.class);
     }
     @Override
-    public FuncionarioRequestDTO criaFuncionario(FuncionarioRequestDTO funcionarioRequestDTO) throws FuncionarioAlreadyCreatedException {
+    public FuncionarioRequestDTO criaFuncionario(FuncionarioRequestDTO funcionarioRequestDTO) throws FuncionarioAlreadyCreatedException, InvalidCodigoAcessoException {
+        if(funcionarioRequestDTO.getCodigoAcesso().length() != 6){
+            throw new InvalidCodigoAcessoException();
+        }
         Funcionario funcionario = new Funcionario(funcionarioRequestDTO.getNomeCompleto(), funcionarioRequestDTO.getCodigoAcesso());
 
         this.funcionarioRepository.save(funcionario);

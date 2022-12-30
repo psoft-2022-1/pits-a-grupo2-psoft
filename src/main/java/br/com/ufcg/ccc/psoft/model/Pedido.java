@@ -1,8 +1,9 @@
 package br.com.ufcg.ccc.psoft.model;
 
-import java.util.ArrayList;
+
 import java.util.List;
 import javax.persistence.*;
+import br.com.ufcg.ccc.psoft.model.Enum.StatusPedido;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -35,11 +36,26 @@ public class Pedido {
 
 	private Double valorTotal;
 
+	@Enumerated(value = EnumType.STRING)
+	private StatusPedido statusPedido;
+
+	@ManyToOne(targetEntity = Entregador.class)
+	@JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
+	private Entregador entregador;
+
 	public Pedido(Cliente cliente, List<ItemDePedido> itensEscolhidos, Pagamento pagamento, String enderecoEntrega, Double valorTotal) {
 		this.cliente = cliente;
 		this.itensEscolhidos = itensEscolhidos;
 		this.pagamento = pagamento;
 		this.enderecoEntrega = enderecoEntrega;
 		this.valorTotal = valorTotal;
+		this.statusPedido = StatusPedido.valueOf("Pedido recebido");
+	}
+
+	public void notifyCliente(){
+		System.out.println("Sr(a) " + cliente.getNomeCompleto() + " seu pedido está em rota." + "\n"
+			+ "Informações do Entregador:" + "\n"
+			+ "Nome: " + entregador.getNomeCompleto()
+			+ entregador.getVeiculo().toString());
 	}
 }

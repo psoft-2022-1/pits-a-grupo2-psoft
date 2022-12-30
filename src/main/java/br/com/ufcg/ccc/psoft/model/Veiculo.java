@@ -28,4 +28,11 @@ public class Veiculo {
 		this.corVeiculo = corVeiculo;
 		this.tipoVeiculo = tipoVeiculo;
 	}
+
+	@Override
+	public String toString() {
+		return "Placa do veiculo: " + placaVeiculo + "\n"
+				+ "Cor do veiculo: " + corVeiculo + "\n "
+				+ "Tipo de veiculo: " + tipoVeiculo;
+	}
 }

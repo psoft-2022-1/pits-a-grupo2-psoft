@@ -18,10 +18,11 @@ public class PedidoController {
     @Autowired
     PedidoService pedidoService;
 
-    @PostMapping(value = "/pedido/client/{idCliente}")
-    public ResponseEntity<?> criarPedido(@PathVariable Long idCliente, @RequestBody PedidoRequestDTO pedidoDTO) throws QuantidadeSaboresInvalidosException, SaborNotFoundException, IncorretCodigoAcessoException, ClienteNotFoundException {
-        PedidoRequestDTO pedido = pedidoService.criaPedido(idCliente, pedidoDTO);
-        return new ResponseEntity<PedidoRequestDTO>(pedido, HttpStatus.CREATED);
+
+    @PostMapping(value = "/pedido/cliente/{idCliente}")
+    public ResponseEntity<?> criarPedido(@PathVariable Long idCliente, @RequestBody PedidoRequestDTO pedidoDTO) throws QuantidadeSaboresInvalidosException, SaborNotFoundException, IncorretCodigoAcessoException, ClienteNotFoundException, PagamentoInvalidException {
+        PedidoResponseDTO pedido = pedidoService.criaPedido(idCliente, pedidoDTO);
+        return new ResponseEntity<>(pedido, HttpStatus.CREATED);
     }
 
     @DeleteMapping(value = "/pedido/{id}")
@@ -38,7 +39,7 @@ public class PedidoController {
     @PutMapping(value = "/pedido/{id}")
     public ResponseEntity<?> atualizarPedido(@PathVariable("id") long id, @RequestBody PedidoRequestDTO pedidoDTO) {
         try {
-            PedidoRequestDTO pedido = pedidoService.atualizarPedido(id, pedidoDTO);
+            PedidoResponseDTO pedido = pedidoService.atualizarPedido(id, pedidoDTO);
             return new ResponseEntity<>(pedido, HttpStatus.OK);
         } catch (PedidoNotFoundException e) {
             throw new RuntimeException(e);
@@ -53,6 +54,26 @@ public class PedidoController {
             return new ResponseEntity<PedidoResponseDTO>(pedido, HttpStatus.OK);
         } catch (PedidoNotFoundException e) {
             return ErroPedido.erroPedidoNaoEncontrado(idPedido);
+        }
+    }
+
+    @PutMapping(value = "/pedido/confirmarPedido/{id}")
+    public ResponseEntity<?> confirmarPedido(@PathVariable("id") long id, @RequestBody PedidoRequestDTO pedidoDTO) {
+        try {
+            PedidoResponseDTO pedido = pedidoService.confirmarPedido(id, pedidoDTO);
+            return new ResponseEntity<>(pedido, HttpStatus.OK);
+        } catch (PedidoNotFoundException e) {
+            throw new RuntimeException(e);
+        }
+    }
+
+    @PutMapping(value = "/pedido/finalizarPedido/{id}")
+    public ResponseEntity<?> finalizarPedido(@PathVariable("id") long id, @RequestBody PedidoRequestDTO pedidoRequestDTO) {
+        try {
+            PedidoResponseDTO pedido = pedidoService.finalizarPedido(id, pedidoRequestDTO);
+            return new ResponseEntity<>(pedido, HttpStatus.OK);
+        } catch (PedidoNotFoundException e) {
+            throw new RuntimeException(e);
         }
     }
 }
