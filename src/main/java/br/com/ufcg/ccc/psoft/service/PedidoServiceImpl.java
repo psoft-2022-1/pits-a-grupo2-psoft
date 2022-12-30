@@ -119,7 +119,7 @@ public class PedidoServiceImpl implements PedidoService {
     @Override
     public List<Pedido> getPedidosByClienteByStatus(ClienteDTO clienteDTO, String status) {
         Cliente cliente = modelMapper.map(clienteDTO, Cliente.class);
-        return pedidoRepository.findPedidosByClienteAndStatusOrderByIdDesc(cliente, status);
+        return pedidoRepository.findPedidosByClienteAndStatusPedidoOrderByIdDesc(cliente, status);
     }
 
 
