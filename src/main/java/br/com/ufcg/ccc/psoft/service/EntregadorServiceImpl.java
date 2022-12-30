@@ -4,6 +4,7 @@ import br.com.ufcg.ccc.psoft.dto.requests.EntregadorRequestDTO;
 import br.com.ufcg.ccc.psoft.dto.responses.EntregadorResponseDTO;
 import br.com.ufcg.ccc.psoft.exception.EntregadorAlreadyCreatedException;
 import br.com.ufcg.ccc.psoft.exception.EntregadorNotFoundException;
+import br.com.ufcg.ccc.psoft.exception.InvalidCodigoAcessoException;
 import br.com.ufcg.ccc.psoft.model.Entregador;
 import br.com.ufcg.ccc.psoft.model.Veiculo;
 import br.com.ufcg.ccc.psoft.repository.EntregadorRepository;
@@ -26,7 +27,10 @@ public class EntregadorServiceImpl implements EntregadorService {
     @Autowired
     public ModelMapper modelMapper;
 
-    public EntregadorRequestDTO criaEntregador(EntregadorRequestDTO entregadorRequestDTO) throws EntregadorAlreadyCreatedException {
+    public EntregadorRequestDTO criaEntregador(EntregadorRequestDTO entregadorRequestDTO) throws EntregadorAlreadyCreatedException, InvalidCodigoAcessoException {
+        if(entregadorRequestDTO.getCodigoAcesso().length() != 6){
+            throw new InvalidCodigoAcessoException();
+        }
 
         if(isEntregadorCadastrado(entregadorRequestDTO.getNomeCompleto())) {
             throw new EntregadorAlreadyCreatedException();

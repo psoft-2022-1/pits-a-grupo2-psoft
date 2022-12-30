@@ -12,11 +12,17 @@ public class ErroEntregador {
 
     static final String ENTREGADOR_JA_CADASTRADO = "O entregador nome %s já esta cadastrado";
 
+    static final String CODIGO_ACESSO_INVALIDO = "O código de acesso deve possuir 6 dígitos.";
+
     public static ResponseEntity<CustomErrorType> erroEntregadorNaoEncontrado(long id) {
         return new ResponseEntity<CustomErrorType>(new CustomErrorType(String.format(ErroEntregador.ENTREGADOR_NAO_CASTRADO, id)),
                 HttpStatus.NOT_FOUND);
     }
 
+    public static ResponseEntity<CustomErrorType> erroCodigoAcessoInvalido() {
+        return new ResponseEntity<CustomErrorType>(new CustomErrorType(ErroEntregador.CODIGO_ACESSO_INVALIDO),
+                HttpStatus.NOT_ACCEPTABLE);
+    }
     public static ResponseEntity<CustomErrorType> erroSemEntregadoresCadastrados() {
         return new ResponseEntity<CustomErrorType>(new CustomErrorType(ErroEntregador.ENTREGADORES_NAO_CASTRADOS),
                 HttpStatus.NO_CONTENT);

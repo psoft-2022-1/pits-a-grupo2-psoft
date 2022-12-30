@@ -2,6 +2,7 @@ package br.com.ufcg.ccc.psoft.controller;
 
 import br.com.ufcg.ccc.psoft.dto.requests.EstabelecimentoRequestDTO;
 import br.com.ufcg.ccc.psoft.exception.EstabelecimentoNotFoundException;
+import br.com.ufcg.ccc.psoft.exception.InvalidCodigoAcessoException;
 import br.com.ufcg.ccc.psoft.service.EstabelecimentoService;
 import br.com.ufcg.ccc.psoft.service.util.ErroEstabelecimento;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -18,9 +19,14 @@ public class EstabelecimentoController {
     EstabelecimentoService estabelecimentoService;
 
     @PostMapping(value = "/estabelecimento/")
-    public ResponseEntity<?> criarEstabelecimento(@RequestBody EstabelecimentoRequestDTO estabelecimentoDTO) {
+    public ResponseEntity<?> criarEstabelecimento(@RequestBody EstabelecimentoRequestDTO estabelecimentoDTO) throws InvalidCodigoAcessoException {
+        try{
             EstabelecimentoRequestDTO estabelecimento = estabelecimentoService.criarEstabelecimento(estabelecimentoDTO);
             return new ResponseEntity<>(estabelecimento, HttpStatus.OK);
+        } catch (InvalidCodigoAcessoException e){
+            return ErroEstabelecimento.erroCodigoAcessoInvalido();
+        }
+
     }
 
     @PutMapping(value = "/estabelecimento/{id}")
