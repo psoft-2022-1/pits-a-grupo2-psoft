@@ -65,7 +65,7 @@ public class ClienteController {
 	}
 
 	@GetMapping(value = "/cliente/{idCliente}/historicoPedidos/}")
-	public ResponseEntity<?> historicoPedidoCliente(@PathVariable("idCliente") long idCliente ) {
+	public ResponseEntity<?> historicoPedidosCliente(@PathVariable("idCliente") long idCliente ) {
 
 		try {
 			ClienteDTO cliente = clienteService.getClienteById(idCliente);
@@ -80,7 +80,7 @@ public class ClienteController {
 	}
 
 	@GetMapping(value = "/cliente/{idCliente}/historicoPedidos/status/{status}")
-	public ResponseEntity<?> historicoPedidoClienteStatus(@PathVariable("idCliente") long idCliente, @PathVariable("status") String statusPedido ) {
+	public ResponseEntity<?> historicoPedidosClienteStatus(@PathVariable("idCliente") long idCliente, @PathVariable("status") String statusPedido ) {
 
 		try {
 			ClienteDTO cliente = clienteService.getClienteById(idCliente);

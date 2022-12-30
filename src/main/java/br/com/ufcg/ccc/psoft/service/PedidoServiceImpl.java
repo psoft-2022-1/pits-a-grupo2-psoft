@@ -31,12 +31,6 @@ public class PedidoServiceImpl implements PedidoService {
     @Autowired
     public ModelMapper modelMapper;
 
-    public PedidoDTO criaPedido(Long idCliente, PedidoDTO pedidoDTO) throws SaborNotFoundException, QuantidadeSaboresInvalidosException, ClienteNotFoundException, IncorretCodigoAcessoException {
-    private ClienteRepository clienteRepository;
-
-    @Autowired
-    public ModelMapper modelMapper;
-
     public PedidoDTO criaPedido(Long idCliente, PedidoDTO pedidoDTO) throws SaborNotFoundException, QuantidadeSaboresInvalidosException, ClienteNotFoundException, IncorretCodigoAcessoException, PagamentoInvalidException {
         List<ItemDePedido> itensDePedidos = new ArrayList<>();
         for (ItemDePedido itemDePedido : pedidoDTO.getItensEscolhidos()) {
