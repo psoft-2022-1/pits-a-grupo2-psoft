@@ -4,8 +4,7 @@ import br.com.ufcg.ccc.psoft.dto.ClienteDTO;
 import br.com.ufcg.ccc.psoft.exception.ClienteAlreadyCreatedException;
 import br.com.ufcg.ccc.psoft.exception.ClienteNotFoundException;
 import br.com.ufcg.ccc.psoft.exception.IncorretCodigoAcessoException;
-import br.com.ufcg.ccc.psoft.exception.senhaInvalidaException;
-import br.com.ufcg.ccc.psoft.model.Cliente;
+import br.com.ufcg.ccc.psoft.exception.SenhaInvalidaException;
 import br.com.ufcg.ccc.psoft.service.ClienteService;
 import br.com.ufcg.ccc.psoft.util.ErroCliente;
 
@@ -56,7 +55,7 @@ public class ClienteController {
             return new ResponseEntity<>(cliente, HttpStatus.CREATED);
         } catch (ClienteAlreadyCreatedException e) {
             return ErroCliente.erroClienteJaCadastrado(clienteDTO);
-        } catch (senhaInvalidaException e) {
+        } catch (SenhaInvalidaException e) {
             return ErroCliente.erroSenhaInvalida();
         }
     }
@@ -71,7 +70,7 @@ public class ClienteController {
             return ErroCliente.erroClienteNaoEnconrtrado(id);
         } catch (IncorretCodigoAcessoException e) {
             return ErroCliente.senhaIncorreta();
-        } catch (senhaInvalidaException e) {
+        } catch (SenhaInvalidaException e) {
             return ErroCliente.erroSenhaInvalida();
         }
     }

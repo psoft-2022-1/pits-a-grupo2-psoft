@@ -3,7 +3,7 @@ package br.com.ufcg.ccc.psoft.controller;
 import br.com.ufcg.ccc.psoft.dto.EstabelecimentoDTO;
 import br.com.ufcg.ccc.psoft.exception.EstabelecimentoNotFoundException;
 import br.com.ufcg.ccc.psoft.exception.IncorretCodigoAcessoException;
-import br.com.ufcg.ccc.psoft.exception.senhaInvalidaException;
+import br.com.ufcg.ccc.psoft.exception.SenhaInvalidaException;
 import br.com.ufcg.ccc.psoft.service.EstabelecimentoService;
 import br.com.ufcg.ccc.psoft.util.ErroEstabelecimento;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -24,7 +24,7 @@ public class EstabelecimentoController {
         try {
             EstabelecimentoDTO estabelecimento = estabelecimentoService.criarEstabelecimento(estabelecimentoDTO);
             return new ResponseEntity<>(estabelecimento, HttpStatus.OK);
-        } catch (senhaInvalidaException e) {
+        } catch (SenhaInvalidaException e) {
             return ErroEstabelecimento.erroSenhaInvalida();
         }
     }
@@ -38,7 +38,7 @@ public class EstabelecimentoController {
             return ErroEstabelecimento.erroEstabelecimentoNaoEncontrado(idEstabelecimento);
         } catch (IncorretCodigoAcessoException e) {
             return ErroEstabelecimento.senhaIncorreta();
-        } catch (senhaInvalidaException e) {
+        } catch (SenhaInvalidaException e) {
             return ErroEstabelecimento.erroSenhaInvalida();
         }
     }

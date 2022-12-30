@@ -5,13 +5,11 @@ import java.util.stream.Collectors;
 
 import br.com.ufcg.ccc.psoft.dto.ClienteDTO;
 import br.com.ufcg.ccc.psoft.exception.IncorretCodigoAcessoException;
-import br.com.ufcg.ccc.psoft.exception.senhaInvalidaException;
+import br.com.ufcg.ccc.psoft.exception.SenhaInvalidaException;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import br.com.ufcg.ccc.psoft.dto.ClienteDTO;
-import br.com.ufcg.ccc.psoft.exception.ClienteAlreadyCreatedException;
 import br.com.ufcg.ccc.psoft.exception.ClienteNotFoundException;
 import br.com.ufcg.ccc.psoft.model.Cliente;
 import br.com.ufcg.ccc.psoft.repository.ClienteRepository;
@@ -60,10 +58,10 @@ public class ClienteServiceImpl implements ClienteService {
     }
 
     @Override
-    public ClienteDTO criaCliente(ClienteDTO clienteDTO) throws senhaInvalidaException {
+    public ClienteDTO criaCliente(ClienteDTO clienteDTO) throws SenhaInvalidaException {
 
         if (clienteDTO.getCodigoAcesso().length() != 6)
-            throw new senhaInvalidaException();
+            throw new SenhaInvalidaException();
 
         Cliente cliente = new Cliente(clienteDTO);
 
@@ -73,13 +71,13 @@ public class ClienteServiceImpl implements ClienteService {
     }
 
     @Override
-    public ClienteDTO atualizaCliente(Long id, ClienteDTO clienteDTO) throws ClienteNotFoundException, IncorretCodigoAcessoException, senhaInvalidaException {
+    public ClienteDTO atualizaCliente(Long id, ClienteDTO clienteDTO) throws ClienteNotFoundException, IncorretCodigoAcessoException, SenhaInvalidaException {
         Cliente cliente = getClienteId(id);
 
         if (!clienteDTO.getCodigoAcesso().equals(cliente.getCodAcesso()))
             throw new IncorretCodigoAcessoException();
         else if (clienteDTO.getNovoCodigoAcesso().length() != 6)
-            throw new senhaInvalidaException();
+            throw new SenhaInvalidaException();
 
         cliente.setEnderecoPrincipal(clienteDTO.getEnderecoPrincipal());
         cliente.setNomeCompleto(clienteDTO.getNomeCompleto());

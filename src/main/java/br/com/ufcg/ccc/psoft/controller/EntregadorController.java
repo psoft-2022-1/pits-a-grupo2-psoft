@@ -1,8 +1,11 @@
 package br.com.ufcg.ccc.psoft.controller;
 
 import br.com.ufcg.ccc.psoft.dto.EntregadorDTO;
+import br.com.ufcg.ccc.psoft.dto.EstabelecimentoDTO;
 import br.com.ufcg.ccc.psoft.exception.EntregadorAlreadyCreatedException;
 import br.com.ufcg.ccc.psoft.exception.EntregadorNotFoundException;
+import br.com.ufcg.ccc.psoft.exception.IncorretCodigoAcessoException;
+import br.com.ufcg.ccc.psoft.exception.SenhaInvalidaException;
 import br.com.ufcg.ccc.psoft.service.EntregadorService;
 import br.com.ufcg.ccc.psoft.util.ErroEntregador;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -24,9 +27,11 @@ public class EntregadorController {
     public ResponseEntity<?> criarEntregador(@RequestBody EntregadorDTO entregadorDTO) {
         try {
             EntregadorDTO entregador = entregadorService.criaEntregador(entregadorDTO);
-            return new ResponseEntity<EntregadorDTO>(entregador, HttpStatus.CREATED);
+            return new ResponseEntity<>(entregador, HttpStatus.CREATED);
         } catch (EntregadorAlreadyCreatedException e) {
             return ErroEntregador.erroEntregadorJaCadastrado(entregadorDTO);
+        } catch (SenhaInvalidaException e) {
+            return ErroEntregador.erroSenhaInvalida();
         }
     }
 
@@ -69,6 +74,12 @@ public class EntregadorController {
             return new ResponseEntity<EntregadorDTO>(entregador, HttpStatus.OK);
         } catch (EntregadorNotFoundException e) {
             return ErroEntregador.erroEntregadorNaoEncontrado(id);
+        } catch (SenhaInvalidaException e) {
+            return ErroEntregador.erroSenhaInvalida();
+        } catch (IncorretCodigoAcessoException e) {
+            return ErroEntregador.senhaIncorreta();
         }
     }
+
+
 }

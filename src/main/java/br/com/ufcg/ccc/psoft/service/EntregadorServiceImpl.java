@@ -1,8 +1,11 @@
 package br.com.ufcg.ccc.psoft.service;
 
 import br.com.ufcg.ccc.psoft.dto.EntregadorDTO;
+import br.com.ufcg.ccc.psoft.dto.EstabelecimentoDTO;
 import br.com.ufcg.ccc.psoft.exception.EntregadorAlreadyCreatedException;
 import br.com.ufcg.ccc.psoft.exception.EntregadorNotFoundException;
+import br.com.ufcg.ccc.psoft.exception.IncorretCodigoAcessoException;
+import br.com.ufcg.ccc.psoft.exception.SenhaInvalidaException;
 import br.com.ufcg.ccc.psoft.model.Entregador;
 import br.com.ufcg.ccc.psoft.model.Veiculo;
 import br.com.ufcg.ccc.psoft.repository.EntregadorRepository;
@@ -25,14 +28,16 @@ public class EntregadorServiceImpl implements EntregadorService {
     @Autowired
     public ModelMapper modelMapper;
 
-    public EntregadorDTO criaEntregador(EntregadorDTO entregadorDTO) throws EntregadorAlreadyCreatedException {
+    public EntregadorDTO criaEntregador(EntregadorDTO entregadorDTO) throws EntregadorAlreadyCreatedException, SenhaInvalidaException {
 
-        if(isEntregadorCadastrado(entregadorDTO.getNomeCompleto())) {
+        if(isEntregadorCadastrado(entregadorDTO.getNomeCompleto()))
             throw new EntregadorAlreadyCreatedException();
-        }
+
+        if(entregadorDTO.getCodigoAcesso().length() != 6)
+            throw new SenhaInvalidaException();
 
         Veiculo veiculo = salvarVeiculoEntregador(entregadorDTO.getVeiculo());
-        Entregador entregador = new Entregador(entregadorDTO.getNomeCompleto(), veiculo, entregadorDTO.getStatusEstabelecimento(), entregadorDTO.getCodigoAcesso());
+        Entregador entregador = new Entregador(entregadorDTO, veiculo);
         salvarEntregadorCadastrado(entregador);
 
         return modelMapper.map(entregador, EntregadorDTO.class);
@@ -51,12 +56,16 @@ public class EntregadorServiceImpl implements EntregadorService {
         entregadorRepository.delete(entregador);
     }
 
-    public EntregadorDTO atualizaEntregador(Long id, EntregadorDTO entregadorDTO) throws EntregadorNotFoundException {
+    public EntregadorDTO atualizaEntregador(Long id, EntregadorDTO entregadorDTO) throws EntregadorNotFoundException, SenhaInvalidaException, IncorretCodigoAcessoException {
 
         Entregador entregador = getEntregadorId(id);
 
+        if(!entregador.getCodigoAcesso().equals(entregadorDTO.getCodigoAcesso()))
+            throw new IncorretCodigoAcessoException();
+        if(entregadorDTO.getCodigoAcesso().length() != 6)
+            throw new SenhaInvalidaException();
+
         entregador.setNomeCompleto(entregadorDTO.getNomeCompleto());
-        entregador.setStatusEstabelecimento(entregadorDTO.getStatusEstabelecimento());
         entregador.setCodigoAcesso(entregadorDTO.getCodigoAcesso());
         entregador.setVeiculo(entregadorDTO.getVeiculo());
         salvarEntregadorCadastrado(entregador);

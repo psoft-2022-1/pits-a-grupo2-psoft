@@ -1,5 +1,7 @@
 package br.com.ufcg.ccc.psoft.model;
 
+import br.com.ufcg.ccc.psoft.dto.ClienteDTO;
+import br.com.ufcg.ccc.psoft.dto.EntregadorDTO;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -27,10 +29,10 @@ public class Entregador {
 
 	private String codigoAcesso;
 
-	public Entregador(String nomeCompleto, Veiculo veiculo, String statusEstabelecimento, String codigoAcesso) {
-		this.nomeCompleto = nomeCompleto;
+	public Entregador(EntregadorDTO entregadorDTO, Veiculo veiculo) {
+		this.nomeCompleto = entregadorDTO.getNomeCompleto();
 		this.veiculo = veiculo;
-		this.statusEstabelecimento = statusEstabelecimento;
-		this.codigoAcesso = codigoAcesso;
+		this.statusEstabelecimento = "SOB ANALISE";
+		this.codigoAcesso = entregadorDTO.getCodigoAcesso();
 	}
 }

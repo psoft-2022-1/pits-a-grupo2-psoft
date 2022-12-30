@@ -12,6 +12,10 @@ public class ErroEntregador {
 
     static final String ENTREGADOR_JA_CADASTRADO = "O entregador nome %s já esta cadastrado";
 
+    static final String SENHA_INVALIDA = "Senha invalida, por favor informe uma senha com 6 caracteres";
+
+    static final String SENHA_INCORRETA = "Senha incorreta";
+
     public static ResponseEntity<CustomErrorType> erroEntregadorNaoEncontrado(long id) {
         return new ResponseEntity<CustomErrorType>(new CustomErrorType(String.format(ErroEntregador.ENTREGADOR_NAO_CASTRADO, id)),
                 HttpStatus.NOT_FOUND);
@@ -27,4 +31,10 @@ public class ErroEntregador {
                 entregadorDTO.getNomeCompleto())), HttpStatus.CONFLICT);
     }
 
+    public static ResponseEntity<CustomErrorType> erroSenhaInvalida() {
+        return new ResponseEntity<>(new CustomErrorType(SENHA_INVALIDA), HttpStatus.BAD_REQUEST);
+    }
+    public static ResponseEntity<CustomErrorType> senhaIncorreta() {
+        return new ResponseEntity<>(new CustomErrorType(SENHA_INCORRETA), HttpStatus.FORBIDDEN);
+    }
 }
