@@ -34,9 +34,6 @@ public class Pedido {
 
 	private String enderecoEntrega;
 
-	//Apagar depois que mergear com o de Andreza
-	private String status;
-
 	private Double valorTotal;
 
 	@Enumerated(value = EnumType.STRING)
