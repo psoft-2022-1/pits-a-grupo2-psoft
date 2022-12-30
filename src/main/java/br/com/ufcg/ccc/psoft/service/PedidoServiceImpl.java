@@ -1,6 +1,7 @@
 package br.com.ufcg.ccc.psoft.service;
 
-import br.com.ufcg.ccc.psoft.dto.PedidoDTO;
+import br.com.ufcg.ccc.psoft.dto.requests.PedidoRequestDTO;
+import br.com.ufcg.ccc.psoft.dto.responses.PedidoResponseDTO;
 import br.com.ufcg.ccc.psoft.exception.*;
 import br.com.ufcg.ccc.psoft.model.*;
 import br.com.ufcg.ccc.psoft.model.Enum.StatusPedido;
@@ -29,12 +30,14 @@ public class PedidoServiceImpl implements PedidoService {
     private ItemDePedidoService itemDePedidoService;
 
     @Autowired
-    private ClienteRepository clienteRepository;
+    private PagamentoService pagamentoService;
 
+    @Autowired
+    private ClienteRepository clienteRepository;
     @Autowired
     public ModelMapper modelMapper;
 
-    public PedidoDTO criaPedido(Long idCliente, PedidoDTO pedidoDTO) throws SaborNotFoundException, QuantidadeSaboresInvalidosException, ClienteNotFoundException, IncorretCodigoAcessoException, PagamentoInvalidException {
+    public PedidoResponseDTO criaPedido(Long idCliente, PedidoRequestDTO pedidoDTO) throws SaborNotFoundException, QuantidadeSaboresInvalidosException, ClienteNotFoundException, IncorretCodigoAcessoException, PagamentoInvalidException {
         List<ItemDePedido> itensDePedidos = new ArrayList<>();
         for (ItemDePedido itemDePedido : pedidoDTO.getItensEscolhidos()) {
             Double value = itemDePedidoService.checkItem(itemDePedido);
@@ -52,7 +55,7 @@ public class PedidoServiceImpl implements PedidoService {
         Pedido pedido = new Pedido(cliente, itensDePedidos, pagamento, pedidoDTO.getEnderecoEntrega(), calculaTotalPedido(itensDePedidos));
         salvarPedidoCadastrado(pedido);
 
-        return modelMapper.map(pedido, PedidoDTO.class);
+        return modelMapper.map(pedido, PedidoResponseDTO.class);
     }
 
     private Pagamento setTipoPagamento(String tipoPagamento) throws PagamentoInvalidException {
@@ -89,7 +92,7 @@ public class PedidoServiceImpl implements PedidoService {
                 .orElseThrow(() -> new PedidoNotFoundException());
     }
 
-    public PedidoDTO atualizarPedido(Long id, PedidoDTO pedidoDTO) throws PedidoNotFoundException {
+    public PedidoResponseDTO atualizarPedido (Long id, PedidoRequestDTO pedidoDTO) throws PedidoNotFoundException {
         Pedido pedido = getPedidoId(id);
 
         pedido.setItensEscolhidos(pedidoDTO.getItensEscolhidos());
@@ -98,31 +101,31 @@ public class PedidoServiceImpl implements PedidoService {
         pedido.getPagamento().setDesconto(calculaTotalPedido(pedidoDTO.getItensEscolhidos()));
         this.pedidoRepository.save(pedido);
 
-        return modelMapper.map(pedido, PedidoDTO.class);
+        return modelMapper.map(pedido, PedidoResponseDTO.class);
     }
 
 
-    public PedidoDTO getPedidoById(Long id) throws PedidoNotFoundException {
+    public PedidoResponseDTO getPedidoById(Long id) throws PedidoNotFoundException {
         Pedido pedido = getPedidoId(id);
-        return modelMapper.map(pedido, PedidoDTO.class);
+        return modelMapper.map(pedido, PedidoResponseDTO.class);
     }
 
 
     @Override
-    public PedidoDTO confirmarPedido(Long id, PedidoDTO pedidoDTO) throws PedidoNotFoundException {
+    public PedidoResponseDTO confirmarPedido(Long id, PedidoRequestDTO pedidoDTO) throws PedidoNotFoundException {
         Pedido pedido = getPedidoId(id);
         pedido.setStatusPedido(StatusPedido.EM_PREPARO);
         pedidoRepository.save(pedido);
 
-        return modelMapper.map(pedido, PedidoDTO.class);
+        return modelMapper.map(pedido, PedidoResponseDTO.class);
     }
 
     @Override
-    public PedidoDTO finalizarPedido(Long id, PedidoDTO pedidoDTO) throws PedidoNotFoundException {
+    public PedidoResponseDTO finalizarPedido(Long id, PedidoRequestDTO pedidoDTO) throws PedidoNotFoundException {
         Pedido pedido = getPedidoId(id);
         pedido.setStatusPedido(StatusPedido.PRONTO);
         pedidoRepository.save(pedido);
 
-        return modelMapper.map(pedido, PedidoDTO.class);
+        return modelMapper.map(pedido, PedidoResponseDTO.class);
     }
 }
