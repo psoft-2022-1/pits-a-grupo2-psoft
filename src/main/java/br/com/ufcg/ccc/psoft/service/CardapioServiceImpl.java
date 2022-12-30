@@ -5,11 +5,11 @@ import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
 
+import br.com.ufcg.ccc.psoft.dto.responses.CardapioResponseDTO;
+import br.com.ufcg.ccc.psoft.dto.responses.SaborResponseDTO;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import br.com.ufcg.ccc.psoft.dto.CardapioDTO;
-import br.com.ufcg.ccc.psoft.dto.SaborDTO;
 import br.com.ufcg.ccc.psoft.exception.CardapioNotFoundException;
 import br.com.ufcg.ccc.psoft.model.Cardapio;
 import br.com.ufcg.ccc.psoft.repository.CardapioRepository;
@@ -25,30 +25,30 @@ public class CardapioServiceImpl implements CardapioService {
         Optional<Cardapio> opCardapio = cardapioRepository.findById(idCardapio);
         if (opCardapio.isEmpty())
             throw new CardapioNotFoundException();
-        List<SaborDTO> sabores = opCardapio.get().getSabores().stream().filter(s -> s.getTipo().equals(tipoSabor)).map(SaborDTO::new).collect(Collectors.toList());
+        List<SaborResponseDTO> sabores = opCardapio.get().getSabores().stream().filter(s -> s.getTipo().equals(tipoSabor)).map(SaborResponseDTO::new).collect(Collectors.toList());
         
-        List<SaborDTO> saboresDisponiveis = new ArrayList<>();
-        List<SaborDTO> saboresIndisponiveis = new ArrayList<>();
+        List<SaborResponseDTO> saboresDisponiveis = new ArrayList<>();
+        List<SaborResponseDTO> saboresIndisponiveis = new ArrayList<>();
         
-        for(SaborDTO saborDTO:sabores) {
-        	if(saborDTO.isEstaDisponivel()) {
-        		saboresDisponiveis.add(saborDTO);
+        for(SaborResponseDTO SaborResponseDTO:sabores) {
+        	if(SaborResponseDTO.isEstaDisponivel()) {
+        		saboresDisponiveis.add(SaborResponseDTO);
         	}else {
-        		saboresIndisponiveis.add(saborDTO);
+        		saboresIndisponiveis.add(SaborResponseDTO);
         	}
         }
         
-        List<SaborDTO> saboresOrdenados = new ArrayList<>();
+        List<SaborResponseDTO> saboresOrdenados = new ArrayList<>();
         
-        for(SaborDTO saborDTO:saboresDisponiveis) {
-        	saboresOrdenados.add(saborDTO);
+        for(SaborResponseDTO SaborResponseDTO:saboresDisponiveis) {
+        	saboresOrdenados.add(SaborResponseDTO);
         }
         
-        for(SaborDTO saborDTO:saboresIndisponiveis) {
-        	saboresOrdenados.add(saborDTO);
+        for(SaborResponseDTO SaborResponseDTO:saboresIndisponiveis) {
+        	saboresOrdenados.add(SaborResponseDTO);
         }
         
         
-        return new CardapioDTO(opCardapio.get().getId(), saboresOrdenados);
+        return new CardapioResponseDTO(opCardapio.get().getId(), saboresOrdenados);
     }
 }

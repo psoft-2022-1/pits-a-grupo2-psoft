@@ -3,12 +3,18 @@ package br.com.ufcg.ccc.psoft.service;
 import br.com.ufcg.ccc.psoft.dto.requests.CardapioRequestDTO;
 import br.com.ufcg.ccc.psoft.dto.requests.EstabelecimentoRequestDTO;
 import br.com.ufcg.ccc.psoft.dto.responses.CardapioResponseDTO;
+import br.com.ufcg.ccc.psoft.dto.responses.EstabelecimentoResponseDTO;
 import br.com.ufcg.ccc.psoft.exception.CardapioNotFoundException;
 import br.com.ufcg.ccc.psoft.exception.EstabelecimentoNotFoundException;
 import br.com.ufcg.ccc.psoft.exception.IncorretCodigoAcessoException;
 import br.com.ufcg.ccc.psoft.exception.InvalidCodigoAcessoException;
 import br.com.ufcg.ccc.psoft.model.Estabelecimento;
 import br.com.ufcg.ccc.psoft.repository.EstabelecimentoRepository;
+import org.modelmapper.ModelMapper;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+
+import java.util.Optional;
 
 @Service
 public class EstabelecimentoServiceImpl implements EstabelecimentoService {
@@ -56,14 +62,14 @@ public class EstabelecimentoServiceImpl implements EstabelecimentoService {
     }
 
     @Override
-    public EstabelecimentoRequestDTO criarEstabelecimento(EstabelecimentoRequestDTO estabelecimentoDTO) throws InvalidCodigoAcessoException {
+    public EstabelecimentoResponseDTO criarEstabelecimento(EstabelecimentoRequestDTO estabelecimentoDTO) throws InvalidCodigoAcessoException {
         if(estabelecimentoDTO.getCodigoAcesso().length() != 6){
             throw new InvalidCodigoAcessoException();
         }
         Estabelecimento estabelecimento = new Estabelecimento(estabelecimentoDTO.getCodigoAcesso());
 
         estabelecimentoRepository.save(estabelecimento);
-        return modelMapper.map(estabelecimento, EstabelecimentoRequestDTO.class);
+        return modelMapper.map(estabelecimento, EstabelecimentoResponseDTO.class);
     }
 
     @Override

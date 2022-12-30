@@ -2,7 +2,11 @@ package br.com.ufcg.ccc.psoft.controller;
 
 import java.util.List;
 
+import br.com.ufcg.ccc.psoft.dto.requests.SaborRequestDTO;
 import br.com.ufcg.ccc.psoft.dto.responses.SaborResponseDTO;
+import br.com.ufcg.ccc.psoft.service.util.ErroCliente;
+import br.com.ufcg.ccc.psoft.service.util.ErroEstabelecimento;
+import br.com.ufcg.ccc.psoft.service.util.ErroSabor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -16,16 +20,12 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import br.com.ufcg.ccc.psoft.dto.SaborDTO;
 import br.com.ufcg.ccc.psoft.exception.ClienteNotFoundException;
 import br.com.ufcg.ccc.psoft.exception.EstabelecimentoNotFoundException;
 import br.com.ufcg.ccc.psoft.exception.SaborAlreadyCreatedException;
 import br.com.ufcg.ccc.psoft.exception.SaborEstaDisponivelException;
 import br.com.ufcg.ccc.psoft.exception.SaborNotFoundException;
 import br.com.ufcg.ccc.psoft.service.SaborService;
-import br.com.ufcg.ccc.psoft.util.ErroCliente;
-import br.com.ufcg.ccc.psoft.util.ErroEstabelecimento;
-import br.com.ufcg.ccc.psoft.util.ErroSabor;
 
 @RestController
 @RequestMapping("/api")
@@ -40,8 +40,8 @@ public class SaborController {
 			@RequestBody SaborRequestDTO saborRequestDTO) {
 
 		try {
-			SaborRequestDTO sabor = saborService.criarSabor(idEstabelecimento, saborRequestDTO);
-			return new ResponseEntity<SaborRequestDTO>(sabor, HttpStatus.CREATED);
+			SaborResponseDTO sabor = saborService.criarSabor(idEstabelecimento, saborRequestDTO);
+			return new ResponseEntity<SaborResponseDTO>(sabor, HttpStatus.CREATED);
 		} catch (SaborAlreadyCreatedException e) {
 			return ErroSabor.erroSaborJaCadastrado(saborRequestDTO);
 		} catch (EstabelecimentoNotFoundException e2) {
@@ -68,8 +68,8 @@ public class SaborController {
 			@PathVariable("idSabor") long idSabor, @RequestBody SaborRequestDTO saborRequestDTO) {
 
 		try {
-			SaborRequestDTO sabor = saborService.atualizarSabor(idEstabelecimento, idSabor, saborRequestDTO);
-			return new ResponseEntity<SaborRequestDTO>(sabor, HttpStatus.OK);
+			SaborResponseDTO sabor = saborService.atualizarSabor(idEstabelecimento, idSabor, saborRequestDTO);
+			return new ResponseEntity<SaborResponseDTO>(sabor, HttpStatus.OK);
 		} catch (SaborNotFoundException e) {
 			return ErroSabor.erroSaborNaoEncontrado(idSabor);
 		} catch (EstabelecimentoNotFoundException e2) {
@@ -107,8 +107,8 @@ public class SaborController {
 			@PathVariable("idSabor") long idSabor, @RequestBody boolean estaDisponivel) {
 
 		try {
-			SaborDTO sabor = saborService.editarDisponibilidadeSabor(idEstabelecimento, idSabor, estaDisponivel);
-			return new ResponseEntity<SaborDTO>(sabor, HttpStatus.OK);
+			SaborResponseDTO sabor = saborService.editarDisponibilidadeSabor(idEstabelecimento, idSabor, estaDisponivel);
+			return new ResponseEntity<SaborResponseDTO>(sabor, HttpStatus.OK);
 		} catch (SaborNotFoundException e) {
 			return ErroSabor.erroSaborNaoEncontrado(idSabor);
 		} catch (EstabelecimentoNotFoundException e2) {
@@ -120,8 +120,8 @@ public class SaborController {
 	public ResponseEntity<?> demonstrarInteresseEmSabor(@PathVariable("idCliente") long idCliente, @RequestBody long idSabor) {
 
 		try {
-			SaborDTO sabor= saborService.demonstrarInteresseEmSabor(idCliente, idSabor);
-			return new ResponseEntity<SaborDTO>(sabor, HttpStatus.OK);
+			SaborResponseDTO sabor= saborService.demonstrarInteresseEmSabor(idCliente, idSabor);
+			return new ResponseEntity<SaborResponseDTO>(sabor, HttpStatus.OK);
 		} catch (ClienteNotFoundException e) {
 			return ErroCliente.erroClienteNaoEnconrtrado(idCliente);
 		}catch (SaborNotFoundException e2) {

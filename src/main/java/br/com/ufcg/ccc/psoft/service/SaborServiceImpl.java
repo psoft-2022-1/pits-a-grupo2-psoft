@@ -3,12 +3,12 @@ package br.com.ufcg.ccc.psoft.service;
 import java.util.List;
 import java.util.stream.Collectors;
 
+import br.com.ufcg.ccc.psoft.dto.requests.SaborRequestDTO;
 import br.com.ufcg.ccc.psoft.dto.responses.SaborResponseDTO;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import br.com.ufcg.ccc.psoft.dto.SaborDTO;
 import br.com.ufcg.ccc.psoft.exception.ClienteNotFoundException;
 import br.com.ufcg.ccc.psoft.exception.EstabelecimentoNotFoundException;
 import br.com.ufcg.ccc.psoft.exception.SaborAlreadyCreatedException;
@@ -41,7 +41,7 @@ public class SaborServiceImpl implements SaborService {
     @Autowired
     public ModelMapper modelMapper;
 
-    public SaborRequestDTO criarSabor(Long idEstabelecimento, SaborRequestDTO saborRequestDTO)
+    public SaborResponseDTO criarSabor(Long idEstabelecimento, SaborRequestDTO saborRequestDTO)
             throws SaborAlreadyCreatedException, EstabelecimentoNotFoundException {
         if (isSaborCadastrado(saborRequestDTO.getNomeSabor())) {
             throw new SaborAlreadyCreatedException();
@@ -53,7 +53,7 @@ public class SaborServiceImpl implements SaborService {
         salvarSabor(sabor);
         salvarSaborNoCardapio(idEstabelecimento, sabor);
 
-        return modelMapper.map(sabor, SaborRequestDTO.class);
+        return modelMapper.map(sabor, SaborResponseDTO.class);
     }
 
     private void salvarSabor(Sabor sabor) {
@@ -94,9 +94,9 @@ public class SaborServiceImpl implements SaborService {
                 .orElseThrow(() -> new SaborNotFoundException());
     }
 
-    public SaborRequestDTO getSaborById(Long id) throws SaborNotFoundException {
+    public SaborResponseDTO getSaborById(Long id) throws SaborNotFoundException {
         Sabor sabor = getSaborId(id);
-        return modelMapper.map(sabor, SaborRequestDTO.class);
+        return modelMapper.map(sabor, SaborResponseDTO.class);
     }
 
     private Sabor getSaborId(Long idEstabelecimento, Long idSabor)
@@ -116,7 +116,7 @@ public class SaborServiceImpl implements SaborService {
 
     }
 
-    public SaborRequestDTO atualizarSabor(Long idEstabelecimento, Long idSabor, SaborRequestDTO saborRequestDTO)
+    public SaborResponseDTO atualizarSabor(Long idEstabelecimento, Long idSabor, SaborRequestDTO saborRequestDTO)
             throws SaborNotFoundException, EstabelecimentoNotFoundException {
 
         Estabelecimento estabelecimento = estabelecimentoRepository.findById(idEstabelecimento)
@@ -145,7 +145,7 @@ public class SaborServiceImpl implements SaborService {
 
         }
 
-        return modelMapper.map(sabor, SaborRequestDTO.class);
+        return modelMapper.map(sabor, SaborResponseDTO.class);
     }
 
     public void removerSaborCadastrado(Long idEstabelecimento, Long idSabor)
@@ -190,7 +190,7 @@ public class SaborServiceImpl implements SaborService {
         return sabores;
     }
 
-    public SaborDTO editarDisponibilidadeSabor(long idEstabelecimento, long idSabor, boolean estaDisponivel)  
+    public SaborResponseDTO editarDisponibilidadeSabor(long idEstabelecimento, long idSabor, boolean estaDisponivel)
     		throws SaborNotFoundException, EstabelecimentoNotFoundException{
     	
     	Estabelecimento estabelecimento = estabelecimentoRepository.findById(idEstabelecimento)
@@ -219,11 +219,11 @@ public class SaborServiceImpl implements SaborService {
         	sabor.dispararAviso();
         }
         
-        return modelMapper.map(sabor, SaborDTO.class);
+        return modelMapper.map(sabor, SaborResponseDTO.class);
     	
     }
     
-	public SaborDTO demonstrarInteresseEmSabor(long idCliente, long idSabor) 
+	public SaborResponseDTO demonstrarInteresseEmSabor(long idCliente, long idSabor)
 			throws ClienteNotFoundException, SaborNotFoundException, SaborEstaDisponivelException{
 		
 		Sabor sabor = getSaborId(idSabor);
@@ -239,7 +239,7 @@ public class SaborServiceImpl implements SaborService {
 		
 		salvarSabor(sabor);
 		
-		return modelMapper.map(sabor, SaborDTO.class);
+		return modelMapper.map(sabor, SaborResponseDTO.class);
 	}
 }
 
