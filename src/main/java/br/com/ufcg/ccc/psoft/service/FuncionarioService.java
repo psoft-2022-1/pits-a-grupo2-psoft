@@ -14,7 +14,7 @@ public interface FuncionarioService {
 
     boolean checkCodAcesso(FuncionarioRequestDTO funcionarioRequestDTO, String codFuncionario) throws IncorretCodigoAcessoException;
 
-    FuncionarioRequestDTO criaFuncionario(FuncionarioRequestDTO funcionarioRequestDTO) throws FuncionarioAlreadyCreatedException;
+    FuncionarioRequestDTO criaFuncionario(FuncionarioRequestDTO funcionarioRequestDTO) throws FuncionarioAlreadyCreatedException, InvalidCodigoAcessoException;
 
     void removerFuncionarioCadastrado(Long id) throws FuncionarioNotFoundException;
 }

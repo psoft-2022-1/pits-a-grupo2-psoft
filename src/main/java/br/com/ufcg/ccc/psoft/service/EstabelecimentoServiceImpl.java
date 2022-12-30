@@ -6,6 +6,7 @@ import br.com.ufcg.ccc.psoft.dto.responses.CardapioResponseDTO;
 import br.com.ufcg.ccc.psoft.exception.CardapioNotFoundException;
 import br.com.ufcg.ccc.psoft.exception.EstabelecimentoNotFoundException;
 import br.com.ufcg.ccc.psoft.exception.IncorretCodigoAcessoException;
+import br.com.ufcg.ccc.psoft.exception.InvalidCodigoAcessoException;
 import br.com.ufcg.ccc.psoft.model.Estabelecimento;
 import br.com.ufcg.ccc.psoft.repository.EstabelecimentoRepository;
 import org.modelmapper.ModelMapper;
@@ -60,8 +61,10 @@ public class EstabelecimentoServiceImpl implements EstabelecimentoService {
     }
 
     @Override
-    public EstabelecimentoRequestDTO criarEstabelecimento(EstabelecimentoRequestDTO estabelecimentoDTO) {
-
+    public EstabelecimentoRequestDTO criarEstabelecimento(EstabelecimentoRequestDTO estabelecimentoDTO) throws InvalidCodigoAcessoException {
+        if(estabelecimentoDTO.getCodigoAcesso().length() != 6){
+            throw new InvalidCodigoAcessoException();
+        }
         Estabelecimento estabelecimento = new Estabelecimento(estabelecimentoDTO.getCodigoAcesso());
 
         estabelecimentoRepository.save(estabelecimento);

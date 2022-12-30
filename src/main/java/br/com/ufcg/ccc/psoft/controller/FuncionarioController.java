@@ -20,13 +20,15 @@ public class FuncionarioController {
     FuncionarioService funcionarioService;
 
     @PostMapping(value = "/funcionario/")
-    public ResponseEntity<?> criarFuncionario(@RequestBody FuncionarioRequestDTO funcionarioRequestDTO) throws FuncionarioAlreadyCreatedException {
+    public ResponseEntity<?> criarFuncionario(@RequestBody FuncionarioRequestDTO funcionarioRequestDTO){
 
         try {
             FuncionarioRequestDTO funcionario = funcionarioService.criaFuncionario(funcionarioRequestDTO);
             return new ResponseEntity<>(funcionario, HttpStatus.CREATED);
         } catch (FuncionarioAlreadyCreatedException e) {
             return ErroFuncionario.erroFuncionarioJaCadastrado(funcionarioRequestDTO);
+        } catch (InvalidCodigoAcessoException e) {
+            return ErroFuncionario.erroCodigoAcessoInvalido();
         }
     }
 

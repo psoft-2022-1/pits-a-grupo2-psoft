@@ -4,6 +4,7 @@ import br.com.ufcg.ccc.psoft.dto.requests.ClienteRequestDTO;
 import br.com.ufcg.ccc.psoft.dto.responses.ClienteResponseDTO;
 import br.com.ufcg.ccc.psoft.exception.ClienteAlreadyCreatedException;
 import br.com.ufcg.ccc.psoft.exception.ClienteNotFoundException;
+import br.com.ufcg.ccc.psoft.exception.InvalidCodigoAcessoException;
 import br.com.ufcg.ccc.psoft.service.ClienteService;
 import br.com.ufcg.ccc.psoft.service.util.ErroCliente;
 
@@ -52,6 +53,8 @@ public class ClienteController {
 			return new ResponseEntity<ClienteRequestDTO>(cliente, HttpStatus.CREATED);
 		} catch (ClienteAlreadyCreatedException e) {
 			return ErroCliente.erroClienteJaCadastrado(clienteRequestDTO);
+		} catch (InvalidCodigoAcessoException e) {
+			return ErroCliente.erroCodigoAcessoInvalido();
 		}
 	}
 	
