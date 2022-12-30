@@ -1,13 +1,11 @@
-package br.com.ufcg.ccc.psoft.dto;
+package br.com.ufcg.ccc.psoft.dto.responses;
 
 import lombok.Data;
 
 @Data
-public class AnalisarEntregadorRequestDTO {
+public class AnalisarEntregadorResponseDTO {
 
     private Long idEstabelecimento;
-
-    private String codEstabelecimento;
 
     private Long idFuncionario;
 

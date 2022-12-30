@@ -1,7 +1,8 @@
 package br.com.ufcg.ccc.psoft.service;
 
-import br.com.ufcg.ccc.psoft.dto.ClienteDTO;
-import br.com.ufcg.ccc.psoft.dto.PedidoDTO;
+import br.com.ufcg.ccc.psoft.dto.requests.ClienteRequestDTO;
+import br.com.ufcg.ccc.psoft.dto.requests.PedidoRequestDTO;
+import br.com.ufcg.ccc.psoft.dto.responses.PedidoResponseDTO;
 import br.com.ufcg.ccc.psoft.exception.*;
 import br.com.ufcg.ccc.psoft.model.Pedido;
 
@@ -9,22 +10,22 @@ import java.util.List;
 
 public interface PedidoService {
 
-    public PedidoDTO criaPedido(Long idCliente, PedidoDTO pedidoDTO) throws SaborNotFoundException, QuantidadeSaboresInvalidosException, ClienteNotFoundException, IncorretCodigoAcessoException, PagamentoInvalidException;
+    public PedidoResponseDTO criaPedido(Long idCliente, PedidoRequestDTO pedidoDTO) throws SaborNotFoundException, QuantidadeSaboresInvalidosException, ClienteNotFoundException, IncorretCodigoAcessoException, PagamentoInvalidException;
 
     public void removerPedidoCadastrado(Long id) throws PedidoNotFoundException;
 
-    PedidoDTO atualizarPedido(Long id, PedidoDTO pedidoDTO) throws PedidoNotFoundException;
+    PedidoResponseDTO atualizarPedido(Long id, PedidoRequestDTO pedidoDTO) throws PedidoNotFoundException;
 
-    public PedidoDTO getPedidoById(Long idPedido) throws PedidoNotFoundException;
+    public PedidoResponseDTO getPedidoById(Long idPedido) throws PedidoNotFoundException;
 
-    public Pedido getPedidoByClienteById(ClienteDTO clienteDTO, Long idPedido);
+    public PedidoResponseDTO getPedidoByClienteById(ClienteRequestDTO clienteDTO, Long idPedido);
 
-    public List<Pedido> getPedidosByCliente(ClienteDTO clienteDTO);
+    public List<PedidoResponseDTO> getPedidosByCliente(ClienteRequestDTO clienteDTO);
 
-    public List<Pedido> getPedidosByClienteByStatus(ClienteDTO clienteDTO, String status);
+    public List<PedidoResponseDTO> getPedidosByClienteByStatus(ClienteRequestDTO clienteDTO, String status);
     
-    PedidoDTO confirmarPedido(Long id, PedidoDTO pedidoDTO) throws PedidoNotFoundException;
+    PedidoResponseDTO confirmarPedido(Long id, PedidoRequestDTO pedidoDTO) throws PedidoNotFoundException;
 
-    PedidoDTO finalizarPedido(Long id, PedidoDTO pedidoDTO) throws PedidoNotFoundException;
+    PedidoResponseDTO finalizarPedido(Long id, PedidoRequestDTO pedidoRequestDTO) throws PedidoNotFoundException;
 
 }

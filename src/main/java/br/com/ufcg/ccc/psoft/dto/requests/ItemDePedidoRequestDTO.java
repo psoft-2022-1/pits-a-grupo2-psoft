@@ -1,4 +1,4 @@
-package br.com.ufcg.ccc.psoft.dto;
+package br.com.ufcg.ccc.psoft.dto.requests;
 
 import java.util.List;
 
@@ -6,9 +6,7 @@ import lombok.Data;
 
 import br.com.ufcg.ccc.psoft.model.Sabor;
 @Data
-public class ItemDePedidoDTO {
-
-	private Long id;
+public class ItemDePedidoRequestDTO {
 
 	private List<Sabor> sabores;
 	

@@ -39,6 +39,10 @@ public class Pedido {
 	@Enumerated(value = EnumType.STRING)
 	private StatusPedido statusPedido;
 
+	@ManyToOne(targetEntity = Entregador.class)
+	@JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
+	private Entregador entregador;
+
 	public Pedido(Cliente cliente, List<ItemDePedido> itensEscolhidos, Pagamento pagamento, String enderecoEntrega, Double valorTotal) {
 		this.cliente = cliente;
 		this.itensEscolhidos = itensEscolhidos;
@@ -46,5 +50,12 @@ public class Pedido {
 		this.enderecoEntrega = enderecoEntrega;
 		this.valorTotal = valorTotal;
 		this.statusPedido = StatusPedido.valueOf("Pedido recebido");
+	}
+
+	public void notifyCliente(){
+		System.out.println("Sr(a) " + cliente.getNomeCompleto() + " seu pedido está em rota." + "\n"
+			+ "Informações do Entregador:" + "\n"
+			+ "Nome: " + entregador.getNomeCompleto()
+			+ entregador.getVeiculo().toString());
 	}
 }

@@ -1,21 +1,16 @@
-package br.com.ufcg.ccc.psoft.dto;
+package br.com.ufcg.ccc.psoft.dto.responses;
 
-import java.util.List;
-
-import br.com.ufcg.ccc.psoft.model.Enum.StatusPedido;
 import br.com.ufcg.ccc.psoft.model.ItemDePedido;
 import lombok.Data;
 
+import java.util.List;
+
 @Data
-public class PedidoDTO {
+public class PedidoResponseDTO {
 
 	private Long id;
-	
-   	private String codCliente;
 
 	private List <ItemDePedido> itensEscolhidos;
-
-	private StatusPedido statusPedido;
    	
     private String tipoPagamento;
 
