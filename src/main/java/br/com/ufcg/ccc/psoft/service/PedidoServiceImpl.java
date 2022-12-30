@@ -1,11 +1,14 @@
 package br.com.ufcg.ccc.psoft.service;
 
+import br.com.ufcg.ccc.psoft.dto.requests.ClienteRequestDTO;
 import br.com.ufcg.ccc.psoft.dto.requests.PedidoRequestDTO;
 import br.com.ufcg.ccc.psoft.dto.responses.PedidoResponseDTO;
 import br.com.ufcg.ccc.psoft.exception.*;
 import br.com.ufcg.ccc.psoft.model.*;
 import br.com.ufcg.ccc.psoft.model.Enum.StatusPedido;
 import br.com.ufcg.ccc.psoft.repository.PedidoRepository;
+import br.com.ufcg.ccc.psoft.util.ErroPedido;
+import net.bytebuddy.asm.Advice;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -99,6 +102,24 @@ public class PedidoServiceImpl implements PedidoService {
     public PedidoResponseDTO getPedidoById(Long id) throws PedidoNotFoundException {
         Pedido pedido = getPedidoId(id);
         return modelMapper.map(pedido, PedidoResponseDTO.class);
+    }
+
+    @Override
+    public PedidoResponseDTO getPedidoByClienteById(ClienteRequestDTO clienteDTO, Long idPedido) {
+        Cliente cliente = modelMapper.map(clienteDTO, Cliente.class);
+        return pedidoRepository.findPedidoByClienteAndId(cliente, idPedido);
+    }
+
+    @Override
+    public List<PedidoResponseDTO> getPedidosByCliente(ClienteRequestDTO clienteDTO) {
+        Cliente cliente = modelMapper.map(clienteDTO, Cliente.class);
+        return pedidoRepository.findPedidosByClienteOrderByIdDesc(cliente);
+    }
+
+    @Override
+    public List<PedidoResponseDTO> getPedidosByClienteByStatus(ClienteRequestDTO clienteDTO, String status) {
+        Cliente cliente = modelMapper.map(clienteDTO, Cliente.class);
+        return pedidoRepository.findPedidosByClienteAndStatusPedidoOrderByIdDesc(cliente, status);
     }
 
 

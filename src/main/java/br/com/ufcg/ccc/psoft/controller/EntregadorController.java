@@ -6,7 +6,7 @@ import br.com.ufcg.ccc.psoft.exception.EntregadorAlreadyCreatedException;
 import br.com.ufcg.ccc.psoft.exception.EntregadorNotFoundException;
 import br.com.ufcg.ccc.psoft.exception.InvalidCodigoAcessoException;
 import br.com.ufcg.ccc.psoft.service.EntregadorService;
-import br.com.ufcg.ccc.psoft.service.util.ErroEntregador;
+import br.com.ufcg.ccc.psoft.util.ErroEntregador;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;

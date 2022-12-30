@@ -4,9 +4,7 @@ import java.util.List;
 
 import br.com.ufcg.ccc.psoft.dto.requests.SaborRequestDTO;
 import br.com.ufcg.ccc.psoft.dto.responses.SaborResponseDTO;
-import br.com.ufcg.ccc.psoft.service.util.ErroCliente;
-import br.com.ufcg.ccc.psoft.service.util.ErroEstabelecimento;
-import br.com.ufcg.ccc.psoft.service.util.ErroSabor;
+import br.com.ufcg.ccc.psoft.util.ErroCliente;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -26,6 +24,8 @@ import br.com.ufcg.ccc.psoft.exception.SaborAlreadyCreatedException;
 import br.com.ufcg.ccc.psoft.exception.SaborEstaDisponivelException;
 import br.com.ufcg.ccc.psoft.exception.SaborNotFoundException;
 import br.com.ufcg.ccc.psoft.service.SaborService;
+import br.com.ufcg.ccc.psoft.util.ErroEstabelecimento;
+import br.com.ufcg.ccc.psoft.util.ErroSabor;
 
 @RestController
 @RequestMapping("/api")

@@ -1,15 +1,14 @@
 package br.com.ufcg.ccc.psoft.controller;
 
 import br.com.ufcg.ccc.psoft.dto.requests.AnalisarEntregadorRequestDTO;
-import br.com.ufcg.ccc.psoft.dto.requests.EntregadorRequestDTO;
 import br.com.ufcg.ccc.psoft.dto.requests.FuncionarioRequestDTO;
 import br.com.ufcg.ccc.psoft.dto.responses.EntregadorResponseDTO;
 import br.com.ufcg.ccc.psoft.dto.responses.FuncionarioResponseDTO;
 import br.com.ufcg.ccc.psoft.exception.*;
 import br.com.ufcg.ccc.psoft.service.FuncionarioService;
-import br.com.ufcg.ccc.psoft.service.util.ErroEntregador;
-import br.com.ufcg.ccc.psoft.service.util.ErroEstabelecimento;
-import br.com.ufcg.ccc.psoft.service.util.ErroFuncionario;
+import br.com.ufcg.ccc.psoft.util.ErroEntregador;
+import br.com.ufcg.ccc.psoft.util.ErroEstabelecimento;
+import br.com.ufcg.ccc.psoft.util.ErroFuncionario;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
