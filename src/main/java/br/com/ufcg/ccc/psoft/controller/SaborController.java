@@ -37,8 +37,8 @@ public class SaborController {
 			@RequestBody SaborRequestDTO saborRequestDTO) {
 
 		try {
-			SaborRequestDTO sabor = saborService.criarSabor(idEstabelecimento, saborRequestDTO);
-			return new ResponseEntity<SaborRequestDTO>(sabor, HttpStatus.CREATED);
+			SaborResponseDTO sabor = saborService.criarSabor(idEstabelecimento, saborRequestDTO);
+			return new ResponseEntity<SaborResponseDTO>(sabor, HttpStatus.CREATED);
 		} catch (SaborAlreadyCreatedException e) {
 			return ErroSabor.erroSaborJaCadastrado(saborRequestDTO);
 		} catch (EstabelecimentoNotFoundException e2) {
@@ -65,8 +65,8 @@ public class SaborController {
 			@PathVariable("idSabor") long idSabor, @RequestBody SaborRequestDTO saborRequestDTO) {
 
 		try {
-			SaborRequestDTO sabor = saborService.atualizarSabor(idEstabelecimento, idSabor, saborRequestDTO);
-			return new ResponseEntity<SaborRequestDTO>(sabor, HttpStatus.OK);
+			SaborResponseDTO sabor = saborService.atualizarSabor(idEstabelecimento, idSabor, saborRequestDTO);
+			return new ResponseEntity<SaborResponseDTO>(sabor, HttpStatus.OK);
 		} catch (SaborNotFoundException e) {
 			return ErroSabor.erroSaborNaoEncontrado(idSabor);
 		} catch (EstabelecimentoNotFoundException e2) {

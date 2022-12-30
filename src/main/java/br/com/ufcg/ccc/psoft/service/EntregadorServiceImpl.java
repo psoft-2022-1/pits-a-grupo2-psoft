@@ -27,7 +27,7 @@ public class EntregadorServiceImpl implements EntregadorService {
     @Autowired
     public ModelMapper modelMapper;
 
-    public EntregadorRequestDTO criaEntregador(EntregadorRequestDTO entregadorRequestDTO) throws EntregadorAlreadyCreatedException, InvalidCodigoAcessoException {
+    public EntregadorResponseDTO criaEntregador(EntregadorRequestDTO entregadorRequestDTO) throws EntregadorAlreadyCreatedException, InvalidCodigoAcessoException {
         if(entregadorRequestDTO.getCodigoAcesso().length() != 6){
             throw new InvalidCodigoAcessoException();
         }
@@ -40,7 +40,7 @@ public class EntregadorServiceImpl implements EntregadorService {
         Entregador entregador = new Entregador(entregadorRequestDTO.getNomeCompleto(), veiculo, entregadorRequestDTO.getStatusEstabelecimento(), entregadorRequestDTO.getCodigoAcesso());
         salvarEntregadorCadastrado(entregador);
 
-        return modelMapper.map(entregador, EntregadorRequestDTO.class);
+        return modelMapper.map(entregador, EntregadorResponseDTO.class);
     }
 
     public List<EntregadorResponseDTO> listarEntregadores() {
