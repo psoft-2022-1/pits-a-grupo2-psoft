@@ -73,13 +73,13 @@ public class EstabelecimentoServiceImpl implements EstabelecimentoService {
     }
 
     @Override
-    public EstabelecimentoRequestDTO editarEstabelecimento(Long idEstabelecimento, EstabelecimentoRequestDTO estabelecimentoDTO) throws EstabelecimentoNotFoundException {
+    public EstabelecimentoResponseDTO editarEstabelecimento(Long idEstabelecimento, EstabelecimentoRequestDTO estabelecimentoDTO) throws EstabelecimentoNotFoundException {
         Optional<Estabelecimento> estabelecimento = estabelecimentoRepository.findById(idEstabelecimento);
         if(estabelecimento.isEmpty())
             throw new EstabelecimentoNotFoundException();
         estabelecimento.get().setCodigoAcesso(estabelecimentoDTO.getCodigoAcesso());
 
-        return modelMapper.map(estabelecimentoRepository.save(estabelecimento.get()), EstabelecimentoRequestDTO.class);
+        return modelMapper.map(estabelecimentoRepository.save(estabelecimento.get()), EstabelecimentoResponseDTO.class);
     }
 
     @Override

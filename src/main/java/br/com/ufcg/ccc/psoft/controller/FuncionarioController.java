@@ -23,7 +23,7 @@ public class FuncionarioController {
     FuncionarioService funcionarioService;
 
     @PostMapping(value = "/funcionario/")
-    public ResponseEntity<?> criarFuncionario(@RequestBody FuncionarioRequestDTO funcionarioRequestDTO){
+    public ResponseEntity<?> criarFuncionario(@RequestBody FuncionarioRequestDTO funcionarioRequestDTO) throws FuncionarioAlreadyCreatedException {
 
         try {
             FuncionarioResponseDTO funcionario = funcionarioService.criaFuncionario(funcionarioRequestDTO);

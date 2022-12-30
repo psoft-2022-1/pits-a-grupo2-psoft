@@ -34,7 +34,7 @@ public class SaborServiceImpl implements SaborService {
     @Autowired
     public ModelMapper modelMapper;
 
-    public SaborRequestDTO criarSabor(Long idEstabelecimento, SaborRequestDTO saborRequestDTO)
+    public SaborResponseDTO criarSabor(Long idEstabelecimento, SaborRequestDTO saborRequestDTO)
             throws SaborAlreadyCreatedException, EstabelecimentoNotFoundException {
         if (isSaborCadastrado(saborRequestDTO.getNomeSabor())) {
             throw new SaborAlreadyCreatedException();
@@ -46,7 +46,7 @@ public class SaborServiceImpl implements SaborService {
         salvarSabor(sabor);
         salvarSaborNoCardapio(idEstabelecimento, sabor);
 
-        return modelMapper.map(sabor, SaborRequestDTO.class);
+        return modelMapper.map(sabor, SaborResponseDTO.class);
     }
 
     private void salvarSabor(Sabor sabor) {
@@ -109,7 +109,7 @@ public class SaborServiceImpl implements SaborService {
 
     }
 
-    public SaborRequestDTO atualizarSabor(Long idEstabelecimento, Long idSabor, SaborRequestDTO saborRequestDTO)
+    public SaborResponseDTO atualizarSabor(Long idEstabelecimento, Long idSabor, SaborRequestDTO saborRequestDTO)
             throws SaborNotFoundException, EstabelecimentoNotFoundException {
 
         Estabelecimento estabelecimento = estabelecimentoRepository.findById(idEstabelecimento)
@@ -137,7 +137,7 @@ public class SaborServiceImpl implements SaborService {
 
         }
 
-        return modelMapper.map(sabor, SaborRequestDTO.class);
+        return modelMapper.map(sabor, SaborResponseDTO.class);
     }
 
     public void removerSaborCadastrado(Long idEstabelecimento, Long idSabor)

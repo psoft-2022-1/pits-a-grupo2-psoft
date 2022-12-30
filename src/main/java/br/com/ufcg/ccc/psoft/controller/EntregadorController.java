@@ -26,7 +26,7 @@ public class EntregadorController {
     public ResponseEntity<?> criarEntregador(@RequestBody EntregadorRequestDTO entregadorRequestDTO) {
         try {
             EntregadorResponseDTO entregador = entregadorService.criaEntregador(entregadorRequestDTO);
-            return new ResponseEntity<>(entregador, HttpStatus.CREATED);
+            return new ResponseEntity<EntregadorResponseDTO>(entregador, HttpStatus.CREATED);
         } catch (EntregadorAlreadyCreatedException e) {
             return ErroEntregador.erroEntregadorJaCadastrado(entregadorRequestDTO);
         } catch (InvalidCodigoAcessoException e) {

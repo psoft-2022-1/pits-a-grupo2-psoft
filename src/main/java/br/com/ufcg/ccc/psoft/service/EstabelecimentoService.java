@@ -23,7 +23,7 @@ public interface EstabelecimentoService {
 
     public EstabelecimentoResponseDTO criarEstabelecimento(EstabelecimentoRequestDTO codigoAcesso) throws InvalidCodigoAcessoException;
 
-    public EstabelecimentoRequestDTO editarEstabelecimento(Long idEstabelecimento, EstabelecimentoRequestDTO codigoAcesso) throws EstabelecimentoNotFoundException;
+    public EstabelecimentoResponseDTO editarEstabelecimento(Long idEstabelecimento, EstabelecimentoRequestDTO codigoAcesso) throws EstabelecimentoNotFoundException;
 
 
     public CardapioResponseDTO getCardapio(Long idEstabelecimento) throws EstabelecimentoNotFoundException;
