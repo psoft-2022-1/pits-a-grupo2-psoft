@@ -51,7 +51,7 @@ public class ClienteServiceImpl implements ClienteService{
 	}
 
 	@Override
-	public ClienteRequestDTO criaCliente(ClienteRequestDTO clienteRequestDTO) throws InvalidCodigoAcessoException {
+	public ClienteResponseDTO criaCliente(ClienteRequestDTO clienteRequestDTO) throws InvalidCodigoAcessoException {
 		if(clienteRequestDTO.getCodAcesso().length() != 6){
 			throw new InvalidCodigoAcessoException();
 		}
@@ -60,7 +60,7 @@ public class ClienteServiceImpl implements ClienteService{
 
 		this.clienteRepository.save(cliente);
 
-		return modelMapper.map(cliente, ClienteRequestDTO.class);
+		return modelMapper.map(cliente, ClienteResponseDTO.class);
 	}
 
 	@Override

@@ -49,8 +49,8 @@ public class ClienteController {
 	public ResponseEntity<?> criaCliente(@RequestBody ClienteRequestDTO clienteRequestDTO) {
 
 		try {
-			ClienteRequestDTO cliente = clienteService.criaCliente(clienteRequestDTO);
-			return new ResponseEntity<ClienteRequestDTO>(cliente, HttpStatus.CREATED);
+			ClienteResponseDTO cliente = clienteService.criaCliente(clienteRequestDTO);
+			return new ResponseEntity<>(cliente, HttpStatus.CREATED);
 		} catch (ClienteAlreadyCreatedException e) {
 			return ErroCliente.erroClienteJaCadastrado(clienteRequestDTO);
 		} catch (InvalidCodigoAcessoException e) {

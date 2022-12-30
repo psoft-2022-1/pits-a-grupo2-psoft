@@ -18,7 +18,7 @@ public interface ClienteService {
 
 	 public List<ClienteResponseDTO> listaClientes();
 
-	 public ClienteRequestDTO criaCliente(ClienteRequestDTO clienteRequestDTO) throws ClienteAlreadyCreatedException, InvalidCodigoAcessoException;
+	 public ClienteResponseDTO criaCliente(ClienteRequestDTO clienteRequestDTO) throws ClienteAlreadyCreatedException, InvalidCodigoAcessoException;
 
 	 public ClienteRequestDTO atualizaCliente(Long id, ClienteRequestDTO clienteRequestDTO) throws ClienteNotFoundException;
 
