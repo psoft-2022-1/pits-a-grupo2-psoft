@@ -39,7 +39,7 @@ public class Pedido {
 	@Enumerated(value = EnumType.STRING)
 	private StatusPedido statusPedido;
 
-	@OneToOne(targetEntity = Entregador.class, cascade = CascadeType.ALL, orphanRemoval = true)
+	@ManyToOne(targetEntity = Entregador.class)
 	@JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
 	private Entregador entregador;
 
