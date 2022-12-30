@@ -21,19 +21,11 @@ public class PedidoServiceImpl implements PedidoService {
     private PedidoRepository pedidoRepository;
 
     @Autowired
-    private SaborService saborService;
-
-    @Autowired
     private ClienteService clienteService;
 
     @Autowired
     private ItemDePedidoService itemDePedidoService;
 
-    @Autowired
-    private PagamentoService pagamentoService;
-
-    @Autowired
-    private ClienteRepository clienteRepository;
     @Autowired
     public ModelMapper modelMapper;
 

@@ -62,8 +62,8 @@ public class ClienteController {
 	public ResponseEntity<?> atualizaCliente(@PathVariable("id") long id, @RequestBody ClienteRequestDTO clienteRequestDTO) {
 
 		try {
-			ClienteRequestDTO cliente = clienteService.atualizaCliente(id, clienteRequestDTO);
-			return new ResponseEntity<ClienteRequestDTO>(cliente, HttpStatus.OK);
+			ClienteResponseDTO cliente = clienteService.atualizaCliente(id, clienteRequestDTO);
+			return new ResponseEntity<ClienteResponseDTO>(cliente, HttpStatus.OK);
 		} catch (ClienteNotFoundException e) {
 			return ErroCliente.erroClienteNaoEnconrtrado(id);
 		}

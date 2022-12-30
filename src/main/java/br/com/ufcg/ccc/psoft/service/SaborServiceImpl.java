@@ -215,7 +215,7 @@ public class SaborServiceImpl implements SaborService {
 
         }
 
-        if(sabor.getEstaDisponivel()) {
+        if(sabor.isEstaDisponivel()) {
         	sabor.dispararAviso();
         }
         
@@ -228,7 +228,7 @@ public class SaborServiceImpl implements SaborService {
 		
 		Sabor sabor = getSaborId(idSabor);
 		
-		if(sabor.getEstaDisponivel()) {
+		if(sabor.isEstaDisponivel()) {
 			throw new SaborEstaDisponivelException();
 		}
 		

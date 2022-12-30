@@ -33,7 +33,7 @@ public class EstabelecimentoController {
     @PutMapping(value = "/estabelecimento/{id}")
     public ResponseEntity<?> editarEstabelecimento(@PathVariable("id") Long idEstabelecimento, @RequestBody EstabelecimentoRequestDTO estabelecimentoDTO) {
         try {
-            EstabelecimentoRequestDTO estabelecimento = estabelecimentoService.editarEstabelecimento(idEstabelecimento, estabelecimentoDTO);
+            EstabelecimentoResponseDTO estabelecimento = estabelecimentoService.editarEstabelecimento(idEstabelecimento, estabelecimentoDTO);
             return new ResponseEntity<>(estabelecimento, HttpStatus.OK);
         } catch (EstabelecimentoNotFoundException e){
             return ErroEstabelecimento.erroEstabelecimentoNaoEncontrado(idEstabelecimento);

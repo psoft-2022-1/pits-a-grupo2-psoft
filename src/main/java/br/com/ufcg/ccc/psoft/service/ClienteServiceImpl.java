@@ -64,14 +64,14 @@ public class ClienteServiceImpl implements ClienteService{
 	}
 
 	@Override
-	public ClienteRequestDTO atualizaCliente(Long id, ClienteRequestDTO clienteRequestDTO) throws ClienteNotFoundException {
+	public ClienteResponseDTO atualizaCliente(Long id, ClienteRequestDTO clienteRequestDTO) throws ClienteNotFoundException {
 		Cliente cliente = getClienteId(id);
 
 		cliente.setEnderecoPrincipal(clienteRequestDTO.getEnderecoPrincipal());
 		cliente.setNomeCompleto(clienteRequestDTO.getNomeCompleto());
 		this.clienteRepository.save(cliente);
 
-		return modelMapper.map(cliente, ClienteRequestDTO.class);
+		return modelMapper.map(cliente, ClienteResponseDTO.class);
 	}
 
 	@Override

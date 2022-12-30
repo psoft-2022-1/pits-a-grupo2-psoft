@@ -3,6 +3,7 @@ package br.com.ufcg.ccc.psoft.service;
 import br.com.ufcg.ccc.psoft.dto.requests.AnalisarEntregadorRequestDTO;
 import br.com.ufcg.ccc.psoft.dto.requests.EntregadorRequestDTO;
 import br.com.ufcg.ccc.psoft.dto.requests.FuncionarioRequestDTO;
+import br.com.ufcg.ccc.psoft.dto.responses.FuncionarioResponseDTO;
 import br.com.ufcg.ccc.psoft.exception.*;
 
 
@@ -14,7 +15,7 @@ public interface FuncionarioService {
 
     boolean checkCodAcesso(FuncionarioRequestDTO funcionarioRequestDTO, String codFuncionario) throws IncorretCodigoAcessoException;
 
-    FuncionarioRequestDTO criaFuncionario(FuncionarioRequestDTO funcionarioRequestDTO) throws FuncionarioAlreadyCreatedException, InvalidCodigoAcessoException;
+    FuncionarioResponseDTO criaFuncionario(FuncionarioRequestDTO funcionarioRequestDTO) throws FuncionarioAlreadyCreatedException, InvalidCodigoAcessoException;
 
     void removeFuncionarioCadastrado(Long id) throws FuncionarioNotFoundException;
 }

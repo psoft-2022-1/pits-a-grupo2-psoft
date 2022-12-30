@@ -13,6 +13,9 @@ import javax.persistence.OneToMany;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
 import lombok.Data;
+import lombok.Getter;
+import lombok.Setter;
+
 @Data
 @Entity
 public class Sabor {
@@ -46,13 +49,6 @@ public class Sabor {
 		this.listeners = new HashSet<>();
 	}
 	
-	public boolean getEstaDisponivel() {
-		return this.estaDisponivel;
-	}
-	public void setEstaDisponivel(boolean estaDisponivel) {
-		this.estaDisponivel = estaDisponivel;
-	}
-	
 	public void addListener(Cliente cliente) {
 		this.listeners.add(cliente);
 	}
@@ -67,54 +63,4 @@ public class Sabor {
 			System.out.println("Sr(a) " + cliente.getNomeCompleto() + ", O sabor " + this.nomeSabor + " esta disponivel agora!");
 		}
 	}
-
-	public Long getId() {
-		return id;
-	}
-
-	public void setId(Long id) {
-		this.id = id;
-	}
-
-	public String getNomeSabor() {
-		return nomeSabor;
-	}
-
-	public void setNomeSabor(String nomeSabor) {
-		this.nomeSabor = nomeSabor;
-	}
-
-	public String getTipo() {
-		return tipo;
-	}
-
-	public void setTipo(String tipo) {
-		this.tipo = tipo;
-	}
-
-	public Double getValorMedio() {
-		return valorMedio;
-	}
-
-	public void setValorMedio(Double valorMedio) {
-		this.valorMedio = valorMedio;
-	}
-
-	public Double getValorGrande() {
-		return valorGrande;
-	}
-
-	public void setValorGrande(Double valorGrande) {
-		this.valorGrande = valorGrande;
-	}
-
-	public Collection<Cliente> getListeners() {
-		return listeners;
-	}
-
-	public void setListeners(Collection<Cliente> listeners) {
-		this.listeners = listeners;
-	}
-	
-	
 }

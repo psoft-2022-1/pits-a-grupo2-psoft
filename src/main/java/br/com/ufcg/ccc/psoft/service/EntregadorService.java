@@ -10,7 +10,7 @@ import java.util.List;
 
 public interface EntregadorService {
 
-    public EntregadorRequestDTO criaEntregador(EntregadorRequestDTO entregadorRequestDTO) throws EntregadorAlreadyCreatedException, InvalidCodigoAcessoException;
+    public EntregadorResponseDTO criaEntregador(EntregadorRequestDTO entregadorRequestDTO) throws EntregadorAlreadyCreatedException, InvalidCodigoAcessoException;
 
     public List<EntregadorResponseDTO> listarEntregadores();
 

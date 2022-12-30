@@ -29,7 +29,7 @@ public class SaborResponseDTO {
 		this.tipo = sabor.getTipo();
 		this.valorMedio = sabor.getValorMedio();
 		this.valorGrande = sabor.getValorGrande();
-		this.estaDisponivel = sabor.getEstaDisponivel();
+		this.estaDisponivel = sabor.isEstaDisponivel();
 	}
 
 	public boolean isEstaDisponivel() {
