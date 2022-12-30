@@ -3,6 +3,7 @@ package br.com.ufcg.ccc.psoft.service;
 import br.com.ufcg.ccc.psoft.dto.requests.CardapioRequestDTO;
 import br.com.ufcg.ccc.psoft.dto.requests.EstabelecimentoRequestDTO;
 import br.com.ufcg.ccc.psoft.dto.responses.CardapioResponseDTO;
+import br.com.ufcg.ccc.psoft.dto.responses.EstabelecimentoResponseDTO;
 import br.com.ufcg.ccc.psoft.exception.CardapioNotFoundException;
 import br.com.ufcg.ccc.psoft.exception.EstabelecimentoNotFoundException;
 import br.com.ufcg.ccc.psoft.exception.IncorretCodigoAcessoException;
@@ -41,7 +42,7 @@ public class EstabelecimentoServiceImpl implements EstabelecimentoService {
         return true;
     }
 
-    private Estabelecimento getEstabelecimentoById(Long id) throws EstabelecimentoNotFoundException {
+    public Estabelecimento getEstabelecimentoById(Long id) throws EstabelecimentoNotFoundException {
         return estabelecimentoRepository.findById(id)
                 .orElseThrow(() -> new EstabelecimentoNotFoundException());
     }
@@ -61,24 +62,24 @@ public class EstabelecimentoServiceImpl implements EstabelecimentoService {
     }
 
     @Override
-    public EstabelecimentoRequestDTO criarEstabelecimento(EstabelecimentoRequestDTO estabelecimentoDTO) throws InvalidCodigoAcessoException {
+    public EstabelecimentoResponseDTO criarEstabelecimento(EstabelecimentoRequestDTO estabelecimentoDTO) throws InvalidCodigoAcessoException {
         if(estabelecimentoDTO.getCodigoAcesso().length() != 6){
             throw new InvalidCodigoAcessoException();
         }
         Estabelecimento estabelecimento = new Estabelecimento(estabelecimentoDTO.getCodigoAcesso());
 
         estabelecimentoRepository.save(estabelecimento);
-        return modelMapper.map(estabelecimento, EstabelecimentoRequestDTO.class);
+        return modelMapper.map(estabelecimento, EstabelecimentoResponseDTO.class);
     }
 
     @Override
-    public EstabelecimentoRequestDTO editarEstabelecimento(Long idEstabelecimento, EstabelecimentoRequestDTO estabelecimentoDTO) throws EstabelecimentoNotFoundException {
+    public EstabelecimentoResponseDTO editarEstabelecimento(Long idEstabelecimento, EstabelecimentoRequestDTO estabelecimentoDTO) throws EstabelecimentoNotFoundException {
         Optional<Estabelecimento> estabelecimento = estabelecimentoRepository.findById(idEstabelecimento);
         if(estabelecimento.isEmpty())
             throw new EstabelecimentoNotFoundException();
         estabelecimento.get().setCodigoAcesso(estabelecimentoDTO.getCodigoAcesso());
 
-        return modelMapper.map(estabelecimentoRepository.save(estabelecimento.get()), EstabelecimentoRequestDTO.class);
+        return modelMapper.map(estabelecimentoRepository.save(estabelecimento.get()), EstabelecimentoResponseDTO.class);
     }
 
     @Override

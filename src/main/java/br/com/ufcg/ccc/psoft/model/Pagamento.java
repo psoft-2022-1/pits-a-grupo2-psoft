@@ -30,4 +30,5 @@ public abstract class Pagamento {
     public abstract double calculaDesconto(Double valor);
 
 
+	
 }

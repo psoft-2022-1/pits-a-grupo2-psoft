@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <projectDescription>
-	<name>pits-a-grupo2-psoft</name>
+	<name>pistsA</name>
 	<comment></comment>
 	<projects>
 	</projects>
@@ -15,14 +15,6 @@
 			<arguments>
 			</arguments>
 		</buildCommand>
-<<<<<<< HEAD
-		<buildCommand>
-			<name>org.springframework.ide.eclipse.boot.validation.springbootbuilder</name>
-			<arguments>
-			</arguments>
-		</buildCommand>
-=======
->>>>>>> main
 	</buildSpec>
 	<natures>
 		<nature>org.eclipse.jdt.core.javanature</nature>

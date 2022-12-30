@@ -25,8 +25,8 @@ public class EntregadorController {
     @PostMapping(value = "/entregador/")
     public ResponseEntity<?> criarEntregador(@RequestBody EntregadorRequestDTO entregadorRequestDTO) {
         try {
-            EntregadorRequestDTO entregador = entregadorService.criaEntregador(entregadorRequestDTO);
-            return new ResponseEntity<EntregadorRequestDTO>(entregador, HttpStatus.CREATED);
+            EntregadorResponseDTO entregador = entregadorService.criaEntregador(entregadorRequestDTO);
+            return new ResponseEntity<EntregadorResponseDTO>(entregador, HttpStatus.CREATED);
         } catch (EntregadorAlreadyCreatedException e) {
             return ErroEntregador.erroEntregadorJaCadastrado(entregadorRequestDTO);
         } catch (InvalidCodigoAcessoException e) {

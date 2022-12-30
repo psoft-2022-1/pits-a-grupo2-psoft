@@ -28,6 +28,7 @@ public class Pedido {
 	@OneToMany(cascade = CascadeType.ALL, orphanRemoval = true)
 	@JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
 	private List <ItemDePedido> itensEscolhidos;
+	
 	@OneToOne(targetEntity = Pagamento.class, cascade = CascadeType.ALL, orphanRemoval = true)
 	@JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
 	private Pagamento pagamento;
@@ -35,6 +36,8 @@ public class Pedido {
 	private String enderecoEntrega;
 
 	private Double valorTotal;
+	
+	private String statusDePedido;
 
 	@Enumerated(value = EnumType.STRING)
 	private StatusPedido statusPedido;
@@ -58,4 +61,6 @@ public class Pedido {
 			+ "Nome: " + entregador.getNomeCompleto()
 			+ entregador.getVeiculo().toString());
 	}
+
+
 }

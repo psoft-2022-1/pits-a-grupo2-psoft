@@ -57,16 +57,6 @@ public class PedidoController {
         }
     }
 
-    @PutMapping(value = "/pedido/confirmarPedido/{id}")
-    public ResponseEntity<?> confirmarPedido(@PathVariable("id") long id, @RequestBody PedidoRequestDTO pedidoDTO) {
-        try {
-            PedidoResponseDTO pedido = pedidoService.confirmarPedido(id, pedidoDTO);
-            return new ResponseEntity<>(pedido, HttpStatus.OK);
-        } catch (PedidoNotFoundException e) {
-            throw new RuntimeException(e);
-        }
-    }
-
     @PutMapping(value = "/pedido/finalizarPedido/{id}")
     public ResponseEntity<?> finalizarPedido(@PathVariable("id") long id, @RequestBody PedidoRequestDTO pedidoRequestDTO) {
         try {
@@ -75,5 +65,35 @@ public class PedidoController {
         } catch (PedidoNotFoundException e) {
             throw new RuntimeException(e);
         }
+    }
+
+    @PutMapping(value = " cliente/{idCliente}/pedido/{idPedido}")
+    public ResponseEntity<?> confirmaPedido (@PathVariable("idPedido") long idPedido, @PathVariable("idCliente") Long idCliente) {
+        try {
+            PedidoResponseDTO pedido = pedidoService.confirmaPedido(idPedido,idCliente);
+            return new ResponseEntity<>(pedido, HttpStatus.OK);
+        } catch (PedidoNotFoundException e) {
+            return ErroPedido.erroPedidoNaoEncontrado(idPedido);
+        } catch (PedidoNaoPertenceAEsseClienteException e) {
+
+        	return ErroPedido.pedidoNaoPertenceAEsseCliente(idPedido, idCliente);
+
+		}
+    }
+
+
+    @DeleteMapping(value = "cliente/{idCliente}/pedido/{idPedido}")
+    public ResponseEntity<?>  cancelaPedido(@PathVariable("idPedido") long idPedido, @PathVariable("idCliente") Long idCliente) {
+
+        try {
+        	pedidoService.cancelaPedido(idPedido, idCliente);
+            return new ResponseEntity<>(HttpStatus.OK);
+        } catch (PedidoNotFoundException e) {
+            return ErroPedido.erroPedidoNaoEncontrado(idPedido);
+        } catch (PedidoJaEstaProntoException e) {
+        	return ErroPedido.pedidoJaEstaPronto(idPedido);
+		} catch (PedidoNaoPertenceAEsseClienteException e) {
+			return ErroPedido.pedidoNaoPertenceAEsseCliente(idPedido, idCliente);
+		}
     }
 }

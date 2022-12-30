@@ -14,8 +14,4 @@ public class EstabelecimentoRequestDTO {
 
 	private String codigoAcesso;
 
-	private Cardapio cardapio;
-
-	private List<Funcionario> funcionarios;
-
 }

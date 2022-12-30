@@ -15,8 +15,4 @@ public class EstabelecimentoResponseDTO {
 
 	private Long id;
 
-	private Cardapio cardapio;
-
-	private List<Funcionario> funcionarios;
-
 }

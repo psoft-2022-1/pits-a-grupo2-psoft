@@ -6,7 +6,6 @@ import br.com.ufcg.ccc.psoft.dto.responses.PedidoResponseDTO;
 import br.com.ufcg.ccc.psoft.exception.*;
 import br.com.ufcg.ccc.psoft.model.*;
 import br.com.ufcg.ccc.psoft.model.Enum.StatusPedido;
-import br.com.ufcg.ccc.psoft.repository.ClienteRepository;
 import br.com.ufcg.ccc.psoft.repository.PedidoRepository;
 import br.com.ufcg.ccc.psoft.util.ErroPedido;
 import net.bytebuddy.asm.Advice;
@@ -29,11 +28,6 @@ public class PedidoServiceImpl implements PedidoService {
     @Autowired
     private ItemDePedidoService itemDePedidoService;
 
-    @Autowired
-    private PagamentoService pagamentoService;
-
-    @Autowired
-    private ClienteRepository clienteRepository;
     @Autowired
     public ModelMapper modelMapper;
 
@@ -145,5 +139,32 @@ public class PedidoServiceImpl implements PedidoService {
         pedidoRepository.save(pedido);
 
         return modelMapper.map(pedido, PedidoResponseDTO.class);
+    }
+    @Override
+    public PedidoResponseDTO confirmaPedido(Long idPedido, Long idCliente) throws PedidoNotFoundException, PedidoNaoPertenceAEsseClienteException {
+    	Pedido pedido = getPedidoId(idPedido);
+    	if(!pedido.getCliente().getId().equals(idCliente)){
+			 throw new PedidoNaoPertenceAEsseClienteException();
+		}
+
+    	pedido.setStatusDePedido("Pedido Entregue");
+    	this.pedidoRepository.save(pedido);
+    	return modelMapper.map(pedido, PedidoResponseDTO.class);
+    }
+
+    @Override
+    public void cancelaPedido(Long idPedido, Long idCliente) throws PedidoNotFoundException, PedidoJaEstaProntoException, PedidoNaoPertenceAEsseClienteException {
+    		Pedido pedido = getPedidoId(idPedido);
+
+    		if (pedido.getStatusDePedido().equals("Pedido pronto")) {
+    			throw new PedidoJaEstaProntoException();
+    		}
+
+    			if(!pedido.getCliente().getId().equals(idCliente)){
+    				 throw new PedidoNaoPertenceAEsseClienteException();
+    			}
+
+    			pedidoRepository.delete(pedido);
+
     }
 }

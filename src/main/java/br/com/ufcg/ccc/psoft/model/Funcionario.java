@@ -23,4 +23,5 @@ public class Funcionario {
 		this.nomeCompleto = nomeCompleto;
 		this.codigoAcesso = codigoAcesso;
 	}
+
 }
