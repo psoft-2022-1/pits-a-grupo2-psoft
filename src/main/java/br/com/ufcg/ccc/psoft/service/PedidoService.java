@@ -9,7 +9,7 @@ import java.util.List;
 
 public interface PedidoService {
 
-    public PedidoDTO criaPedido(Long idCliente, PedidoDTO pedidoDTO) throws SaborNotFoundException, QuantidadeSaboresInvalidosException, ClienteNotFoundException, IncorretCodigoAcessoException;
+    public PedidoDTO criaPedido(Long idCliente, PedidoDTO pedidoDTO) throws SaborNotFoundException, QuantidadeSaboresInvalidosException, ClienteNotFoundException, IncorretCodigoAcessoException, PagamentoInvalidException;
 
     public void removerPedidoCadastrado(Long id) throws PedidoNotFoundException;
 
@@ -22,5 +22,9 @@ public interface PedidoService {
     public List<Pedido> getPedidosByCliente(ClienteDTO clienteDTO);
 
     public List<Pedido> getPedidosByClienteByStatus(ClienteDTO clienteDTO, String status);
+    
+    PedidoDTO confirmarPedido(Long id, PedidoDTO pedidoDTO) throws PedidoNotFoundException;
+
+    PedidoDTO finalizarPedido(Long id, PedidoDTO pedidoDTO) throws PedidoNotFoundException;
 
 }

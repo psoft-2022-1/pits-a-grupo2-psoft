@@ -17,8 +17,9 @@ public class PedidoController {
     @Autowired
     PedidoService pedidoService;
 
-    @PostMapping(value = "/pedido/client/{idCliente}")
-    public ResponseEntity<?> criarPedido(@PathVariable Long idCliente, @RequestBody PedidoDTO pedidoDTO) throws QuantidadeSaboresInvalidosException, SaborNotFoundException, IncorretCodigoAcessoException, ClienteNotFoundException {
+
+    @PostMapping(value = "/pedido/cliente/{idCliente}")
+    public ResponseEntity<?> criarPedido(@PathVariable Long idCliente, @RequestBody PedidoDTO pedidoDTO) throws QuantidadeSaboresInvalidosException, SaborNotFoundException, IncorretCodigoAcessoException, ClienteNotFoundException, PagamentoInvalidException {
         PedidoDTO pedido = pedidoService.criaPedido(idCliente, pedidoDTO);
         return new ResponseEntity<PedidoDTO>(pedido, HttpStatus.CREATED);
     }
@@ -52,6 +53,26 @@ public class PedidoController {
             return new ResponseEntity<PedidoDTO>(pedido, HttpStatus.OK);
         } catch (PedidoNotFoundException e) {
             return ErroPedido.erroPedidoNaoEncontrado(idPedido);
+        }
+    }
+
+    @PutMapping(value = "/pedido/confirmarPedido/{id}")
+    public ResponseEntity<?> confirmarPedido(@PathVariable("id") long id, @RequestBody PedidoDTO pedidoDTO) {
+        try {
+            PedidoDTO pedido = pedidoService.confirmarPedido(id, pedidoDTO);
+            return new ResponseEntity<>(pedido, HttpStatus.OK);
+        } catch (PedidoNotFoundException e) {
+            throw new RuntimeException(e);
+        }
+    }
+
+    @PutMapping(value = "/pedido/finalizarPedido/{id}")
+    public ResponseEntity<?> finalizarPedido(@PathVariable("id") long id, @RequestBody PedidoDTO pedidoDTO) {
+        try {
+            PedidoDTO pedido = pedidoService.finalizarPedido(id, pedidoDTO);
+            return new ResponseEntity<>(pedido, HttpStatus.OK);
+        } catch (PedidoNotFoundException e) {
+            throw new RuntimeException(e);
         }
     }
 }
