@@ -87,8 +87,9 @@ public class FuncionarioServiceImpl implements FuncionarioService {
     }
 
     @Override
-    public void removerFuncionarioCadastrado(Long id) throws FuncionarioNotFoundException {
-
+    public void removeFuncionarioCadastrado(Long id) throws FuncionarioNotFoundException {
+        Funcionario funcionario = getFuncionarioId(id);
+        funcionarioRepository.delete(funcionario);
     }
 
 }

@@ -19,12 +19,26 @@ public class SaborResponseDTO {
 	private Double valorMedio;
 
 	private Double valorGrande;
+	
+	private boolean estaDisponivel;
 
+	
 	public SaborResponseDTO(Sabor sabor) {
 		this.id = sabor.getId();
 		this.nomeSabor = sabor.getNomeSabor();
 		this.tipo = sabor.getTipo();
 		this.valorMedio = sabor.getValorMedio();
 		this.valorGrande = sabor.getValorGrande();
+		this.estaDisponivel = sabor.isEstaDisponivel();
 	}
+
+	public boolean isEstaDisponivel() {
+		return estaDisponivel;
+	}
+
+	public void setEstaDisponivel(boolean estaDisponivel) {
+		this.estaDisponivel = estaDisponivel;
+	}
+	
+	
 }
