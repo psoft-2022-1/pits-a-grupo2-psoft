@@ -168,7 +168,7 @@ public class PedidoServiceImpl implements PedidoService {
     public void cancelaPedido(Long idPedido, Long idCliente) throws PedidoNotFoundException, PedidoJaEstaProntoException, PedidoNaoPertenceAEsseClienteException {
     		Pedido pedido = getPedidoId(idPedido);
 
-    		if (pedido.getStatusDePedido().equals("Pedido pronto")) {
+    		if (pedido.getStatusDePedido().equals(StatusPedido.PRONTO)) {
     			throw new PedidoJaEstaProntoException();
     		}
 
