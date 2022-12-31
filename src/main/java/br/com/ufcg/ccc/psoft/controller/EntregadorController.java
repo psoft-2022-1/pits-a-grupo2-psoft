@@ -2,9 +2,7 @@ package br.com.ufcg.ccc.psoft.controller;
 
 import br.com.ufcg.ccc.psoft.dto.requests.EntregadorRequestDTO;
 import br.com.ufcg.ccc.psoft.dto.responses.EntregadorResponseDTO;
-import br.com.ufcg.ccc.psoft.exception.EntregadorAlreadyCreatedException;
-import br.com.ufcg.ccc.psoft.exception.EntregadorNotFoundException;
-import br.com.ufcg.ccc.psoft.exception.InvalidCodigoAcessoException;
+import br.com.ufcg.ccc.psoft.exception.*;
 import br.com.ufcg.ccc.psoft.service.EntregadorService;
 import br.com.ufcg.ccc.psoft.util.ErroEntregador;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -73,6 +71,19 @@ public class EntregadorController {
             return new ResponseEntity<EntregadorRequestDTO>(entregador, HttpStatus.OK);
         } catch (EntregadorNotFoundException e) {
             return ErroEntregador.erroEntregadorNaoEncontrado(id);
+        }
+    }
+
+    @PutMapping(value = "/entregador/alteraStatus/{id}")
+    public ResponseEntity<?> atualizaStatusDisponibilidade(@PathVariable("id") Long id, @RequestBody EntregadorRequestDTO entregadorRequestDTO) {
+        try {
+            return new ResponseEntity<>(this.entregadorService.atualizaStatusDisponibilidade(id, entregadorRequestDTO), HttpStatus.OK);
+        } catch (EntregadorNaoAprovadoException e) {
+            return ErroEntregador.erroEntregadorNaoEncontrado(id);
+        } catch (EntregadorNotFoundException e) {
+            return ErroEntregador.erroEntregadoratualizaStatusDisponibilidade(id);
+        } catch (IncorretCodigoAcessoException e) {
+            return ErroEntregador.erroCodigoAcessoInvalido();
         }
     }
 }

@@ -48,6 +48,7 @@ public class FuncionarioServiceImpl implements FuncionarioService {
 
         Entregador entregador = optionalEntregador.get();
         entregador.setStatusEstabelecimento(analisarEntregadorRequestDTO.getStatus());
+        entregador.setDisponibilidade("DESCANSO");
         entregadorRepository.save(entregador);
 
         return modelMapper.map(entregador, EntregadorResponseDTO.class);

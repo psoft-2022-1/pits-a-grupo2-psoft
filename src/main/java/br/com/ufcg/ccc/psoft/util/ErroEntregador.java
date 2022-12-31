@@ -14,6 +14,8 @@ public class ErroEntregador {
 
     static final String CODIGO_ACESSO_INVALIDO = "O código de acesso deve possuir 6 dígitos.";
 
+    static final String ENTREGADOR_NAO_APROVADO = "O entregador com id %s não foi aprovado ainda pelo estabelecimento";
+
     public static ResponseEntity<CustomErrorType> erroEntregadorNaoEncontrado(long id) {
         return new ResponseEntity<CustomErrorType>(new CustomErrorType(String.format(ErroEntregador.ENTREGADOR_NAO_CASTRADO, id)),
                 HttpStatus.NOT_FOUND);
@@ -32,5 +34,7 @@ public class ErroEntregador {
         return new ResponseEntity<CustomErrorType>(new CustomErrorType(String.format(ErroEntregador.ENTREGADOR_JA_CADASTRADO,
                 entregadorRequestDTO.getNomeCompleto())), HttpStatus.CONFLICT);
     }
-
+    public static ResponseEntity<?> erroEntregadoratualizaStatusDisponibilidade(long id) {
+        return new ResponseEntity<CustomErrorType>(new CustomErrorType(String.format(ErroEntregador.ENTREGADOR_NAO_APROVADO, id)), HttpStatus.CONFLICT);
+    }
 }

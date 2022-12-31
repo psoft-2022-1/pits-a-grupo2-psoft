@@ -2,9 +2,7 @@ package br.com.ufcg.ccc.psoft.service;
 
 import br.com.ufcg.ccc.psoft.dto.requests.EntregadorRequestDTO;
 import br.com.ufcg.ccc.psoft.dto.responses.EntregadorResponseDTO;
-import br.com.ufcg.ccc.psoft.exception.EntregadorAlreadyCreatedException;
-import br.com.ufcg.ccc.psoft.exception.EntregadorNotFoundException;
-import br.com.ufcg.ccc.psoft.exception.InvalidCodigoAcessoException;
+import br.com.ufcg.ccc.psoft.exception.*;
 import br.com.ufcg.ccc.psoft.model.Entregador;
 import br.com.ufcg.ccc.psoft.model.Veiculo;
 import br.com.ufcg.ccc.psoft.repository.EntregadorRepository;
@@ -104,4 +102,20 @@ public class EntregadorServiceImpl implements EntregadorService {
         entregadorRepository.save(entregador);
     }
 
+    @Override
+    public EntregadorResponseDTO atualizaStatusDisponibilidade(Long id, EntregadorRequestDTO entregadorRequestDTO) throws EntregadorNotFoundException, EntregadorNaoAprovadoException, IncorretCodigoAcessoException {
+
+        Entregador entregador = this.entregadorRepository.findById(id).orElseThrow(EntregadorNotFoundException::new);
+
+        if(!entregador.getStatusEstabelecimento().equalsIgnoreCase("APROVADO"))
+            throw new EntregadorNaoAprovadoException();
+        else if(!entregador.getCodigoAcesso().equals(entregador.getCodigoAcesso()))
+            throw new IncorretCodigoAcessoException();
+
+        entregador.setDisponibilidade(entregadorRequestDTO.getDisponibilidade());
+
+        entregador = this.entregadorRepository.save(entregador);
+
+        return modelMapper.map(entregador, EntregadorResponseDTO.class);
+    }
 }
