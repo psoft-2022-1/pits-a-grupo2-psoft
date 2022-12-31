@@ -145,6 +145,7 @@ public class PedidoServiceImpl implements PedidoService {
 
         if(entregador.isPresent())
             pedido.setEntregador(entregador.get());
+            pedido.setStatusPedido(StatusPedido.EM_ROTA);
 
         pedidoRepository.save(pedido);
 
@@ -157,7 +158,7 @@ public class PedidoServiceImpl implements PedidoService {
 			 throw new PedidoNaoPertenceAEsseClienteException();
 		}
 
-    	pedido.setStatusDePedido("Pedido Entregue");
+    	pedido.setStatusPedido(StatusPedido.ENTREGUE);
         pedido.notifyEstabelecimento();
     	this.pedidoRepository.save(pedido);
     	return modelMapper.map(pedido, PedidoResponseDTO.class);

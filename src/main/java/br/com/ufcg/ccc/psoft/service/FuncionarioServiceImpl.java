@@ -54,11 +54,6 @@ public class FuncionarioServiceImpl implements FuncionarioService {
         return modelMapper.map(entregador, EntregadorResponseDTO.class);
     }
 
-    public FuncionarioResponseDTO getById(long idFuncionario) throws FuncionarioNotFoundException {
-        Funcionario funcionario = getFuncionarioById(idFuncionario);
-        return modelMapper.map(funcionario, FuncionarioResponseDTO.class);
-    }
-
     @Override
     public boolean checkCodAcesso(FuncionarioRequestDTO funcionarioRequestDTO, String codFuncionario) throws IncorretCodigoAcessoException {
         if(!funcionarioRequestDTO.getCodigoAcesso().equals(codFuncionario)){
@@ -70,10 +65,6 @@ public class FuncionarioServiceImpl implements FuncionarioService {
     private Funcionario getFuncionarioId(Long id) throws FuncionarioNotFoundException {
         return funcionarioRepository.findById(id)
                 .orElseThrow(() -> new FuncionarioNotFoundException());
-    }
-    public FuncionarioResponseDTO getFuncionarioById(Long id) throws FuncionarioNotFoundException {
-        Funcionario funcionario = getFuncionarioId(id);
-        return modelMapper.map(funcionario, FuncionarioResponseDTO.class);
     }
 
     @Override
@@ -92,11 +83,6 @@ public class FuncionarioServiceImpl implements FuncionarioService {
     public void removeFuncionarioCadastrado(Long id) throws FuncionarioNotFoundException {
         Funcionario funcionario = getFuncionarioId(id);
         funcionarioRepository.delete(funcionario);
-    }
-
-    private Funcionario getFuncionarioById(long idFuncionario) throws FuncionarioNotFoundException {
-        return funcionarioRepository.findById(idFuncionario)
-                .orElseThrow(() -> new FuncionarioNotFoundException());
     }
 
 }
