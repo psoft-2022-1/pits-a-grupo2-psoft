@@ -75,14 +75,7 @@ public class FuncionarioServiceImpl implements FuncionarioService {
         Funcionario funcionario = getFuncionarioId(id);
         return modelMapper.map(funcionario, FuncionarioResponseDTO.class);
     }
-    private boolean isFuncionarioCadastrado(Long id) {
-        try {
-            getFuncionarioById(id);
-            return true;
-        } catch (FuncionarioNotFoundException e) {
-            return false;
-        }
-    }
+
     @Override
     public FuncionarioResponseDTO criaFuncionario(FuncionarioRequestDTO funcionarioRequestDTO) throws FuncionarioAlreadyCreatedException, InvalidCodigoAcessoException {
         if(funcionarioRequestDTO.getCodigoAcesso().length() != 6){
