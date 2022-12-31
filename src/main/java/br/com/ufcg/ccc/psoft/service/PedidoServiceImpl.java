@@ -7,8 +7,6 @@ import br.com.ufcg.ccc.psoft.exception.*;
 import br.com.ufcg.ccc.psoft.model.*;
 import br.com.ufcg.ccc.psoft.model.Enum.StatusPedido;
 import br.com.ufcg.ccc.psoft.repository.PedidoRepository;
-import br.com.ufcg.ccc.psoft.util.ErroPedido;
-import net.bytebuddy.asm.Advice;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -148,6 +146,7 @@ public class PedidoServiceImpl implements PedidoService {
 		}
 
     	pedido.setStatusDePedido("Pedido Entregue");
+        pedido.notifyEstabelecimento();
     	this.pedidoRepository.save(pedido);
     	return modelMapper.map(pedido, PedidoResponseDTO.class);
     }

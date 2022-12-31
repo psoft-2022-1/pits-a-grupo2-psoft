@@ -25,6 +25,10 @@ public class Pedido {
 	@JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
 	private Cliente cliente;
 
+	@ManyToOne(targetEntity = Estabelecimento.class)
+	@JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
+	private Estabelecimento estabelecimento;
+
 	@OneToMany(cascade = CascadeType.ALL, orphanRemoval = true)
 	@JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
 	private List <ItemDePedido> itensEscolhidos;
@@ -60,6 +64,13 @@ public class Pedido {
 			+ "Informações do Entregador:" + "\n"
 			+ "Nome: " + entregador.getNomeCompleto()
 			+ entregador.getVeiculo().toString());
+	}
+
+	public void notifyEstabelecimento() {
+		System.out.println("O Cliente " + cliente.getNomeCompleto() + " confirmou a entrega do seu pedido" +
+				"." + "\n"
+				+ "Estabelecimento:" + "\n"
+				+ "ID: " + estabelecimento.getId());
 	}
 
 
