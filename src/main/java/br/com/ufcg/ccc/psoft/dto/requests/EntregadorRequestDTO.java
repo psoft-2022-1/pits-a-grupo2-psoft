@@ -12,4 +12,6 @@ public class EntregadorRequestDTO {
 
 	private String codigoAcesso;
 
+	private String disponibilidade;
+
 }

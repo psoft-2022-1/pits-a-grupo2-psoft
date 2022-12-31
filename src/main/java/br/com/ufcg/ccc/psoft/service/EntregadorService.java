@@ -2,9 +2,7 @@ package br.com.ufcg.ccc.psoft.service;
 
 import br.com.ufcg.ccc.psoft.dto.requests.EntregadorRequestDTO;
 import br.com.ufcg.ccc.psoft.dto.responses.EntregadorResponseDTO;
-import br.com.ufcg.ccc.psoft.exception.EntregadorAlreadyCreatedException;
-import br.com.ufcg.ccc.psoft.exception.EntregadorNotFoundException;
-import br.com.ufcg.ccc.psoft.exception.InvalidCodigoAcessoException;
+import br.com.ufcg.ccc.psoft.exception.*;
 
 import java.util.List;
 
@@ -20,4 +18,5 @@ public interface EntregadorService {
 
     public EntregadorRequestDTO atualizaEntregador(Long id, EntregadorRequestDTO entregadorRequestDTO) throws EntregadorNotFoundException;
 
+    public EntregadorResponseDTO atualizaStatusDisponibilidade(Long id, EntregadorRequestDTO entregadorRequestDTO) throws EntregadorNotFoundException, EntregadorNaoAprovadoException, IncorretCodigoAcessoException;
 }

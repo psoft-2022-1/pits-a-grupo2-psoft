@@ -6,13 +6,16 @@ import br.com.ufcg.ccc.psoft.dto.responses.PedidoResponseDTO;
 import br.com.ufcg.ccc.psoft.exception.*;
 import br.com.ufcg.ccc.psoft.model.*;
 import br.com.ufcg.ccc.psoft.model.Enum.StatusPedido;
+import br.com.ufcg.ccc.psoft.repository.EntregadorRepository;
 import br.com.ufcg.ccc.psoft.repository.PedidoRepository;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import javax.swing.text.html.Option;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 @Service
 public class PedidoServiceImpl implements PedidoService {
@@ -22,6 +25,9 @@ public class PedidoServiceImpl implements PedidoService {
 
     @Autowired
     private ClienteService clienteService;
+
+    @Autowired
+    private EntregadorRepository entregadorRepository;
 
     @Autowired
     private ItemDePedidoService itemDePedidoService;
@@ -134,6 +140,12 @@ public class PedidoServiceImpl implements PedidoService {
     public PedidoResponseDTO finalizarPedido(Long id, PedidoRequestDTO pedidoDTO) throws PedidoNotFoundException {
         Pedido pedido = getPedidoId(id);
         pedido.setStatusPedido(StatusPedido.PRONTO);
+
+        Optional<Entregador> entregador = entregadorRepository.findByDisponibilidade("ATIVO");
+
+        if(entregador.isPresent())
+            pedido.setEntregador(entregador.get());
+
         pedidoRepository.save(pedido);
 
         return modelMapper.map(pedido, PedidoResponseDTO.class);

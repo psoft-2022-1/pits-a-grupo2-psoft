@@ -9,4 +9,6 @@ public interface EntregadorRepository extends JpaRepository<Entregador, Long> {
 
     Optional<Entregador> findByNomeCompleto(String nome);
 
+    Optional<Entregador> findByDisponibilidade(String status);
+
 }
