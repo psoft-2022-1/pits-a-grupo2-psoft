@@ -8,6 +8,7 @@ import br.com.ufcg.ccc.psoft.exception.CardapioNotFoundException;
 import br.com.ufcg.ccc.psoft.exception.EstabelecimentoNotFoundException;
 import br.com.ufcg.ccc.psoft.exception.IncorretCodigoAcessoException;
 import br.com.ufcg.ccc.psoft.exception.InvalidCodigoAcessoException;
+import br.com.ufcg.ccc.psoft.model.Cardapio;
 import br.com.ufcg.ccc.psoft.model.Estabelecimento;
 import br.com.ufcg.ccc.psoft.repository.EstabelecimentoRepository;
 import org.modelmapper.ModelMapper;
@@ -84,6 +85,9 @@ public class EstabelecimentoServiceImpl implements EstabelecimentoService {
 
     @Override
     public CardapioResponseDTO getCardapio(Long idEstabelecimento) throws EstabelecimentoNotFoundException {
-        return modelMapper.map(getEstabelecimentoById(idEstabelecimento).getCardapio(), CardapioResponseDTO.class);
+    	Cardapio cardapio = getEstabelecimentoPorId(idEstabelecimento).getCardapio();
+    	CardapioResponseDTO cardapioRDTO = cardapioService.getCardapio(cardapio);
+    	
+    	return cardapioRDTO;
     }
 }

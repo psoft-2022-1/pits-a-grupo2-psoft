@@ -32,12 +32,12 @@ public class CardapioController {
     }
 
     @GetMapping(value = "/estabelecimento/{id}/cardapio/")
-    public ResponseEntity<?> getCardapio(@PathVariable("id") long id) {
+    public ResponseEntity<?> getCardapio(@PathVariable("id") long idEstabelecimento) {
         try {
-            CardapioResponseDTO cardapio = estabelecimentoService.getCardapio(id);
+            CardapioResponseDTO cardapio = estabelecimentoService.getCardapio(idEstabelecimento);
             return new ResponseEntity<>(cardapio, HttpStatus.OK);
         } catch (EstabelecimentoNotFoundException e) {
-            return ErroEstabelecimento.erroEstabelecimentoNaoEncontrado(id);
+            return ErroEstabelecimento.erroEstabelecimentoNaoEncontrado(idEstabelecimento);
         }
     }
 }
