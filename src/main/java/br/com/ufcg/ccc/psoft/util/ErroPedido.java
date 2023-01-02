@@ -17,6 +17,8 @@ public class ErroPedido {
 	
 	static final String PEDIDO_JA_ESTA_PRONTO = "Pedido com id %s já está pronto.";
 	
+	static final String PEDIDO_COM_STATUS_INCORRETO_PARA_MUDANCA = "Pedido com id %s nao pode ter status alterado. O status atual nao se refere ao indicado para mudanca";
+	
 	static final String QUANTIDADE_SABORES_NO_PEDIDO_INVALIDO = "Quantidade de sabores em algum dos itens do pedido é invalida";
 	
 	public static ResponseEntity<CustomErrorType> erroPedidoNaoEncontrado(long id) {
@@ -54,5 +56,11 @@ public class ErroPedido {
 	public static ResponseEntity<?> QuantidadeSaboresDoPedidoInvalido() {
 		return new ResponseEntity<CustomErrorType>(new CustomErrorType(QUANTIDADE_SABORES_NO_PEDIDO_INVALIDO),
 				HttpStatus.BAD_REQUEST);
+	}
+
+	public static ResponseEntity<?> pedidoComStatusIncorretoParaMudanca(long idPedido) {
+		return new ResponseEntity<CustomErrorType>(new CustomErrorType(String.format(ErroPedido.PEDIDO_COM_STATUS_INCORRETO_PARA_MUDANCA, idPedido)),
+				HttpStatus.BAD_REQUEST);
+		
 	}
 }

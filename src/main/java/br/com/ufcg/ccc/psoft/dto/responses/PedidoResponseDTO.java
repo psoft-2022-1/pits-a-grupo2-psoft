@@ -23,4 +23,6 @@ public class PedidoResponseDTO {
 	
 	private double valorTotal;
 	
+	private String statusPedido;
+	
 }

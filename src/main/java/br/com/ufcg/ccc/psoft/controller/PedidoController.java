@@ -5,6 +5,7 @@ import br.com.ufcg.ccc.psoft.dto.responses.PedidoResponseDTO;
 import br.com.ufcg.ccc.psoft.exception.*;
 import br.com.ufcg.ccc.psoft.service.PedidoService;
 import br.com.ufcg.ccc.psoft.util.ErroCliente;
+import br.com.ufcg.ccc.psoft.util.ErroEntregador;
 import br.com.ufcg.ccc.psoft.util.ErroEstabelecimento;
 import br.com.ufcg.ccc.psoft.util.ErroPagamento;
 import br.com.ufcg.ccc.psoft.util.ErroPedido;
@@ -80,23 +81,48 @@ public class PedidoController {
 			return ErroPedido.erroPedidoNaoEncontrado(idPedido);
 		}
 	}
-
-	@PutMapping(value = "/pedido/finalizarPedido/{id}")
-	public ResponseEntity<?> finalizarPedido(@PathVariable("id") long id,
-			@RequestBody PedidoRequestDTO pedidoRequestDTO) {
+	
+	@PutMapping(value = "/pedido/confirmarPedido/{idPedido}")
+	public ResponseEntity<?> confirmarPedido(@PathVariable("idPedido") long idPedido) {
 		try {
-			PedidoResponseDTO pedido = pedidoService.finalizarPedido(id, pedidoRequestDTO);
+			PedidoResponseDTO pedido = pedidoService.confirmarPedido(idPedido);
 			return new ResponseEntity<>(pedido, HttpStatus.OK);
 		} catch (PedidoNotFoundException e) {
-			throw new RuntimeException(e);
+			return ErroPedido.erroPedidoNaoEncontrado(idPedido);
+		} catch (PedidoComStatusIncorretoParaMudancaException e) {
+			return ErroPedido.pedidoComStatusIncorretoParaMudanca(idPedido);
+		}
+	}
+	
+	@PutMapping(value = "/pedido/atribuirPedidoAEntregador/{idPedido}")
+	public ResponseEntity<?> atribuirPedidoAEntregador(@PathVariable("idPedido") long idPedido) {
+		try {
+			PedidoResponseDTO pedido = pedidoService.atribuirPedidoAEntregador(idPedido);
+			return new ResponseEntity<>(pedido, HttpStatus.OK);
+		} catch (PedidoNotFoundException e) {
+			return ErroPedido.erroPedidoNaoEncontrado(idPedido);
+		} catch (NaoHaEntregadoresDisponiveisException e) {
+			return ErroEntregador.naoHaEntregadorDisponivel();
+		} 
+	}
+
+	@PutMapping(value = "/pedido/finalizarPedido/{idPedido}")
+	public ResponseEntity<?> finalizarPedido(@PathVariable("idPedido") long idPedido) {
+		try {
+			PedidoResponseDTO pedido = pedidoService.finalizarPedido(idPedido);
+			return new ResponseEntity<>(pedido, HttpStatus.OK);
+		} catch (PedidoNotFoundException e) {
+			return ErroPedido.erroPedidoNaoEncontrado(idPedido);
+		} catch (PedidoComStatusIncorretoParaMudancaException e) {
+			return ErroPedido.pedidoComStatusIncorretoParaMudanca(idPedido);
 		}
 	}
 
 	@PutMapping(value = " cliente/{idCliente}/pedido/{idPedido}")
-	public ResponseEntity<?> confirmaPedido(@PathVariable("idPedido") long idPedido,
+	public ResponseEntity<?> confirmarEntregaPedido(@PathVariable("idPedido") long idPedido,
 			@PathVariable("idCliente") Long idCliente) {
 		try {
-			PedidoResponseDTO pedido = pedidoService.confirmaPedido(idPedido, idCliente);
+			PedidoResponseDTO pedido = pedidoService.confirmarEntregaPedido(idPedido, idCliente);
 			return new ResponseEntity<>(pedido, HttpStatus.OK);
 		} catch (PedidoNotFoundException e) {
 			return ErroPedido.erroPedidoNaoEncontrado(idPedido);
@@ -104,6 +130,8 @@ public class PedidoController {
 
 			return ErroPedido.pedidoNaoPertenceAEsseCliente(idPedido, idCliente);
 
+		} catch (PedidoComStatusIncorretoParaMudancaException e) {
+			return ErroPedido.pedidoComStatusIncorretoParaMudanca(idPedido);
 		}
 	}
 

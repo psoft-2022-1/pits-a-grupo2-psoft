@@ -17,8 +17,10 @@ import br.com.ufcg.ccc.psoft.dto.responses.PedidoResponseDTO;
 import br.com.ufcg.ccc.psoft.exception.ClienteNotFoundException;
 import br.com.ufcg.ccc.psoft.exception.EstabelecimentoNotFoundException;
 import br.com.ufcg.ccc.psoft.exception.IncorretCodigoAcessoException;
+import br.com.ufcg.ccc.psoft.exception.NaoHaEntregadoresDisponiveisException;
 import br.com.ufcg.ccc.psoft.exception.NomeDoSaborEIdNaoCorrespondemException;
 import br.com.ufcg.ccc.psoft.exception.PagamentoInvalidException;
+import br.com.ufcg.ccc.psoft.exception.PedidoComStatusIncorretoParaMudancaException;
 import br.com.ufcg.ccc.psoft.exception.PedidoJaEstaProntoException;
 import br.com.ufcg.ccc.psoft.exception.PedidoNaoPertenceAEsseClienteException;
 import br.com.ufcg.ccc.psoft.exception.PedidoNotFoundException;
@@ -84,10 +86,8 @@ public class PedidoServiceImpl implements PedidoService {
 		Pagamento pagamento = this.setTipoPagamento(pedidoDTO.getTipoPagamento());
 
 		Pedido pedido = new Pedido(cliente, estabelecimento, itensDePedidos, pagamento, pedidoDTO.getEnderecoEntrega(),
-				calculaTotalPedido(itensDePedidos));
+				pagamento.calculaDesconto(calculaTotalPedido(itensDePedidos)));
 		salvarPedidoCadastrado(pedido);
-
-		
 
 		return extrairInfosPedidoParaSaida(pedido);
 
@@ -139,7 +139,7 @@ public class PedidoServiceImpl implements PedidoService {
 	}
 
 	private PedidoResponseDTO extrairInfosPedidoParaSaida(Pedido pedido) {
-		
+
 		List<ItemDePedidoResponseDTO> itensDosPedidosSaida = new ArrayList<>();
 		for (ItemDePedido item : pedido.getItensEscolhidos()) {
 
@@ -153,10 +153,10 @@ public class PedidoServiceImpl implements PedidoService {
 			itensDosPedidosSaida.add(itSaida);
 		}
 
-		return new PedidoResponseDTO(pedido.getId(), itensDosPedidosSaida,
-				pedido.getPagamento().getTipoPagamento(), pedido.getEnderecoEntrega(), pedido.getValorTotal());
+		return new PedidoResponseDTO(pedido.getId(), itensDosPedidosSaida, pedido.getPagamento().getTipoPagamento(),
+				pedido.getEnderecoEntrega(), pedido.getValorTotal(), pedido.getStatusPedido());
 	}
-	
+
 	private Pagamento setTipoPagamento(String tipoPagamento) throws PagamentoInvalidException {
 		if (tipoPagamento.toUpperCase().equals("PIX")) {
 			return new Pix();
@@ -227,42 +227,62 @@ public class PedidoServiceImpl implements PedidoService {
 	}
 
 	@Override
-	public PedidoResponseDTO confirmarPedido(Long id, PedidoRequestDTO pedidoDTO) throws PedidoNotFoundException {
-		Pedido pedido = getPedidoId(id);
+	public PedidoResponseDTO confirmarPedido(Long idPedido) throws PedidoNotFoundException, PedidoComStatusIncorretoParaMudancaException {
+		Pedido pedido = getPedidoId(idPedido);
+		
+		if(!pedido.getStatusPedido().equals("Pedido recebido")) {
+			throw new PedidoComStatusIncorretoParaMudancaException();
+		}
 		pedido.setStatusPedido("Pedido em preparo");
 		pedidoRepository.save(pedido);
 
-		return modelMapper.map(pedido, PedidoResponseDTO.class);
+		return extrairInfosPedidoParaSaida(pedido);
 	}
 
 	@Override
-	public PedidoResponseDTO finalizarPedido(Long id, PedidoRequestDTO pedidoDTO) throws PedidoNotFoundException {
-		Pedido pedido = getPedidoId(id);
+	public PedidoResponseDTO finalizarPedido(Long idPedido) throws PedidoNotFoundException, PedidoComStatusIncorretoParaMudancaException {
+		Pedido pedido = getPedidoId(idPedido);
+		if(!pedido.getStatusPedido().equals("Pedido em preparo")) {
+			throw new PedidoComStatusIncorretoParaMudancaException();
+		}
+			
 		pedido.setStatusPedido("Pedido pronto");
 
+		return extrairInfosPedidoParaSaida(pedido);
+	}
+	
+	public PedidoResponseDTO atribuirPedidoAEntregador(Long idPedido) throws PedidoNotFoundException, NaoHaEntregadoresDisponiveisException {
+		
+		Pedido pedido = getPedidoId(idPedido);
+		
 		Optional<Entregador> entregador = entregadorRepository.findByDisponibilidade("ATIVO");
 
-		if (entregador.isPresent())
-			pedido.setEntregador(entregador.get());
+		if (!entregador.isPresent()) {
+			throw new NaoHaEntregadoresDisponiveisException();
+		}
+		
+		pedido.setEntregador(entregador.get());
 		pedido.setStatusPedido("Pedido em rota");
-
+		pedido.notifyCliente();
 		pedidoRepository.save(pedido);
-
-		return modelMapper.map(pedido, PedidoResponseDTO.class);
+		
+		return extrairInfosPedidoParaSaida(pedido);
 	}
 
 	@Override
-	public PedidoResponseDTO confirmaPedido(Long idPedido, Long idCliente)
-			throws PedidoNotFoundException, PedidoNaoPertenceAEsseClienteException {
+	public PedidoResponseDTO confirmarEntregaPedido(Long idPedido, Long idCliente)
+			throws PedidoNotFoundException, PedidoNaoPertenceAEsseClienteException, PedidoComStatusIncorretoParaMudancaException {
 		Pedido pedido = getPedidoId(idPedido);
 		if (!pedido.getCliente().getId().equals(idCliente)) {
 			throw new PedidoNaoPertenceAEsseClienteException();
 		}
-
+		if(!pedido.getStatusPedido().equals("Pedido em rota")) {
+			throw new PedidoComStatusIncorretoParaMudancaException();
+		}
 		pedido.setStatusPedido("Pedido entregue");
 		pedido.notifyEstabelecimento();
 		this.pedidoRepository.save(pedido);
-		return modelMapper.map(pedido, PedidoResponseDTO.class);
+		return extrairInfosPedidoParaSaida(pedido);
 	}
 
 	@Override

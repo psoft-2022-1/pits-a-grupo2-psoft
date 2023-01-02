@@ -21,11 +21,11 @@ public abstract class Pagamento {
 
     private String tipoPagamento;
 
-    private double desconto;
+    private double porcentagemRestante;
 
-    public Pagamento(String tipoPagamento, double desconto){
+    public Pagamento(String tipoPagamento, double porcentagemRestante){
         this.tipoPagamento = tipoPagamento;
-        this.desconto = desconto;
+        this.porcentagemRestante = porcentagemRestante;
     }
     public abstract double calculaDesconto(Double valor);
 
