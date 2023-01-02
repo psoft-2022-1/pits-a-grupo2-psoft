@@ -77,7 +77,7 @@ public class ClienteController {
 			if (pedidos.isEmpty()) {
 				return ErroPedido.erroClientesSemPedidos(cliente.getNomeCompleto());
 			}
-			return new ResponseEntity<>(pedidos, HttpStatus.OK);
+			return new ResponseEntity<List<PedidoResponseDTO>>(pedidos, HttpStatus.OK);
 		} catch (ClienteNotFoundException e) {
 			return ErroCliente.erroClienteNaoEnconrtrado(idCliente);
 		}
@@ -92,7 +92,7 @@ public class ClienteController {
 			if (pedidos.isEmpty()) {
 				return ErroPedido.erroClientesSemPedidosStatus(cliente.getNomeCompleto(), statusPedido);
 			}
-			return new ResponseEntity<>(pedidos, HttpStatus.OK);
+			return new ResponseEntity<List<PedidoResponseDTO>>(pedidos, HttpStatus.OK);
 		} catch (ClienteNotFoundException e) {
 			return ErroCliente.erroClienteNaoEnconrtrado(idCliente);
 		}
@@ -103,7 +103,7 @@ public class ClienteController {
 
 		try {
 			ClienteResponseDTO cliente = clienteService.criaCliente(clienteRequestDTO);
-			return new ResponseEntity<>(cliente, HttpStatus.CREATED);
+			return new ResponseEntity<ClienteResponseDTO>(cliente, HttpStatus.CREATED);
 		} catch (ClienteAlreadyCreatedException e) {
 			return ErroCliente.erroClienteJaCadastrado(clienteRequestDTO);
 		} catch (InvalidCodigoAcessoException e) {

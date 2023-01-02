@@ -20,7 +20,7 @@ public class Pedido {
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long id;
 
-	@ManyToOne(targetEntity = Cliente.class)
+	@ManyToOne(targetEntity = Cliente.class,cascade = CascadeType.PERSIST)
 	@JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
 	private Cliente cliente;
 

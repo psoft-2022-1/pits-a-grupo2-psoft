@@ -205,32 +205,52 @@ public class PedidoServiceImpl implements PedidoService {
 
 	public PedidoResponseDTO getPedidoById(Long id) throws PedidoNotFoundException {
 		Pedido pedido = getPedidoId(id);
-		return  extrairInfosPedidoParaSaida(pedido);
+		return extrairInfosPedidoParaSaida(pedido);
 	}
 
 	@Override
 	public PedidoResponseDTO getPedidoByClienteById(ClienteRequestDTO clienteDTO, Long idPedido) {
 		Cliente cliente = modelMapper.map(clienteDTO, Cliente.class);
-		return pedidoRepository.findPedidoByClienteAndId(cliente, idPedido);
+		
+		Pedido pedido = pedidoRepository.findPedidoByClienteAndId(cliente, idPedido); 
+		
+		return extrairInfosPedidoParaSaida(pedido);
 	}
 
 	@Override
 	public List<PedidoResponseDTO> getPedidosByCliente(ClienteRequestDTO clienteDTO) {
 		Cliente cliente = modelMapper.map(clienteDTO, Cliente.class);
-		return pedidoRepository.findPedidosByClienteOrderByIdDesc(cliente);
+		
+		List<Pedido> pedidosOrdenados = pedidoRepository.findPedidosByClienteOrderByIdDesc(cliente);
+		
+		List<PedidoResponseDTO> pedidosSaida = new ArrayList<>();
+		for(Pedido pedido:pedidosOrdenados) {
+			pedidosSaida.add(extrairInfosPedidoParaSaida(pedido));
+		}
+		
+		return  pedidosSaida;
 	}
 
 	@Override
 	public List<PedidoResponseDTO> getPedidosByClienteByStatus(ClienteRequestDTO clienteDTO, String status) {
 		Cliente cliente = modelMapper.map(clienteDTO, Cliente.class);
-		return pedidoRepository.findPedidosByClienteAndStatusPedidoOrderByIdDesc(cliente, status);
+		
+		List<Pedido> pedidosPorStatus = pedidoRepository.findPedidosByClienteAndStatusPedidoOrderByIdDesc(cliente, status);
+				
+		List<PedidoResponseDTO> pedidosSaida = new ArrayList<>();
+		for(Pedido pedido:pedidosPorStatus) {
+			pedidosSaida.add(extrairInfosPedidoParaSaida(pedido));
+		}
+		
+		return  pedidosSaida;
 	}
 
 	@Override
-	public PedidoResponseDTO confirmarPedido(Long idPedido) throws PedidoNotFoundException, PedidoComStatusIncorretoParaMudancaException {
+	public PedidoResponseDTO confirmarPedido(Long idPedido)
+			throws PedidoNotFoundException, PedidoComStatusIncorretoParaMudancaException {
 		Pedido pedido = getPedidoId(idPedido);
-		
-		if(!pedido.getStatusPedido().equals("Pedido recebido")) {
+
+		if (!pedido.getStatusPedido().equals("Pedido recebido")) {
 			throw new PedidoComStatusIncorretoParaMudancaException();
 		}
 		pedido.setStatusPedido("Pedido em preparo");
@@ -240,43 +260,46 @@ public class PedidoServiceImpl implements PedidoService {
 	}
 
 	@Override
-	public PedidoResponseDTO finalizarPedido(Long idPedido) throws PedidoNotFoundException, PedidoComStatusIncorretoParaMudancaException {
+	public PedidoResponseDTO finalizarPedido(Long idPedido)
+			throws PedidoNotFoundException, PedidoComStatusIncorretoParaMudancaException {
 		Pedido pedido = getPedidoId(idPedido);
-		if(!pedido.getStatusPedido().equals("Pedido em preparo")) {
+		if (!pedido.getStatusPedido().equals("Pedido em preparo")) {
 			throw new PedidoComStatusIncorretoParaMudancaException();
 		}
-			
+
 		pedido.setStatusPedido("Pedido pronto");
 
 		return extrairInfosPedidoParaSaida(pedido);
 	}
-	
-	public PedidoResponseDTO atribuirPedidoAEntregador(Long idPedido) throws PedidoNotFoundException, NaoHaEntregadoresDisponiveisException {
-		
+
+	public PedidoResponseDTO atribuirPedidoAEntregador(Long idPedido)
+			throws PedidoNotFoundException, NaoHaEntregadoresDisponiveisException {
+
 		Pedido pedido = getPedidoId(idPedido);
-		
+
 		Optional<Entregador> entregador = entregadorRepository.findByStatusEstabelecimento("APROVADO");
 
 		if (!entregador.isPresent()) {
 			throw new NaoHaEntregadoresDisponiveisException();
 		}
-		
+
 		pedido.setEntregador(entregador.get());
 		pedido.setStatusPedido("Pedido em rota");
 		pedido.notifyCliente();
 		pedidoRepository.save(pedido);
-		
+
 		return extrairInfosPedidoParaSaida(pedido);
 	}
 
 	@Override
-	public PedidoResponseDTO confirmarEntregaPedido(Long idPedido, Long idCliente)
-			throws PedidoNotFoundException, PedidoNaoPertenceAEsseClienteException, PedidoComStatusIncorretoParaMudancaException {
+	public PedidoResponseDTO confirmarEntregaPedido(Long idPedido, Long idCliente) throws PedidoNotFoundException,
+			PedidoNaoPertenceAEsseClienteException, PedidoComStatusIncorretoParaMudancaException {
 		Pedido pedido = getPedidoId(idPedido);
 		if (!pedido.getCliente().getId().equals(idCliente)) {
 			throw new PedidoNaoPertenceAEsseClienteException();
 		}
-		if(!pedido.getStatusPedido().equals("Pedido em rota")) {
+
+		if (!pedido.getStatusPedido().equals("Pedido em rota")) {
 			throw new PedidoComStatusIncorretoParaMudancaException();
 		}
 		pedido.setStatusPedido("Pedido entregue");
