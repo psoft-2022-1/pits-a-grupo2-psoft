@@ -1,6 +1,5 @@
 package br.com.ufcg.ccc.psoft.dto.requests;
 
-import br.com.ufcg.ccc.psoft.model.Sabor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 

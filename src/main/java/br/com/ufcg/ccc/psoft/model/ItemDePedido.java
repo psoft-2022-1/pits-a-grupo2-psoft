@@ -15,7 +15,7 @@ public class ItemDePedido {
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long id;
 
-	@OneToMany(cascade = CascadeType.ALL, orphanRemoval = true)
+	@ManyToMany(cascade = CascadeType.ALL)
 	@JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
 	private List<Sabor> sabores;
 

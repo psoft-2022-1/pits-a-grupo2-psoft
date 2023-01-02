@@ -11,26 +11,31 @@ import java.util.List;
 
 public interface PedidoService {
 
-    public PedidoResponseDTO criaPedido(Long idCliente, PedidoRequestDTO pedidoDTO) throws SaborNotFoundException, QuantidadeSaboresInvalidosException, ClienteNotFoundException, IncorretCodigoAcessoException, PagamentoInvalidException;
+	public PedidoResponseDTO criarPedido(Long idCliente, PedidoRequestDTO pedidoDTO) throws SaborNotFoundException,
+			QuantidadeSaboresInvalidosException, ClienteNotFoundException, IncorretCodigoAcessoException,
+			PagamentoInvalidException, EstabelecimentoNotFoundException, NomeDoSaborEIdNaoCorrespondemException,SaborNaoEstaDisponivelException;
 
-    public void removerPedidoCadastrado(Long id) throws PedidoNotFoundException;
+	public void removerPedidoCadastrado(Long id) throws PedidoNotFoundException;
 
-    PedidoResponseDTO atualizarPedido(Long id, PedidoRequestDTO pedidoDTO) throws PedidoNotFoundException;
+	// PedidoResponseDTO atualizarPedido(Long id, PedidoRequestDTO pedidoDTO) throws
+	// PedidoNotFoundException;
 
-    public PedidoResponseDTO getPedidoById(Long idPedido) throws PedidoNotFoundException;
+	public PedidoResponseDTO getPedidoById(Long idPedido) throws PedidoNotFoundException;
 
-    public PedidoResponseDTO getPedidoByClienteById(ClienteRequestDTO clienteDTO, Long idPedido);
+	public PedidoResponseDTO getPedidoByClienteById(ClienteRequestDTO clienteDTO, Long idPedido);
 
-    public List<PedidoResponseDTO> getPedidosByCliente(ClienteRequestDTO clienteDTO);
+	public List<PedidoResponseDTO> getPedidosByCliente(ClienteRequestDTO clienteDTO);
 
-    public List<PedidoResponseDTO> getPedidosByClienteByStatus(ClienteRequestDTO clienteDTO, String status);
-    
-    PedidoResponseDTO confirmarPedido(Long id, PedidoRequestDTO pedidoDTO) throws PedidoNotFoundException;
+	public List<PedidoResponseDTO> getPedidosByClienteByStatus(ClienteRequestDTO clienteDTO, String status);
 
-    PedidoResponseDTO finalizarPedido(Long id, PedidoRequestDTO pedidoRequestDTO) throws PedidoNotFoundException;
+	PedidoResponseDTO confirmarPedido(Long id, PedidoRequestDTO pedidoDTO) throws PedidoNotFoundException;
 
-	public PedidoResponseDTO confirmaPedido(Long idPedido, Long idCliente)throws PedidoNotFoundException, PedidoNaoPertenceAEsseClienteException;
+	PedidoResponseDTO finalizarPedido(Long id, PedidoRequestDTO pedidoRequestDTO) throws PedidoNotFoundException;
 
-	public void cancelaPedido(Long idPedido, Long idCliente) throws PedidoNotFoundException, PedidoJaEstaProntoException, PedidoNaoPertenceAEsseClienteException;
+	public PedidoResponseDTO confirmaPedido(Long idPedido, Long idCliente)
+			throws PedidoNotFoundException, PedidoNaoPertenceAEsseClienteException;
+
+	public void cancelaPedido(Long idPedido, Long idCliente)
+			throws PedidoNotFoundException, PedidoJaEstaProntoException, PedidoNaoPertenceAEsseClienteException;
 
 }

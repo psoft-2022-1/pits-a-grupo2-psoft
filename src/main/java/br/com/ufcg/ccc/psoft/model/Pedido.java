@@ -3,7 +3,6 @@ package br.com.ufcg.ccc.psoft.model;
 
 import java.util.List;
 import javax.persistence.*;
-import br.com.ufcg.ccc.psoft.model.Enum.StatusPedido;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -40,23 +39,21 @@ public class Pedido {
 	private String enderecoEntrega;
 
 	private Double valorTotal;
-	
-	private String statusDePedido;
 
-	@Enumerated(value = EnumType.STRING)
-	private StatusPedido statusPedido;
+	private String statusPedido;
 
 	@ManyToOne(targetEntity = Entregador.class)
 	@JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
 	private Entregador entregador;
 
-	public Pedido(Cliente cliente, List<ItemDePedido> itensEscolhidos, Pagamento pagamento, String enderecoEntrega, Double valorTotal) {
+	public Pedido(Cliente cliente, Estabelecimento estabelecimento, List<ItemDePedido> itensEscolhidos, Pagamento pagamento, String enderecoEntrega, Double valorTotal) {
 		this.cliente = cliente;
+		this.estabelecimento = estabelecimento;
 		this.itensEscolhidos = itensEscolhidos;
 		this.pagamento = pagamento;
 		this.enderecoEntrega = enderecoEntrega;
 		this.valorTotal = valorTotal;
-		this.statusPedido = StatusPedido.valueOf("Pedido recebido");
+		this.statusPedido = "Pedido recebido";
 	}
 
 	public void notifyCliente(){

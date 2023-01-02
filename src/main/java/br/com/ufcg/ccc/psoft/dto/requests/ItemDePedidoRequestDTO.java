@@ -4,14 +4,11 @@ import java.util.List;
 
 import lombok.Data;
 
-import br.com.ufcg.ccc.psoft.model.Sabor;
 @Data
 public class ItemDePedidoRequestDTO {
 
-	private List<Sabor> sabores;
+	private List<SaborCreateRequestDTO> sabores;
 	
 	private String tamanho; //medio ou grande
-	
-	private double valor;
 
 }

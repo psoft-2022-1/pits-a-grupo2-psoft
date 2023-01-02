@@ -42,7 +42,7 @@ public class FuncionarioServiceImpl implements FuncionarioService {
         }
 
         Optional<Entregador> optionalEntregador = entregadorRepository.findById(analisarEntregadorRequestDTO.getIdEntregador());
-        if (optionalEntregador.isPresent()){
+        if (!optionalEntregador.isPresent()){
             throw new EntregadorNotFoundException();
         }
 

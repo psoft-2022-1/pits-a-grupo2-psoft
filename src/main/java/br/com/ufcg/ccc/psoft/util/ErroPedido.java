@@ -14,8 +14,11 @@ public class ErroPedido {
 	static final String CLIENTE_SEM_PEDIDOS_STATUS = "O cliente %s não tem pedidos com Status %s";
 
 	static final String PEDIDO_NAO_PERTENCE_A_ESSE_CLIENTE = "Pedido com id %s não pertence a cliente %s.";
+	
 	static final String PEDIDO_JA_ESTA_PRONTO = "Pedido com id %s já está pronto.";
-
+	
+	static final String QUANTIDADE_SABORES_NO_PEDIDO_INVALIDO = "Quantidade de sabores em algum dos itens do pedido é invalida";
+	
 	public static ResponseEntity<CustomErrorType> erroPedidoNaoEncontrado(long id) {
 		return new ResponseEntity<CustomErrorType>(new CustomErrorType(String.format(ErroPedido.PEDIDO_NAO_ENCONTRADO, id)),
 				HttpStatus.NOT_FOUND);
@@ -46,5 +49,10 @@ public class ErroPedido {
 		return new ResponseEntity<CustomErrorType>(new CustomErrorType(String.format(ErroPedido.PEDIDO_JA_ESTA_PRONTO, idPedido)),
 				HttpStatus.NOT_FOUND);
 
+	}
+
+	public static ResponseEntity<?> QuantidadeSaboresDoPedidoInvalido() {
+		return new ResponseEntity<CustomErrorType>(new CustomErrorType(QUANTIDADE_SABORES_NO_PEDIDO_INVALIDO),
+				HttpStatus.BAD_REQUEST);
 	}
 }

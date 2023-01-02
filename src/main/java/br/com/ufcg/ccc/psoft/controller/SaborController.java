@@ -43,7 +43,7 @@ public class SaborController {
 			SaborResponseDTO sabor = saborService.criarSabor(idEstabelecimento, saborRequestDTO);
 			return new ResponseEntity<SaborResponseDTO>(sabor, HttpStatus.CREATED);
 		} catch (SaborAlreadyCreatedException e) {
-			return ErroSabor.erroSaborJaCadastrado(saborRequestDTO);
+			return ErroSabor.erroSaborJaCadastrado(saborRequestDTO.getNomeSabor());
 		} catch (EstabelecimentoNotFoundException e2) {
 			return ErroEstabelecimento.erroEstabelecimentoNaoEncontrado(idEstabelecimento);
 		}
