@@ -74,16 +74,4 @@ public class EntregadorController {
         }
     }
 
-    @PutMapping(value = "/entregador/alteraStatus/{id}")
-    public ResponseEntity<?> atualizaStatusDisponibilidade(@PathVariable("id") Long id, @RequestBody EntregadorRequestDTO entregadorRequestDTO) {
-        try {
-            return new ResponseEntity<>(this.entregadorService.atualizaStatusDisponibilidade(id, entregadorRequestDTO), HttpStatus.OK);
-        } catch (EntregadorNaoAprovadoException e) {
-            return ErroEntregador.erroEntregadorNaoEncontrado(id);
-        } catch (EntregadorNotFoundException e) {
-            return ErroEntregador.erroEntregadoratualizaStatusDisponibilidade(id);
-        } catch (IncorretCodigoAcessoException e) {
-            return ErroEntregador.erroCodigoAcessoInvalido();
-        }
-    }
 }

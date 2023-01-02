@@ -36,7 +36,7 @@ public class EntregadorServiceImpl implements EntregadorService {
 
         Veiculo veiculo = new Veiculo(entregadorRequestDTO.getVeiculo().getPlacaVeiculo(), entregadorRequestDTO.getVeiculo().getCorVeiculo(), entregadorRequestDTO.getVeiculo().getTipoVeiculo());
         salvarVeiculoEntregador(veiculo);
-        Entregador entregador = new Entregador(entregadorRequestDTO.getNomeCompleto(), veiculo, "Sob análise", entregadorRequestDTO.getCodigoAcesso());
+        Entregador entregador = new Entregador(entregadorRequestDTO.getNomeCompleto(), veiculo, entregadorRequestDTO.getCodigoAcesso());
         salvarEntregadorCadastrado(entregador);
 
         return modelMapper.map(entregador, EntregadorResponseDTO.class);
@@ -50,8 +50,8 @@ public class EntregadorServiceImpl implements EntregadorService {
         return entregadores;
     }
 
-    public void removerEntregadorCadastrado(Long id) throws EntregadorNotFoundException {
-        Entregador entregador = getEntregadorId(id);
+    public void removerEntregadorCadastrado(Long idEntregador) throws EntregadorNotFoundException {
+        Entregador entregador = getEntregadorId(idEntregador);
         entregadorRepository.delete(entregador);
     }
 
@@ -102,20 +102,4 @@ public class EntregadorServiceImpl implements EntregadorService {
         entregadorRepository.save(entregador);
     }
 
-    @Override
-    public EntregadorResponseDTO atualizaStatusDisponibilidade(Long id, EntregadorRequestDTO entregadorRequestDTO) throws EntregadorNotFoundException, EntregadorNaoAprovadoException, IncorretCodigoAcessoException {
-
-        Entregador entregador = this.entregadorRepository.findById(id).orElseThrow(EntregadorNotFoundException::new);
-
-        if(!entregador.getStatusEstabelecimento().equalsIgnoreCase("APROVADO"))
-            throw new EntregadorNaoAprovadoException();
-        else if(!entregador.getCodigoAcesso().equals(entregador.getCodigoAcesso()))
-            throw new IncorretCodigoAcessoException();
-
-        entregador.setDisponibilidade(entregadorRequestDTO.getDisponibilidade());
-
-        entregador = this.entregadorRepository.save(entregador);
-
-        return modelMapper.map(entregador, EntregadorResponseDTO.class);
-    }
 }

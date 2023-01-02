@@ -205,7 +205,7 @@ public class PedidoServiceImpl implements PedidoService {
 
 	public PedidoResponseDTO getPedidoById(Long id) throws PedidoNotFoundException {
 		Pedido pedido = getPedidoId(id);
-		return modelMapper.map(pedido, PedidoResponseDTO.class);
+		return  extrairInfosPedidoParaSaida(pedido);
 	}
 
 	@Override
@@ -255,7 +255,7 @@ public class PedidoServiceImpl implements PedidoService {
 		
 		Pedido pedido = getPedidoId(idPedido);
 		
-		Optional<Entregador> entregador = entregadorRepository.findByDisponibilidade("ATIVO");
+		Optional<Entregador> entregador = entregadorRepository.findByStatusEstabelecimento("APROVADO");
 
 		if (!entregador.isPresent()) {
 			throw new NaoHaEntregadoresDisponiveisException();
