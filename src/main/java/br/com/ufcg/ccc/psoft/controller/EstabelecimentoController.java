@@ -5,7 +5,7 @@ import br.com.ufcg.ccc.psoft.dto.responses.EstabelecimentoResponseDTO;
 import br.com.ufcg.ccc.psoft.exception.EstabelecimentoNotFoundException;
 import br.com.ufcg.ccc.psoft.exception.InvalidCodigoAcessoException;
 import br.com.ufcg.ccc.psoft.service.EstabelecimentoService;
-import br.com.ufcg.ccc.psoft.service.util.ErroEstabelecimento;
+import br.com.ufcg.ccc.psoft.util.ErroEstabelecimento;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;

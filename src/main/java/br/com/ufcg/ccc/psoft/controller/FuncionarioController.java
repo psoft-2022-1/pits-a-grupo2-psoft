@@ -1,11 +1,14 @@
 package br.com.ufcg.ccc.psoft.controller;
 
 import br.com.ufcg.ccc.psoft.dto.requests.AnalisarEntregadorRequestDTO;
-import br.com.ufcg.ccc.psoft.dto.requests.EntregadorRequestDTO;
 import br.com.ufcg.ccc.psoft.dto.requests.FuncionarioRequestDTO;
+import br.com.ufcg.ccc.psoft.dto.responses.EntregadorResponseDTO;
+import br.com.ufcg.ccc.psoft.dto.responses.FuncionarioResponseDTO;
 import br.com.ufcg.ccc.psoft.exception.*;
 import br.com.ufcg.ccc.psoft.service.FuncionarioService;
-import br.com.ufcg.ccc.psoft.service.util.ErroFuncionario;
+import br.com.ufcg.ccc.psoft.util.ErroEntregador;
+import br.com.ufcg.ccc.psoft.util.ErroEstabelecimento;
+import br.com.ufcg.ccc.psoft.util.ErroFuncionario;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -23,7 +26,7 @@ public class FuncionarioController {
     public ResponseEntity<?> criarFuncionario(@RequestBody FuncionarioRequestDTO funcionarioRequestDTO) throws FuncionarioAlreadyCreatedException {
 
         try {
-            FuncionarioRequestDTO funcionario = funcionarioService.criaFuncionario(funcionarioRequestDTO);
+            FuncionarioResponseDTO funcionario = funcionarioService.criarFuncionario(funcionarioRequestDTO);
             return new ResponseEntity<>(funcionario, HttpStatus.CREATED);
         } catch (FuncionarioAlreadyCreatedException e) {
             return ErroFuncionario.erroFuncionarioJaCadastrado(funcionarioRequestDTO);
@@ -32,11 +35,11 @@ public class FuncionarioController {
         }
     }
 
-    @DeleteMapping(value = "/funcionario/{id}")
-    public ResponseEntity<?> removerFuncionario(@PathVariable("id") Long id) throws FuncionarioNotFoundException {
+    @DeleteMapping(value = "/funcionario/{idFuncionario}")
+    public ResponseEntity<?> removerFuncionario(@PathVariable("idFuncionario") Long idFuncionario) throws FuncionarioNotFoundException {
 
         try {
-            funcionarioService.removerFuncionarioCadastrado(id);
+            funcionarioService.removerFuncionarioCadastrado(idFuncionario);
             return new ResponseEntity<>(HttpStatus.OK);
         } catch (FuncionarioNotFoundException e) {
             return ErroFuncionario.erroFuncionarioNaoEncontrado();
@@ -45,16 +48,16 @@ public class FuncionarioController {
     @PutMapping(value = "/estabelecimento/funcionario/avaliar-entregador/")
     public ResponseEntity<?> avaliarEntregador(@RequestBody AnalisarEntregadorRequestDTO analisarEntregadorRequestDTO) {
         try {
-            EntregadorRequestDTO entregadorRequestDTO = funcionarioService.analisarEntregador(analisarEntregadorRequestDTO);
-            return new ResponseEntity<>(entregadorRequestDTO, HttpStatus.OK);
+            EntregadorResponseDTO entregadorResponseDTO = funcionarioService.analisarEntregador(analisarEntregadorRequestDTO);
+            return new ResponseEntity<>(entregadorResponseDTO, HttpStatus.OK);
         } catch (EstabelecimentoNotFoundException e) {
             throw new RuntimeException(e);
         } catch (FuncionarioNotFoundException e) {
             return ErroFuncionario.erroFuncionarioNaoEncontrado();
         } catch (IncorretCodigoAcessoException e) {
-            throw new RuntimeException(e);
+            return ErroEstabelecimento.erroCodigoAcessoIncorreto();
         } catch (EntregadorNotFoundException e) {
-            throw new RuntimeException(e);
+            return ErroEntregador.erroEntregadorNaoEncontrado(analisarEntregadorRequestDTO.getIdEntregador());
         }
     }
 }

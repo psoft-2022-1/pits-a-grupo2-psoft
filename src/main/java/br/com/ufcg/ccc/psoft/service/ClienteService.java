@@ -12,15 +12,20 @@ import br.com.ufcg.ccc.psoft.model.Cliente;
 
 public interface ClienteService {
 
-	 public ClienteRequestDTO getClienteById(Long id) throws ClienteNotFoundException;
+	public ClienteRequestDTO getClienteById(Long id) throws ClienteNotFoundException;
 
-	 public void removeClienteCadastrado(Long id) throws ClienteNotFoundException;
+	public void removerClienteCadastrado(Long id) throws ClienteNotFoundException;
 
-	 public List<ClienteResponseDTO> listaClientes();
+	public List<ClienteResponseDTO> listarClientes();
 
-	 public ClienteResponseDTO criaCliente(ClienteRequestDTO clienteRequestDTO) throws ClienteAlreadyCreatedException, InvalidCodigoAcessoException;
+	public ClienteResponseDTO criarCliente(ClienteRequestDTO clienteRequestDTO)
+			throws ClienteAlreadyCreatedException, InvalidCodigoAcessoException;
 
-	 public ClienteResponseDTO atualizaCliente(Long id, ClienteRequestDTO clienteRequestDTO) throws ClienteNotFoundException;
+	public ClienteResponseDTO atualizarCliente(Long id, ClienteRequestDTO clienteRequestDTO)
+			throws ClienteNotFoundException;
 
-	public Cliente checkCodAcesso(Long id, String codCliente) throws IncorretCodigoAcessoException, ClienteNotFoundException;
+	public Cliente checkCodAcesso(Long id, String codCliente)
+			throws IncorretCodigoAcessoException, ClienteNotFoundException;
+
+	public Cliente getClienteId(Long id) throws ClienteNotFoundException;
 }

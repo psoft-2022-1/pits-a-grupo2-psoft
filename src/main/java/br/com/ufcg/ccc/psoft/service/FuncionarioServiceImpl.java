@@ -1,11 +1,12 @@
 package br.com.ufcg.ccc.psoft.service;
 
 import br.com.ufcg.ccc.psoft.dto.requests.AnalisarEntregadorRequestDTO;
-import br.com.ufcg.ccc.psoft.dto.requests.EntregadorRequestDTO;
-import br.com.ufcg.ccc.psoft.dto.requests.EstabelecimentoRequestDTO;
 import br.com.ufcg.ccc.psoft.dto.requests.FuncionarioRequestDTO;
+import br.com.ufcg.ccc.psoft.dto.responses.EntregadorResponseDTO;
+import br.com.ufcg.ccc.psoft.dto.responses.FuncionarioResponseDTO;
 import br.com.ufcg.ccc.psoft.exception.*;
 import br.com.ufcg.ccc.psoft.model.Entregador;
+import br.com.ufcg.ccc.psoft.model.Estabelecimento;
 import br.com.ufcg.ccc.psoft.model.Funcionario;
 import br.com.ufcg.ccc.psoft.repository.EntregadorRepository;
 import br.com.ufcg.ccc.psoft.repository.FuncionarioRepository;
@@ -29,32 +30,28 @@ public class FuncionarioServiceImpl implements FuncionarioService {
     @Autowired
     public ModelMapper modelMapper;
 
-    public EntregadorRequestDTO analisarEntregador(AnalisarEntregadorRequestDTO analisarEntregadorRequestDTO) throws EntregadorNotFoundException, EstabelecimentoNotFoundException, FuncionarioNotFoundException, IncorretCodigoAcessoException {
-        EstabelecimentoRequestDTO estabelecimentoDTO = estabelecimentoService.getById(analisarEntregadorRequestDTO.getIdEstabelecimento());
-        FuncionarioRequestDTO funcionarioRequestDTO = getById(analisarEntregadorRequestDTO.getIdFuncionario());
+    public EntregadorResponseDTO analisarEntregador(AnalisarEntregadorRequestDTO analisarEntregadorRequestDTO) throws EntregadorNotFoundException, EstabelecimentoNotFoundException, FuncionarioNotFoundException, IncorretCodigoAcessoException {
+        Estabelecimento estabelecimento = estabelecimentoService.getEstabelecimentoById(analisarEntregadorRequestDTO.getIdEstabelecimento());
+        Funcionario funcionario = getFuncionarioId(analisarEntregadorRequestDTO.getIdFuncionario());
 
-        if(!estabelecimentoDTO.getCodigoAcesso().equals(analisarEntregadorRequestDTO.getCodEstabelecimento())){
+        if(!estabelecimento.getCodigoAcesso().equals(analisarEntregadorRequestDTO.getCodEstabelecimento())){
             throw new IncorretCodigoAcessoException();
         }
-        if(!funcionarioRequestDTO.getCodigoAcesso().equals(analisarEntregadorRequestDTO.getCodFuncionario())){
+        if(!funcionario.getCodigoAcesso().equals(analisarEntregadorRequestDTO.getCodFuncionario())){
             throw new IncorretCodigoAcessoException();
         }
 
         Optional<Entregador> optionalEntregador = entregadorRepository.findById(analisarEntregadorRequestDTO.getIdEntregador());
-        if (optionalEntregador.isPresent()){
+        if (!optionalEntregador.isPresent()){
             throw new EntregadorNotFoundException();
         }
 
         Entregador entregador = optionalEntregador.get();
         entregador.setStatusEstabelecimento(analisarEntregadorRequestDTO.getStatus());
+        entregador.setDisponibilidade("DESCANSO");
         entregadorRepository.save(entregador);
 
-        return modelMapper.map(entregador, EntregadorRequestDTO.class);
-    }
-
-    public FuncionarioRequestDTO getById(long idFuncionario) throws FuncionarioNotFoundException {
-        Funcionario funcionario = getFuncionarioById(idFuncionario);
-        return modelMapper.map(funcionario, FuncionarioRequestDTO.class);
+        return modelMapper.map(entregador, EntregadorResponseDTO.class);
     }
 
     @Override
@@ -65,16 +62,13 @@ public class FuncionarioServiceImpl implements FuncionarioService {
         return true;
     }
 
-    private Funcionario getFuncionarioId(Long id) throws FuncionarioNotFoundException {
-        return funcionarioRepository.findById(id)
+    private Funcionario getFuncionarioId(Long idFuncionario) throws FuncionarioNotFoundException {
+        return funcionarioRepository.findById(idFuncionario)
                 .orElseThrow(() -> new FuncionarioNotFoundException());
     }
-    public FuncionarioRequestDTO getFuncionarioById(Long id) throws FuncionarioNotFoundException {
-        Funcionario funcionario = getFuncionarioId(id);
-        return modelMapper.map(funcionario, FuncionarioRequestDTO.class);
-    }
+
     @Override
-    public FuncionarioRequestDTO criaFuncionario(FuncionarioRequestDTO funcionarioRequestDTO) throws FuncionarioAlreadyCreatedException, InvalidCodigoAcessoException {
+    public FuncionarioResponseDTO criarFuncionario(FuncionarioRequestDTO funcionarioRequestDTO) throws FuncionarioAlreadyCreatedException, InvalidCodigoAcessoException {
         if(funcionarioRequestDTO.getCodigoAcesso().length() != 6){
             throw new InvalidCodigoAcessoException();
         }
@@ -82,17 +76,13 @@ public class FuncionarioServiceImpl implements FuncionarioService {
 
         this.funcionarioRepository.save(funcionario);
 
-        return modelMapper.map(funcionario, FuncionarioRequestDTO.class);
+        return modelMapper.map(funcionario, FuncionarioResponseDTO.class);
     }
 
     @Override
-    public void removerFuncionarioCadastrado(Long id) throws FuncionarioNotFoundException {
-
-    }
-
-    private Funcionario getFuncionarioById(long idFuncionario) throws FuncionarioNotFoundException {
-        return funcionarioRepository.findById(idFuncionario)
-                .orElseThrow(() -> new FuncionarioNotFoundException());
+    public void removerFuncionarioCadastrado(Long idFuncionario) throws FuncionarioNotFoundException {
+        Funcionario funcionario = getFuncionarioId(idFuncionario);
+        funcionarioRepository.delete(funcionario);
     }
 
 }
