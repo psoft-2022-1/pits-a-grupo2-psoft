@@ -42,7 +42,8 @@ public class Pedido {
 
 	private Double valorTotal;
 
-	private String statusPedido;
+	@Enumerated(value = EnumType.STRING)
+	private StatusPedido statusPedido;
 
 	@ManyToOne(targetEntity = Entregador.class)
 	@JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
@@ -55,7 +56,7 @@ public class Pedido {
 		this.pagamento = pagamento;
 		this.enderecoEntrega = enderecoEntrega;
 		this.valorTotal = valorTotal;
-		this.statusPedido = "Pedido recebido";
+		this.statusPedido = StatusPedido.RECEBIDO;
 	}
 
 	public void notifyCliente(){
