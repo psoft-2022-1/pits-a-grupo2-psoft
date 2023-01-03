@@ -10,13 +10,13 @@ import javax.persistence.Entity;
 @Entity
 public class Pix extends Pagamento{
 
-    public Pix(){
-        super("Pix", 0.05);
+	public Pix(){
+        super("Pix", 0.95);
     }
 
     @Override
     public double calculaDesconto(Double valor) {
-        return valor * this.getDesconto();
+        return valor * this.getPorcentagemRestante();
     }
 
 }

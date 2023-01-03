@@ -9,12 +9,13 @@ import javax.persistence.Entity;
 @Entity
 public class CartaoCredito extends Pagamento {
 
-    public CartaoCredito(){
-        super("Cartão de crédito", 0);
+	public CartaoCredito(){
+		super("Cartão de crédito", 1);
+	}
+
+	@Override
+	public double calculaDesconto(Double valor) {
+        return valor * this.getPorcentagemRestante();
     }
 
-    @Override
-    public double calculaDesconto(Double valor) {
-        return valor * this.getDesconto();
-    }
 }
