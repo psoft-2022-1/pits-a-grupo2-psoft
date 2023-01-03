@@ -15,5 +15,4 @@ public class EntregadorResponseDTO {
 	private String statusEstabelecimento;
 
 	private String disponibilidade;
-
 }

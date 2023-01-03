@@ -1,16 +1,16 @@
 package br.com.ufcg.ccc.psoft.dto.responses;
 
-import br.com.ufcg.ccc.psoft.model.Sabor;
-import lombok.Data;
 
 import java.util.List;
 
+import lombok.AllArgsConstructor;
+import lombok.Data;
+
 @Data
+@AllArgsConstructor
 public class ItemDePedidoResponseDTO {
 
-	private Long id;
-
-	private List<Sabor> sabores;
+	private List<String> nomeSabores;
 	
 	private String tamanho; //medio ou grande
 	
