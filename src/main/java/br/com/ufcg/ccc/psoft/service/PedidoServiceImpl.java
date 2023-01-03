@@ -285,13 +285,14 @@ public class PedidoServiceImpl implements PedidoService {
 		List<Pedido> pedidosStatus = new ArrayList<>();
 
 		for (Pedido p : pedidosDeCliente) {
-			if (p.getStatusPedido().equals(status)) {
+			if (p.getStatusPedido().name().equals(status.toUpperCase())) {
 				pedidosStatus.add(p);
 			}
 		}
 
 		return pedidosStatus;
 	}
+
 
 	private List<Pedido> findPedidosByCliente(Cliente cliente) {
 
