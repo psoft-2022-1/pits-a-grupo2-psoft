@@ -1,6 +1,7 @@
 package br.com.ufcg.ccc.psoft.service;
 
 import br.com.ufcg.ccc.psoft.dto.requests.EntregadorRequestDTO;
+import br.com.ufcg.ccc.psoft.dto.requests.EntregadorStatusRequestDTO;
 import br.com.ufcg.ccc.psoft.dto.responses.EntregadorResponseDTO;
 import br.com.ufcg.ccc.psoft.exception.*;
 import br.com.ufcg.ccc.psoft.model.Entregador;
@@ -101,5 +102,22 @@ public class EntregadorServiceImpl implements EntregadorService {
     private void salvarEntregadorCadastrado(Entregador entregador) {
         entregadorRepository.save(entregador);
     }
+    
+    public EntregadorResponseDTO atualizaStatusDisponibilidade(Long id, EntregadorStatusRequestDTO entregadorRequestDTO) throws EntregadorNotFoundException, EntregadorNaoAprovadoException, IncorretCodigoAcessoException {
 
+    	
+        Entregador entregador = this.entregadorRepository.findById(id).orElseThrow(EntregadorNotFoundException::new);
+
+        if(!entregador.getStatusEstabelecimento().equalsIgnoreCase("APROVADO"))
+            throw new EntregadorNaoAprovadoException();
+        else if(!entregador.getCodigoAcesso().equals(entregador.getCodigoAcesso()))
+            throw new IncorretCodigoAcessoException();
+
+        entregador.setDisponibilidade(entregadorRequestDTO.getStatus());
+
+        entregador = this.entregadorRepository.save(entregador);
+
+        return modelMapper.map(entregador, EntregadorResponseDTO.class);
+    
+    }
 }

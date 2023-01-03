@@ -32,18 +32,16 @@ public interface PedidoService {
 
 	public PedidoResponseDTO getPedidoById(Long idPedido) throws PedidoNotFoundException;
 
-	public PedidoResponseDTO getPedidoByClienteById(ClienteRequestDTO clienteDTO, Long idPedido);
+	public PedidoResponseDTO getPedidoByClienteById(Long idCliente, Long idPedido) throws PedidoNaoPertenceAEsseClienteException,PedidoNotFoundException,ClienteNotFoundException ;
 
-	public List<PedidoResponseDTO> getPedidosByCliente(ClienteRequestDTO clienteDTO);
+	public List<PedidoResponseDTO> getPedidosByCliente(Long idCliente) throws ClienteNotFoundException;
 
-	public List<PedidoResponseDTO> getPedidosByClienteByStatus(ClienteRequestDTO clienteDTO, String status);
+	public List<PedidoResponseDTO> getPedidosByClienteByStatus(Long idCliente, String status) throws ClienteNotFoundException;
 
 	public PedidoResponseDTO confirmarPedido(Long idPedido) throws PedidoNotFoundException, PedidoComStatusIncorretoParaMudancaException;
 
-	public PedidoResponseDTO finalizarPedido(Long idPedido) throws PedidoNotFoundException,PedidoComStatusIncorretoParaMudancaException;
+	public PedidoResponseDTO finalizarPedido(Long idPedido) throws PedidoNotFoundException,PedidoComStatusIncorretoParaMudancaException,NaoHaEntregadoresDisponiveisException;
 
-	public PedidoResponseDTO atribuirPedidoAEntregador(Long idPedido) throws PedidoNotFoundException, NaoHaEntregadoresDisponiveisException ;
-	
 	public PedidoResponseDTO confirmarEntregaPedido(Long idPedido, Long idCliente)
 			throws PedidoNotFoundException, PedidoNaoPertenceAEsseClienteException,PedidoComStatusIncorretoParaMudancaException;
 

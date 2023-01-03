@@ -3,7 +3,7 @@ package br.com.ufcg.ccc.psoft.dto.requests;
 import lombok.Data;
 
 @Data
-public class EntregadorRequestDTO {
+public class EntregadorStatusRequestDTO {
 
 	private String nomeCompleto;
 
@@ -11,5 +11,5 @@ public class EntregadorRequestDTO {
 
 	private String codigoAcesso;
 	
-
+	private String status;
 }

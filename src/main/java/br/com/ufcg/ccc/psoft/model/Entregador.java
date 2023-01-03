@@ -27,6 +27,8 @@ public class Entregador {
 
 	private String codigoAcesso;
 
+	private String disponibilidade;
+
 	public Entregador(String nomeCompleto, Veiculo veiculo, String codigoAcesso) {
 		this.nomeCompleto = nomeCompleto;
 		this.veiculo = veiculo;

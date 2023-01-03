@@ -23,4 +23,6 @@ public interface ClienteService {
 	 public ClienteResponseDTO atualizaCliente(Long id, ClienteRequestDTO clienteRequestDTO) throws ClienteNotFoundException;
 
 	public Cliente checkCodAcesso(Long id, String codCliente) throws IncorretCodigoAcessoException, ClienteNotFoundException;
+
+	public Cliente getClienteId(Long id) throws ClienteNotFoundException;
 }

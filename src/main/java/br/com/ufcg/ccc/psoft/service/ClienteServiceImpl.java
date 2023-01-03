@@ -30,7 +30,7 @@ public class ClienteServiceImpl implements ClienteService{
 		return modelMapper.map(cliente, ClienteRequestDTO.class);
 	}
 
-	private Cliente getClienteId(Long id) throws ClienteNotFoundException {
+	public Cliente getClienteId(Long id) throws ClienteNotFoundException {
 		return clienteRepository.findById(id)
 				.orElseThrow(() -> new ClienteNotFoundException());
 	}

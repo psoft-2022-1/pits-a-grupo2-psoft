@@ -1,6 +1,7 @@
 package br.com.ufcg.ccc.psoft.controller;
 
 import br.com.ufcg.ccc.psoft.dto.requests.EntregadorRequestDTO;
+import br.com.ufcg.ccc.psoft.dto.requests.EntregadorStatusRequestDTO;
 import br.com.ufcg.ccc.psoft.dto.responses.EntregadorResponseDTO;
 import br.com.ufcg.ccc.psoft.exception.*;
 import br.com.ufcg.ccc.psoft.service.EntregadorService;
@@ -74,4 +75,17 @@ public class EntregadorController {
         }
     }
 
+    @PutMapping(value = "/entregador/alteraStatus/{id}")
+    public ResponseEntity<?> atualizaStatusDisponibilidade(@PathVariable("id") Long id, @RequestBody EntregadorStatusRequestDTO entregadorRequestDTO) {
+        try {
+            return new ResponseEntity<>(this.entregadorService.atualizaStatusDisponibilidade(id, entregadorRequestDTO), HttpStatus.OK);
+        } catch (EntregadorNaoAprovadoException e) {
+            return ErroEntregador.erroEntregadorNaoEncontrado(id);
+        } catch (EntregadorNotFoundException e) {
+            return ErroEntregador.erroEntregadoratualizaStatusDisponibilidade(id);
+        } catch (IncorretCodigoAcessoException e) {
+            return ErroEntregador.erroSenhaIncorreta(entregadorRequestDTO.getCodigoAcesso());
+        }
+        
+    }
 }

@@ -11,6 +11,8 @@ import br.com.ufcg.ccc.psoft.service.ClienteService;
 import br.com.ufcg.ccc.psoft.service.PedidoService;
 import br.com.ufcg.ccc.psoft.util.ErroCliente;
 import br.com.ufcg.ccc.psoft.exception.InvalidCodigoAcessoException;
+import br.com.ufcg.ccc.psoft.exception.PedidoNaoPertenceAEsseClienteException;
+import br.com.ufcg.ccc.psoft.exception.PedidoNotFoundException;
 
 import java.util.List;
 
@@ -57,14 +59,17 @@ public class ClienteController {
 	public ResponseEntity<?> pedidoCliente(@PathVariable("idPedido") long idPedido, @PathVariable("id") long idCliente) {
 
 		try {
-			ClienteRequestDTO cliente = clienteService.getClienteById(idCliente);
-			PedidoResponseDTO pedido = pedidoService.getPedidoByClienteById(cliente, idPedido);
+			PedidoResponseDTO pedido = pedidoService.getPedidoByClienteById(idCliente, idPedido);
 			if (pedido == null) {
-				return ErroPedido.erroPedidoClienteNaoEncontrado(cliente.getNomeCompleto(), idPedido);
+				return ErroPedido.erroPedidoClienteNaoEncontrado(idCliente, idPedido);
 			}
 			return new ResponseEntity<>(pedido, HttpStatus.OK);
 		} catch (ClienteNotFoundException e) {
 			return ErroCliente.erroClienteNaoEnconrtrado(idPedido);
+		} catch (PedidoNaoPertenceAEsseClienteException e) {
+			return ErroPedido.pedidoNaoPertenceAEsseCliente(idPedido, idCliente);
+		} catch (PedidoNotFoundException e) {
+			return ErroPedido.erroPedidoNaoEncontrado(idPedido);
 		}
 	}
 
@@ -72,10 +77,9 @@ public class ClienteController {
 	public ResponseEntity<?> historicoPedidosCliente(@PathVariable("idCliente") long idCliente ) {
 
 		try {
-			ClienteRequestDTO cliente = clienteService.getClienteById(idCliente);
-			List<PedidoResponseDTO> pedidos = pedidoService.getPedidosByCliente(cliente);
+			List<PedidoResponseDTO> pedidos = pedidoService.getPedidosByCliente(idCliente);
 			if (pedidos.isEmpty()) {
-				return ErroPedido.erroClientesSemPedidos(cliente.getNomeCompleto());
+				return ErroPedido.erroClientesSemPedidos(idCliente);
 			}
 			return new ResponseEntity<List<PedidoResponseDTO>>(pedidos, HttpStatus.OK);
 		} catch (ClienteNotFoundException e) {
@@ -87,10 +91,9 @@ public class ClienteController {
 	public ResponseEntity<?> historicoPedidosClienteStatus(@PathVariable("idCliente") long idCliente, @PathVariable("status") String statusPedido ) {
 
 		try {
-			ClienteRequestDTO cliente = clienteService.getClienteById(idCliente);
-			List<PedidoResponseDTO> pedidos = pedidoService.getPedidosByClienteByStatus(cliente, statusPedido);
+			List<PedidoResponseDTO> pedidos = pedidoService.getPedidosByClienteByStatus(idCliente, statusPedido);
 			if (pedidos.isEmpty()) {
-				return ErroPedido.erroClientesSemPedidosStatus(cliente.getNomeCompleto(), statusPedido);
+				return ErroPedido.erroClientesSemPedidosStatus(idCliente, statusPedido);
 			}
 			return new ResponseEntity<List<PedidoResponseDTO>>(pedidos, HttpStatus.OK);
 		} catch (ClienteNotFoundException e) {

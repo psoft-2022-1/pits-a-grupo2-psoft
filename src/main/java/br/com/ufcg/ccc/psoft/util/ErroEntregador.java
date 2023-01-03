@@ -18,6 +18,8 @@ public class ErroEntregador {
 
     static final String NAO_HA_ENTREGADORES_DISPONIVEIS = "Não há entregadores disponiveis para entrega";
     
+    static final String CODIGO_ACESSO_INCORRETO = "O codigo de acesso %s nao corresponde ao entregador informado";
+    
     public static ResponseEntity<CustomErrorType> erroEntregadorNaoEncontrado(long id) {
         return new ResponseEntity<CustomErrorType>(new CustomErrorType(String.format(ErroEntregador.ENTREGADOR_NAO_CASTRADO, id)),
                 HttpStatus.NOT_FOUND);
@@ -44,5 +46,10 @@ public class ErroEntregador {
 		return new ResponseEntity<CustomErrorType>(new CustomErrorType(ErroEntregador.NAO_HA_ENTREGADORES_DISPONIVEIS),
                 HttpStatus.NOT_FOUND);
 		
+	}
+
+	public static ResponseEntity<?> erroSenhaIncorreta(String codAcesso) {
+		 return new ResponseEntity<CustomErrorType>(new CustomErrorType(String.format(ErroEntregador.CODIGO_ACESSO_INCORRETO,
+	                codAcesso)), HttpStatus.CONFLICT);
 	}
 }

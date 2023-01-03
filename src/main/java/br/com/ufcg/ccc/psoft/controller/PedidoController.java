@@ -93,18 +93,6 @@ public class PedidoController {
 			return ErroPedido.pedidoComStatusIncorretoParaMudanca(idPedido);
 		}
 	}
-	
-	@PutMapping(value = "/pedido/atribuirPedidoAEntregador/{idPedido}")
-	public ResponseEntity<?> atribuirPedidoAEntregador(@PathVariable("idPedido") long idPedido) {
-		try {
-			PedidoResponseDTO pedido = pedidoService.atribuirPedidoAEntregador(idPedido);
-			return new ResponseEntity<>(pedido, HttpStatus.OK);
-		} catch (PedidoNotFoundException e) {
-			return ErroPedido.erroPedidoNaoEncontrado(idPedido);
-		} catch (NaoHaEntregadoresDisponiveisException e) {
-			return ErroEntregador.naoHaEntregadorDisponivel();
-		} 
-	}
 
 	@PutMapping(value = "/pedido/finalizarPedido/{idPedido}")
 	public ResponseEntity<?> finalizarPedido(@PathVariable("idPedido") long idPedido) {
@@ -115,6 +103,8 @@ public class PedidoController {
 			return ErroPedido.erroPedidoNaoEncontrado(idPedido);
 		} catch (PedidoComStatusIncorretoParaMudancaException e) {
 			return ErroPedido.pedidoComStatusIncorretoParaMudanca(idPedido);
+		} catch (NaoHaEntregadoresDisponiveisException e) {
+			return ErroEntregador.naoHaEntregadorDisponivel();
 		}
 	}
 

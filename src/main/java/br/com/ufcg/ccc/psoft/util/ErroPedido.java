@@ -7,11 +7,11 @@ public class ErroPedido {
 
 	static final String PEDIDO_NAO_ENCONTRADO = "Pedido com id %s não foi encontrado.";
 
-	static final String PEDIDO_DE_CLIENTE_NAO_ENCONTRADO = "O cliente %s não tem pedido com id %s";
+	static final String PEDIDO_DE_CLIENTE_NAO_ENCONTRADO = "O cliente de id %s não tem pedido com id %s";
 
-	static final String CLIENTE_SEM_PEDIDOS = "O cliente %s não tem pedidos";
+	static final String CLIENTE_SEM_PEDIDOS = "O cliente de id %s não tem pedidos";
 
-	static final String CLIENTE_SEM_PEDIDOS_STATUS = "O cliente %s não tem pedidos com Status %s";
+	static final String CLIENTE_SEM_PEDIDOS_STATUS = "O cliente de id %s não tem pedidos com Status %s";
 
 	static final String PEDIDO_NAO_PERTENCE_A_ESSE_CLIENTE = "Pedido com id %s não pertence a cliente %s.";
 	
@@ -26,18 +26,18 @@ public class ErroPedido {
 				HttpStatus.NOT_FOUND);
 	}
 
-	public static ResponseEntity<CustomErrorType> erroPedidoClienteNaoEncontrado(String nome, long id) {
-		return new ResponseEntity<CustomErrorType>(new CustomErrorType(String.format(ErroPedido.PEDIDO_DE_CLIENTE_NAO_ENCONTRADO, nome, id)),
+	public static ResponseEntity<CustomErrorType> erroPedidoClienteNaoEncontrado(long idCliente, long id) {
+		return new ResponseEntity<CustomErrorType>(new CustomErrorType(String.format(ErroPedido.PEDIDO_DE_CLIENTE_NAO_ENCONTRADO, idCliente, id)),
 				HttpStatus.NOT_FOUND);
 	}
 
-	public static ResponseEntity<CustomErrorType> erroClientesSemPedidos(String nome) {
-		return new ResponseEntity<CustomErrorType>(new CustomErrorType(String.format(ErroPedido.CLIENTE_SEM_PEDIDOS, nome)),
+	public static ResponseEntity<CustomErrorType> erroClientesSemPedidos(long idCliente) {
+		return new ResponseEntity<CustomErrorType>(new CustomErrorType(String.format(ErroPedido.CLIENTE_SEM_PEDIDOS, idCliente)),
 				HttpStatus.NO_CONTENT);
 	}
 
-	public static ResponseEntity<CustomErrorType> erroClientesSemPedidosStatus(String nome, String status) {
-		return new ResponseEntity<CustomErrorType>(new CustomErrorType(String.format(ErroPedido.CLIENTE_SEM_PEDIDOS_STATUS, nome, status)),
+	public static ResponseEntity<CustomErrorType> erroClientesSemPedidosStatus(long idCliente, String status) {
+		return new ResponseEntity<CustomErrorType>(new CustomErrorType(String.format(ErroPedido.CLIENTE_SEM_PEDIDOS_STATUS, idCliente, status)),
 				HttpStatus.NO_CONTENT);
 	}
 
