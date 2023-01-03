@@ -5,10 +5,6 @@ import lombok.Data;
 @Data
 public class EntregadorStatusRequestDTO {
 
-	private String nomeCompleto;
-
-	private VeiculoRequestDTO veiculo;
-
 	private String codigoAcesso;
 	
 	private String status;

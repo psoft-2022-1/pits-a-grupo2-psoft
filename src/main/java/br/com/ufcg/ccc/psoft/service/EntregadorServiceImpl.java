@@ -103,17 +103,17 @@ public class EntregadorServiceImpl implements EntregadorService {
         entregadorRepository.save(entregador);
     }
     
-    public EntregadorResponseDTO atualizaStatusDisponibilidade(Long id, EntregadorStatusRequestDTO entregadorRequestDTO) throws EntregadorNotFoundException, EntregadorNaoAprovadoException, IncorretCodigoAcessoException {
+    public EntregadorResponseDTO atualizaStatusDisponibilidade(Long idEntregador, EntregadorStatusRequestDTO entregadorRequestDTO) throws EntregadorNotFoundException, EntregadorNaoAprovadoException, IncorretCodigoAcessoException {
 
     	
-        Entregador entregador = this.entregadorRepository.findById(id).orElseThrow(EntregadorNotFoundException::new);
+        Entregador entregador = this.entregadorRepository.findById(idEntregador).orElseThrow(EntregadorNotFoundException::new);
 
         if(!entregador.getStatusEstabelecimento().equalsIgnoreCase("APROVADO"))
             throw new EntregadorNaoAprovadoException();
         else if(!entregador.getCodigoAcesso().equals(entregador.getCodigoAcesso()))
             throw new IncorretCodigoAcessoException();
 
-        entregador.setDisponibilidade(entregadorRequestDTO.getStatus());
+        entregador.setDisponibilidade(entregadorRequestDTO.getStatus().toUpperCase());
 
         entregador = this.entregadorRepository.save(entregador);
 

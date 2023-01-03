@@ -75,14 +75,14 @@ public class EntregadorController {
         }
     }
 
-    @PutMapping(value = "/entregador/alteraStatus/{id}")
-    public ResponseEntity<?> atualizaStatusDisponibilidade(@PathVariable("id") Long id, @RequestBody EntregadorStatusRequestDTO entregadorRequestDTO) {
+    @PutMapping(value = "/entregador/alteraStatus/{idEntregador}")
+    public ResponseEntity<?> atualizaStatusDisponibilidade(@PathVariable("idEntregador") Long idEntregador, @RequestBody EntregadorStatusRequestDTO entregadorRequestDTO) {
         try {
-            return new ResponseEntity<>(this.entregadorService.atualizaStatusDisponibilidade(id, entregadorRequestDTO), HttpStatus.OK);
+            return new ResponseEntity<>(this.entregadorService.atualizaStatusDisponibilidade(idEntregador, entregadorRequestDTO), HttpStatus.OK);
         } catch (EntregadorNaoAprovadoException e) {
-            return ErroEntregador.erroEntregadorNaoEncontrado(id);
+            return ErroEntregador.erroEntregadorNaoEncontrado(idEntregador);
         } catch (EntregadorNotFoundException e) {
-            return ErroEntregador.erroEntregadoratualizaStatusDisponibilidade(id);
+            return ErroEntregador.erroEntregadoratualizaStatusDisponibilidade(idEntregador);
         } catch (IncorretCodigoAcessoException e) {
             return ErroEntregador.erroSenhaIncorreta(entregadorRequestDTO.getCodigoAcesso());
         }
