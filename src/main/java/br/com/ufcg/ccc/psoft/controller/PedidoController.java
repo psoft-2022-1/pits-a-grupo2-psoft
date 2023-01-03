@@ -45,7 +45,7 @@ public class PedidoController {
 			return ErroPagamento.erroPagamentoNaoValido(pedidoDTO.getTipoPagamento());
 		} catch (EstabelecimentoNotFoundException e) {
 			return ErroEstabelecimento.erroEstabelecimentoNaoEncontrado(pedidoDTO.getIdEstabelecimento());
-		}catch(SaborNaoEstaDisponivelException e) {
+		} catch (SaborNaoEstaDisponivelException e) {
 			return ErroSabor.saborNaoEstaDisponivel();
 		}
 
@@ -62,14 +62,27 @@ public class PedidoController {
 		}
 	}
 
-	/*
-	 * @PutMapping(value = "/pedido/{id}") public ResponseEntity<?>
-	 * atualizarPedido(@PathVariable("id") long id, @RequestBody PedidoRequestDTO
-	 * pedidoDTO) { try { PedidoResponseDTO pedido =
-	 * pedidoService.atualizarPedido(id, pedidoDTO); return new
-	 * ResponseEntity<>(pedido, HttpStatus.OK); } catch (PedidoNotFoundException e)
-	 * { throw new RuntimeException(e); } }
-	 */
+	@PutMapping(value = "cliente/{idCliente}/pedido/atualizar/{idPedido}")
+	public ResponseEntity<?> atualizarPedido(@PathVariable("idCliente") long idCliente, @PathVariable("idPedido") long idPedido, @RequestBody PedidoRequestDTO pedidoDTO) {
+		try {
+			PedidoResponseDTO pedido = pedidoService.atualizarPedido(idCliente,idPedido, pedidoDTO);
+			return new ResponseEntity<>(pedido, HttpStatus.OK);
+		} catch (PedidoNotFoundException e) {
+			throw new RuntimeException(e);
+		} catch (QuantidadeSaboresInvalidosException e) {
+			return ErroPedido.QuantidadeSaboresDoPedidoInvalido();
+		} catch (SaborNotFoundException e) {
+			return ErroSabor.erroAlgumDosSaboresNaoEncontrado();
+		} catch (NomeDoSaborEIdNaoCorrespondemException e) {
+			return ErroSabor.erroNomeEIdDeSaborNaoCorrespondem();
+		} catch (SaborNaoEstaDisponivelException e) {
+			return ErroSabor.saborNaoEstaDisponivel();
+		} catch (PagamentoInvalidException e) {
+			return ErroPagamento.erroPagamentoNaoValido(pedidoDTO.getTipoPagamento());
+		} catch (PedidoNaoPertenceAEsseClienteException e) {
+			return ErroPedido.pedidoNaoPertenceAEsseCliente(idPedido, idCliente);
+		}
+	}
 
 	@GetMapping(value = "pedido/{idPedido}")
 	public ResponseEntity<?> consultarPedido(@PathVariable("idPedido") long idPedido) {
@@ -81,7 +94,7 @@ public class PedidoController {
 			return ErroPedido.erroPedidoNaoEncontrado(idPedido);
 		}
 	}
-	
+
 	@PutMapping(value = "/pedido/confirmarPedido/{idPedido}")
 	public ResponseEntity<?> confirmarPedido(@PathVariable("idPedido") long idPedido) {
 		try {

@@ -70,5 +70,13 @@ public class Pedido {
 				+ "ID: " + estabelecimento.getId());
 	}
 
+	public void setItensEscolhidos(List<ItemDePedido> itensDePedido) {
+		if (this.itensEscolhidos == null) {
+		    this.itensEscolhidos = itensDePedido;
+		  } else {
+		    this.itensEscolhidos.clear();
+		   this.itensEscolhidos.addAll(itensDePedido);
+		  }
+	}
 
 }

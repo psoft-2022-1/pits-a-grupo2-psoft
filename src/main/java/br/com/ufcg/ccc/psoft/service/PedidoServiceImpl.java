@@ -190,18 +190,35 @@ public class PedidoServiceImpl implements PedidoService {
 		return pedidoRepository.findById(id).orElseThrow(() -> new PedidoNotFoundException());
 	}
 
-	/*
-	 * public PedidoResponseDTO atualizarPedido(Long id, PedidoRequestDTO pedidoDTO)
-	 * throws PedidoNotFoundException { Pedido pedido = getPedidoId(id);
-	 * 
-	 * pedido.setItensEscolhidos(pedidoDTO.getItensEscolhidos());
-	 * pedido.setEnderecoEntrega(pedidoDTO.getEnderecoEntrega());
-	 * pedido.getPagamento().setTipoPagamento(pedidoDTO.getTipoPagamento());
-	 * pedido.getPagamento().setDesconto(calculaTotalPedido(pedidoDTO.
-	 * getItensEscolhidos())); this.pedidoRepository.save(pedido);
-	 * 
-	 * return modelMapper.map(pedido, PedidoResponseDTO.class); }
-	 */
+	public PedidoResponseDTO atualizarPedido(Long idCliente,Long idPedido, PedidoRequestDTO pedidoDTO) throws PedidoNotFoundException, QuantidadeSaboresInvalidosException, SaborNotFoundException, NomeDoSaborEIdNaoCorrespondemException, SaborNaoEstaDisponivelException, PagamentoInvalidException, PedidoNaoPertenceAEsseClienteException {
+		Pedido pedido = getPedidoId(idPedido);
+
+		
+		if(!pedido.getCliente().getId().equals(idCliente)) {
+			throw new PedidoNaoPertenceAEsseClienteException();
+		}
+		
+		List<ItemDePedido> itensDePedidos = extrairItensDoPedido(pedidoDTO.getItensEscolhidos());
+		pedido.setItensEscolhidos(itensDePedidos);
+		
+		
+		if (!(pedidoDTO.getEnderecoEntrega() == null)) {
+			pedido.setEnderecoEntrega(pedidoDTO.getEnderecoEntrega());
+		}
+		
+
+		Pagamento pagamento = setTipoPagamento(pedidoDTO.getTipoPagamento());
+		pedido.setPagamento(pagamento);
+		
+		double valorTotal = pedido.getPagamento().calculaDesconto(calculaTotalPedido(itensDePedidos));
+		pedido.setValorTotal(valorTotal);
+		
+		this.pedidoRepository.save(pedido);
+		
+
+		return extrairInfosPedidoParaSaida(pedido);
+	}
+
 
 	public PedidoResponseDTO getPedidoById(Long id) throws PedidoNotFoundException {
 		Pedido pedido = getPedidoId(id);
@@ -211,9 +228,9 @@ public class PedidoServiceImpl implements PedidoService {
 	@Override
 	public PedidoResponseDTO getPedidoByClienteById(Long idCliente, Long idPedido)
 			throws PedidoNaoPertenceAEsseClienteException, PedidoNotFoundException, ClienteNotFoundException {
-		
+
 		Cliente cliente = clienteService.getClienteId(idCliente);
-		
+
 		Pedido pedido = findPedidoByClienteAndId(cliente, idPedido);
 
 		return extrairInfosPedidoParaSaida(pedido);
@@ -233,7 +250,7 @@ public class PedidoServiceImpl implements PedidoService {
 
 	@Override
 	public List<PedidoResponseDTO> getPedidosByCliente(Long idCliente) throws ClienteNotFoundException {
-		
+
 		Cliente cliente = clienteService.getClienteId(idCliente);
 
 		List<Pedido> pedidosOrdenados = findPedidosByCliente(cliente);
@@ -247,11 +264,11 @@ public class PedidoServiceImpl implements PedidoService {
 	}
 
 	@Override
-	public List<PedidoResponseDTO> getPedidosByClienteByStatus(Long idCliente, String status) throws ClienteNotFoundException {
+	public List<PedidoResponseDTO> getPedidosByClienteByStatus(Long idCliente, String status)
+			throws ClienteNotFoundException {
 		Cliente cliente = clienteService.getClienteId(idCliente);
 
-		List<Pedido> pedidosPorStatus = findPedidosByClienteAndStatusPedidoOrderByIdDesc(cliente,
-				status);
+		List<Pedido> pedidosPorStatus = findPedidosByClienteAndStatusPedidoOrderByIdDesc(cliente, status);
 
 		List<PedidoResponseDTO> pedidosSaida = new ArrayList<>();
 		for (Pedido pedido : pedidosPorStatus) {
@@ -261,22 +278,23 @@ public class PedidoServiceImpl implements PedidoService {
 		return pedidosSaida;
 	}
 
-	private List<Pedido> findPedidosByClienteAndStatusPedidoOrderByIdDesc(Cliente cliente,String status){
-		
+	private List<Pedido> findPedidosByClienteAndStatusPedidoOrderByIdDesc(Cliente cliente, String status) {
+
 		List<Pedido> pedidosDeCliente = findPedidosByCliente(cliente);
-		
+
 		List<Pedido> pedidosStatus = new ArrayList<>();
-		
-		for(Pedido p:pedidosDeCliente) {
-			if(p.getStatusPedido().equals(status)) {
-				pedidosStatus.add(p);			}
+
+		for (Pedido p : pedidosDeCliente) {
+			if (p.getStatusPedido().equals(status)) {
+				pedidosStatus.add(p);
+			}
 		}
-		
+
 		return pedidosStatus;
 	}
-	
-	private List<Pedido> findPedidosByCliente(Cliente cliente){
-		
+
+	private List<Pedido> findPedidosByCliente(Cliente cliente) {
+
 		List<Pedido> pedidos = pedidoRepository.findAll();
 
 		List<Pedido> pedidosDeCliente = new ArrayList<>();
@@ -287,11 +305,11 @@ public class PedidoServiceImpl implements PedidoService {
 				pedidosDeCliente.add(p);
 			}
 		}
-		
+
 		return pedidosDeCliente;
-		
+
 	}
-	
+
 	@Override
 	public PedidoResponseDTO confirmarPedido(Long idPedido)
 			throws PedidoNotFoundException, PedidoComStatusIncorretoParaMudancaException {
