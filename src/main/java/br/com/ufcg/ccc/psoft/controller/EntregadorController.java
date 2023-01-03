@@ -1,6 +1,7 @@
 package br.com.ufcg.ccc.psoft.controller;
 
 import br.com.ufcg.ccc.psoft.dto.requests.EntregadorRequestDTO;
+import br.com.ufcg.ccc.psoft.dto.requests.EntregadorStatusRequestDTO;
 import br.com.ufcg.ccc.psoft.dto.responses.EntregadorResponseDTO;
 import br.com.ufcg.ccc.psoft.exception.*;
 import br.com.ufcg.ccc.psoft.service.EntregadorService;
@@ -41,49 +42,50 @@ public class EntregadorController {
         return new ResponseEntity<List<EntregadorResponseDTO>>(entregadores, HttpStatus.OK);
     }
 
-    @DeleteMapping(value = "/entregador/{id}")
-    public ResponseEntity<?> removerEntregador(@PathVariable("id") long id) {
+    @DeleteMapping(value = "/entregador/{idEntregador}")
+    public ResponseEntity<?> removerEntregador(@PathVariable("idEntregador") long idEntregador) {
 
         try {
-            entregadorService.removerEntregadorCadastrado(id);
+            entregadorService.removerEntregadorCadastrado(idEntregador);
             return new ResponseEntity<>(HttpStatus.OK);
         } catch (EntregadorNotFoundException e) {
-            return ErroEntregador.erroEntregadorNaoEncontrado(id);
+            return ErroEntregador.erroEntregadorNaoEncontrado(idEntregador);
         }
     }
 
-    @GetMapping(value = "/entregador/{id}")
-    public ResponseEntity<?> consultarEntregador(@PathVariable("id") long id) {
+    @GetMapping(value = "/entregador/{idEntregador}")
+    public ResponseEntity<?> consultarEntregador(@PathVariable("idEntregador") long idEntregador) {
 
         try {
-            EntregadorResponseDTO entregador = entregadorService.getEntregadorById(id);
+            EntregadorResponseDTO entregador = entregadorService.getEntregadorById(idEntregador);
             return new ResponseEntity<EntregadorResponseDTO>(entregador, HttpStatus.OK);
         } catch (EntregadorNotFoundException e) {
-            return ErroEntregador.erroEntregadorNaoEncontrado(id);
+            return ErroEntregador.erroEntregadorNaoEncontrado(idEntregador);
         }
     }
 
-    @PutMapping(value = "/entregador/{id}")
-    public ResponseEntity<?> atualizarEntregador(@PathVariable("id") long id, @RequestBody EntregadorRequestDTO entregadorRequestDTO) {
+    @PutMapping(value = "/entregador/{idEntregador}")
+    public ResponseEntity<?> atualizarEntregador(@PathVariable("idEntregador") long idEntregador, @RequestBody EntregadorRequestDTO entregadorRequestDTO) {
 
         try {
-            EntregadorRequestDTO entregador = entregadorService.atualizaEntregador(id, entregadorRequestDTO);
+            EntregadorRequestDTO entregador = entregadorService.atualizaEntregador(idEntregador, entregadorRequestDTO);
             return new ResponseEntity<EntregadorRequestDTO>(entregador, HttpStatus.OK);
         } catch (EntregadorNotFoundException e) {
-            return ErroEntregador.erroEntregadorNaoEncontrado(id);
+            return ErroEntregador.erroEntregadorNaoEncontrado(idEntregador);
         }
     }
 
-    @PutMapping(value = "/entregador/alteraStatus/{id}")
-    public ResponseEntity<?> atualizaStatusDisponibilidade(@PathVariable("id") Long id, @RequestBody EntregadorRequestDTO entregadorRequestDTO) {
+    @PutMapping(value = "/entregador/alteraStatus/{idEntregador}")
+    public ResponseEntity<?> atualizaStatusDisponibilidade(@PathVariable("idEntregador") Long idEntregador, @RequestBody EntregadorStatusRequestDTO entregadorRequestDTO) {
         try {
-            return new ResponseEntity<>(this.entregadorService.atualizaStatusDisponibilidade(id, entregadorRequestDTO), HttpStatus.OK);
+            return new ResponseEntity<>(this.entregadorService.atualizaStatusDisponibilidade(idEntregador, entregadorRequestDTO), HttpStatus.OK);
         } catch (EntregadorNaoAprovadoException e) {
-            return ErroEntregador.erroEntregadorNaoEncontrado(id);
+            return ErroEntregador.erroEntregadorNaoEncontrado(idEntregador);
         } catch (EntregadorNotFoundException e) {
-            return ErroEntregador.erroEntregadoratualizaStatusDisponibilidade(id);
+            return ErroEntregador.erroEntregadoratualizaStatusDisponibilidade(idEntregador);
         } catch (IncorretCodigoAcessoException e) {
-            return ErroEntregador.erroCodigoAcessoInvalido();
+            return ErroEntregador.erroSenhaIncorreta(entregadorRequestDTO.getCodigoAcesso());
         }
+        
     }
 }

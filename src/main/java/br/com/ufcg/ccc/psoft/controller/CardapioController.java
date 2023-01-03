@@ -19,25 +19,25 @@ public class CardapioController {
     @Autowired
     EstabelecimentoService estabelecimentoService;
 
-    @GetMapping(value = "/estabelecimento/{id}/cardapio/{sabor}")
-    public ResponseEntity<?> getCardapioPorSabor(@PathVariable("id") long id, @PathVariable("sabor") String sabor) {
+    @GetMapping(value = "/estabelecimento/{idEstabelecimento}/cardapio/{tipoSabor}")
+    public ResponseEntity<?> getCardapioPorSabor(@PathVariable("idEstabelecimento") long idEstabelecimento, @PathVariable("tipoSabor") String tipoSabor) {
         try {
-            CardapioResponseDTO cardapio = estabelecimentoService.consultaCarcapioPorSabor(id, sabor);
+            CardapioResponseDTO cardapio = estabelecimentoService.consultaCarcapioPorSabor(idEstabelecimento, tipoSabor);
             return new ResponseEntity<>(cardapio, HttpStatus.OK);
         } catch (EstabelecimentoNotFoundException e) {
-            return ErroEstabelecimento.erroEstabelecimentoNaoEncontrado(id);
+            return ErroEstabelecimento.erroEstabelecimentoNaoEncontrado(idEstabelecimento);
         } catch (CardapioNotFoundException e) {
-            return ErroCardapio.erroCardapioNaoEncontrado(id);
+            return ErroCardapio.erroCardapioNaoEncontrado(idEstabelecimento);
         }
     }
 
-    @GetMapping(value = "/estabelecimento/{id}/cardapio/")
-    public ResponseEntity<?> getCardapio(@PathVariable("id") long id) {
+    @GetMapping(value = "/estabelecimento/{idEstabelecimento}/cardapio/")
+    public ResponseEntity<?> getCardapio(@PathVariable("idEstabelecimento") long idEstabelecimento) {
         try {
-            CardapioResponseDTO cardapio = estabelecimentoService.getCardapio(id);
+            CardapioResponseDTO cardapio = estabelecimentoService.getCardapio(idEstabelecimento);
             return new ResponseEntity<>(cardapio, HttpStatus.OK);
         } catch (EstabelecimentoNotFoundException e) {
-            return ErroEstabelecimento.erroEstabelecimentoNaoEncontrado(id);
+            return ErroEstabelecimento.erroEstabelecimentoNaoEncontrado(idEstabelecimento);
         }
     }
 }
