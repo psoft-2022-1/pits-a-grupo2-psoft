@@ -26,7 +26,7 @@ public class FuncionarioController {
     public ResponseEntity<?> criarFuncionario(@RequestBody FuncionarioRequestDTO funcionarioRequestDTO) throws FuncionarioAlreadyCreatedException {
 
         try {
-            FuncionarioResponseDTO funcionario = funcionarioService.criaFuncionario(funcionarioRequestDTO);
+            FuncionarioResponseDTO funcionario = funcionarioService.criarFuncionario(funcionarioRequestDTO);
             return new ResponseEntity<>(funcionario, HttpStatus.CREATED);
         } catch (FuncionarioAlreadyCreatedException e) {
             return ErroFuncionario.erroFuncionarioJaCadastrado(funcionarioRequestDTO);
@@ -35,11 +35,11 @@ public class FuncionarioController {
         }
     }
 
-    @DeleteMapping(value = "/funcionario/{id}")
-    public ResponseEntity<?> removerFuncionario(@PathVariable("id") Long id) throws FuncionarioNotFoundException {
+    @DeleteMapping(value = "/funcionario/{idFuncionario}")
+    public ResponseEntity<?> removerFuncionario(@PathVariable("idFuncionario") Long idFuncionario) throws FuncionarioNotFoundException {
 
         try {
-            funcionarioService.removeFuncionarioCadastrado(id);
+            funcionarioService.removerFuncionarioCadastrado(idFuncionario);
             return new ResponseEntity<>(HttpStatus.OK);
         } catch (FuncionarioNotFoundException e) {
             return ErroFuncionario.erroFuncionarioNaoEncontrado();

@@ -24,7 +24,7 @@ public class EntregadorController {
     @PostMapping(value = "/entregador/")
     public ResponseEntity<?> criarEntregador(@RequestBody EntregadorRequestDTO entregadorRequestDTO) {
         try {
-            EntregadorResponseDTO entregador = entregadorService.criaEntregador(entregadorRequestDTO);
+            EntregadorResponseDTO entregador = entregadorService.criarEntregador(entregadorRequestDTO);
             return new ResponseEntity<EntregadorResponseDTO>(entregador, HttpStatus.CREATED);
         } catch (EntregadorAlreadyCreatedException e) {
             return ErroEntregador.erroEntregadorJaCadastrado(entregadorRequestDTO);
@@ -68,7 +68,7 @@ public class EntregadorController {
     public ResponseEntity<?> atualizarEntregador(@PathVariable("idEntregador") long idEntregador, @RequestBody EntregadorRequestDTO entregadorRequestDTO) {
 
         try {
-            EntregadorRequestDTO entregador = entregadorService.atualizaEntregador(idEntregador, entregadorRequestDTO);
+            EntregadorRequestDTO entregador = entregadorService.atualizarEntregador(idEntregador, entregadorRequestDTO);
             return new ResponseEntity<EntregadorRequestDTO>(entregador, HttpStatus.OK);
         } catch (EntregadorNotFoundException e) {
             return ErroEntregador.erroEntregadorNaoEncontrado(idEntregador);
@@ -78,7 +78,7 @@ public class EntregadorController {
     @PutMapping(value = "/entregador/alteraStatus/{idEntregador}")
     public ResponseEntity<?> atualizaStatusDisponibilidade(@PathVariable("idEntregador") Long idEntregador, @RequestBody EntregadorStatusRequestDTO entregadorRequestDTO) {
         try {
-            return new ResponseEntity<>(this.entregadorService.atualizaStatusDisponibilidade(idEntregador, entregadorRequestDTO), HttpStatus.OK);
+            return new ResponseEntity<>(this.entregadorService.atualizarStatusDisponibilidade(idEntregador, entregadorRequestDTO), HttpStatus.OK);
         } catch (EntregadorNaoAprovadoException e) {
             return ErroEntregador.erroEntregadorNaoEncontrado(idEntregador);
         } catch (EntregadorNotFoundException e) {

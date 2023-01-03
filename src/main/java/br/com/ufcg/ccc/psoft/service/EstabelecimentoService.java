@@ -9,21 +9,22 @@ import br.com.ufcg.ccc.psoft.exception.IncorretCodigoAcessoException;
 import br.com.ufcg.ccc.psoft.exception.InvalidCodigoAcessoException;
 import br.com.ufcg.ccc.psoft.model.Estabelecimento;
 
-
 public interface EstabelecimentoService {
 
-    EstabelecimentoRequestDTO getById(Long idEstabelecimento) throws EstabelecimentoNotFoundException;
+	public EstabelecimentoRequestDTO getById(Long idEstabelecimento) throws EstabelecimentoNotFoundException;
 
-    Estabelecimento getEstabelecimentoById(Long id) throws EstabelecimentoNotFoundException;
+	public Estabelecimento getEstabelecimentoById(Long idEstabelecimento) throws EstabelecimentoNotFoundException;
 
-    boolean checkCodAcesso(EstabelecimentoRequestDTO estabelecimentoDTO, String codEstabelecimento) throws IncorretCodigoAcessoException;
+	public boolean checkCodAcesso(EstabelecimentoRequestDTO estabelecimentoDTO, String codEstabelecimento)
+			throws IncorretCodigoAcessoException;
 
-    public CardapioResponseDTO consultaCarcapioPorSabor(Long idEstabeleicmento, String tipoSabor) throws EstabelecimentoNotFoundException, CardapioNotFoundException;
+	public CardapioResponseDTO consultaCarcapioPorSabor(Long idEstabeleicmento, String tipoSabor)
+			throws EstabelecimentoNotFoundException, CardapioNotFoundException;
 
-    public EstabelecimentoResponseDTO criarEstabelecimento(EstabelecimentoRequestDTO codigoAcesso) throws InvalidCodigoAcessoException;
+	public EstabelecimentoResponseDTO criarEstabelecimento(EstabelecimentoRequestDTO codigoAcesso)
+			throws InvalidCodigoAcessoException;
 
-    public EstabelecimentoResponseDTO editarEstabelecimento(Long idEstabelecimento, EstabelecimentoRequestDTO codigoAcesso) throws EstabelecimentoNotFoundException;
-
+	public EstabelecimentoResponseDTO editarEstabelecimento(Long idEstabelecimento, EstabelecimentoRequestDTO codigoAcesso) throws EstabelecimentoNotFoundException;
 
     public CardapioResponseDTO getCardapio(Long idEstabelecimento) throws EstabelecimentoNotFoundException;
 }

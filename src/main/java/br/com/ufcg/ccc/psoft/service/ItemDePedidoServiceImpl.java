@@ -1,34 +1,41 @@
 package br.com.ufcg.ccc.psoft.service;
 
+import java.util.List;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+
+import br.com.ufcg.ccc.psoft.dto.requests.ItemDePedidoRequestDTO;
 import br.com.ufcg.ccc.psoft.exception.QuantidadeSaboresInvalidosException;
 import br.com.ufcg.ccc.psoft.exception.SaborNotFoundException;
 import br.com.ufcg.ccc.psoft.model.ItemDePedido;
 import br.com.ufcg.ccc.psoft.model.Sabor;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Service;
+import br.com.ufcg.ccc.psoft.repository.ItemDePedidoRepository;
 
 @Service
 public class ItemDePedidoServiceImpl implements ItemDePedidoService{
 
     @Autowired
-    private SaborService saborService;
+    private ItemDePedidoRepository itemDePedidoRepository;
 
-
-    public Double checkItem(ItemDePedido itemDePedido) throws QuantidadeSaboresInvalidosException, SaborNotFoundException {
-        if(itemDePedido.getTamanho().toUpperCase().equals("MEDIO") && itemDePedido.getSabores().size() > 1){
-            throw new QuantidadeSaboresInvalidosException();
-        } else if (itemDePedido.getTamanho().toUpperCase().equals("MEDIO") && itemDePedido.getSabores().size() == 1){
-            if (!checkSaborExist(itemDePedido.getSabores().get(0))) {
-                throw new SaborNotFoundException();
-            }
-            return itemDePedido.getSabores().get(0).getValorMedio();
-        } else if(itemDePedido.getTamanho().toUpperCase().equals("GRANDE") && itemDePedido.getSabores().size() <= 2){
+   /*
+    * Este método checa se o item é válido. Para ser válido, é preciso que:
+    * 1)O(s) sabor(es) existam;
+    * 2)Se for médio, tenha apenas 1 sabpr;
+    * 3)Se for grande pode ter até 2 sabores;
+    * 
+    * Caso o item do pedido(pizza) seja válido, retorna o valor dele;
+    */
+    public Double checkItem(ItemDePedidoRequestDTO itemDePedido, List<Sabor> saboresDoPedido) throws QuantidadeSaboresInvalidosException, SaborNotFoundException {
+       
+    	if (itemDePedido.getTamanho().toUpperCase().equals("MEDIO") && saboresDoPedido.size() == 1){
+            return saboresDoPedido.get(0).getValorMedio();
+            
+        } else if(itemDePedido.getTamanho().toUpperCase().equals("GRANDE") && saboresDoPedido.size() <= 2){
             double valor= 0;
             double quantSabores = 0;
-            for (Sabor sabor : itemDePedido.getSabores()){
-                if (!checkSaborExist(sabor)) {
-                    throw new SaborNotFoundException();
-                }
+            
+            for (Sabor sabor : saboresDoPedido){
                 quantSabores += 1;
                 valor += sabor.getValorGrande();
             }
@@ -38,11 +45,13 @@ public class ItemDePedidoServiceImpl implements ItemDePedidoService{
         }
     }
 
-    private boolean checkSaborExist(Sabor sabor) throws SaborNotFoundException {
-        if(saborService.getSaborById(sabor.getId()) == null){
-            return false;
-        }
-        return true;
+    public ItemDePedido criarItemDePedido(List<Sabor> saboresDoPedido, String tamanho, double valor) {
+    	
+    	ItemDePedido itemEscolhido = new ItemDePedido(saboresDoPedido, tamanho, valor);
+    	
+    	itemDePedidoRepository.save(itemEscolhido);
+    	
+    	return itemEscolhido;
     }
 	
 }

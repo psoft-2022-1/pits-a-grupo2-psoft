@@ -1,6 +1,7 @@
 package br.com.ufcg.ccc.psoft.service;
 
 import br.com.ufcg.ccc.psoft.dto.requests.EntregadorRequestDTO;
+import br.com.ufcg.ccc.psoft.dto.requests.EntregadorStatusRequestDTO;
 import br.com.ufcg.ccc.psoft.dto.responses.EntregadorResponseDTO;
 import br.com.ufcg.ccc.psoft.exception.*;
 import br.com.ufcg.ccc.psoft.model.Entregador;
@@ -25,7 +26,7 @@ public class EntregadorServiceImpl implements EntregadorService {
     @Autowired
     public ModelMapper modelMapper;
 
-    public EntregadorResponseDTO criaEntregador(EntregadorRequestDTO entregadorRequestDTO) throws EntregadorAlreadyCreatedException, InvalidCodigoAcessoException {
+    public EntregadorResponseDTO criarEntregador(EntregadorRequestDTO entregadorRequestDTO) throws EntregadorAlreadyCreatedException, InvalidCodigoAcessoException {
         if(entregadorRequestDTO.getCodigoAcesso().length() != 6){
             throw new InvalidCodigoAcessoException();
         }
@@ -36,7 +37,7 @@ public class EntregadorServiceImpl implements EntregadorService {
 
         Veiculo veiculo = new Veiculo(entregadorRequestDTO.getVeiculo().getPlacaVeiculo(), entregadorRequestDTO.getVeiculo().getCorVeiculo(), entregadorRequestDTO.getVeiculo().getTipoVeiculo());
         salvarVeiculoEntregador(veiculo);
-        Entregador entregador = new Entregador(entregadorRequestDTO.getNomeCompleto(), veiculo, "Sob análise", entregadorRequestDTO.getCodigoAcesso());
+        Entregador entregador = new Entregador(entregadorRequestDTO.getNomeCompleto(), veiculo, entregadorRequestDTO.getCodigoAcesso());
         salvarEntregadorCadastrado(entregador);
 
         return modelMapper.map(entregador, EntregadorResponseDTO.class);
@@ -50,14 +51,14 @@ public class EntregadorServiceImpl implements EntregadorService {
         return entregadores;
     }
 
-    public void removerEntregadorCadastrado(Long id) throws EntregadorNotFoundException {
-        Entregador entregador = getEntregadorId(id);
+    public void removerEntregadorCadastrado(Long idEntregador) throws EntregadorNotFoundException {
+        Entregador entregador = getEntregadorId(idEntregador);
         entregadorRepository.delete(entregador);
     }
 
-    public EntregadorRequestDTO atualizaEntregador(Long id, EntregadorRequestDTO entregadorRequestDTO) throws EntregadorNotFoundException {
+    public EntregadorRequestDTO atualizarEntregador(Long idEntregador, EntregadorRequestDTO entregadorRequestDTO) throws EntregadorNotFoundException {
 
-        Entregador entregador = getEntregadorId(id);
+        Entregador entregador = getEntregadorId(idEntregador);
 
         entregador.setNomeCompleto(entregadorRequestDTO.getNomeCompleto());
         entregador.setCodigoAcesso(entregadorRequestDTO.getCodigoAcesso());
@@ -69,13 +70,13 @@ public class EntregadorServiceImpl implements EntregadorService {
         return modelMapper.map(entregador, EntregadorRequestDTO.class);
     }
 
-    private Entregador getEntregadorId(Long id) throws EntregadorNotFoundException {
-        return entregadorRepository.findById(id)
+    private Entregador getEntregadorId(Long idEntregador) throws EntregadorNotFoundException {
+        return entregadorRepository.findById(idEntregador)
                 .orElseThrow(() -> new EntregadorNotFoundException());
     }
 
-    public EntregadorResponseDTO getEntregadorById(Long id) throws EntregadorNotFoundException {
-        Entregador entregador = getEntregadorId(id);
+    public EntregadorResponseDTO getEntregadorById(Long idEntregador) throws EntregadorNotFoundException {
+        Entregador entregador = getEntregadorId(idEntregador);
         return modelMapper.map(entregador, EntregadorResponseDTO.class);
     }
 
@@ -101,21 +102,22 @@ public class EntregadorServiceImpl implements EntregadorService {
     private void salvarEntregadorCadastrado(Entregador entregador) {
         entregadorRepository.save(entregador);
     }
+    
+    public EntregadorResponseDTO atualizarStatusDisponibilidade(Long idEntregador, EntregadorStatusRequestDTO entregadorRequestDTO) throws EntregadorNotFoundException, EntregadorNaoAprovadoException, IncorretCodigoAcessoException {
 
-    @Override
-    public EntregadorResponseDTO atualizaStatusDisponibilidade(Long id, EntregadorRequestDTO entregadorRequestDTO) throws EntregadorNotFoundException, EntregadorNaoAprovadoException, IncorretCodigoAcessoException {
-
-        Entregador entregador = this.entregadorRepository.findById(id).orElseThrow(EntregadorNotFoundException::new);
+    	
+        Entregador entregador = this.entregadorRepository.findById(idEntregador).orElseThrow(EntregadorNotFoundException::new);
 
         if(!entregador.getStatusEstabelecimento().equalsIgnoreCase("APROVADO"))
             throw new EntregadorNaoAprovadoException();
         else if(!entregador.getCodigoAcesso().equals(entregador.getCodigoAcesso()))
             throw new IncorretCodigoAcessoException();
 
-        entregador.setDisponibilidade(entregadorRequestDTO.getDisponibilidade());
+        entregador.setDisponibilidade(entregadorRequestDTO.getStatus().toUpperCase());
 
         entregador = this.entregadorRepository.save(entregador);
 
         return modelMapper.map(entregador, EntregadorResponseDTO.class);
+    
     }
 }

@@ -34,10 +34,10 @@ public class ClienteController {
 	PedidoService pedidoService;
 	
 	@DeleteMapping(value = "/cliente/{idCliente}")
-	public ResponseEntity<?> removeCliente(@PathVariable("idCliente") Long idCliente) {
+	public ResponseEntity<?> removerCliente(@PathVariable("idCliente") Long idCliente) {
 			
 		try {
-			clienteService.removeClienteCadastrado(idCliente);
+			clienteService.removerClienteCadastrado(idCliente);
 			return new ResponseEntity<>(HttpStatus.OK);
 		} catch (ClienteNotFoundException e) {
 			return ErroCliente.erroClienteNaoEnconrtrado(idCliente);
@@ -45,9 +45,9 @@ public class ClienteController {
 	}
 	
 	@GetMapping(value = "/clientes")
-	public ResponseEntity<?> listaClientes() {
+	public ResponseEntity<?> listarClientes() {
 		
-		List<ClienteResponseDTO> clientes = clienteService.listaClientes();
+		List<ClienteResponseDTO> clientes = clienteService.listarClientes();
 		if (clientes.isEmpty()) {
 			return ErroCliente.erroSemClientesCadastrados();
 		}
@@ -102,10 +102,10 @@ public class ClienteController {
 	}
 	
 	@PostMapping(value = "/cliente/")
-	public ResponseEntity<?> criaCliente(@RequestBody ClienteRequestDTO clienteRequestDTO) {
+	public ResponseEntity<?> criarCliente(@RequestBody ClienteRequestDTO clienteRequestDTO) {
 
 		try {
-			ClienteResponseDTO cliente = clienteService.criaCliente(clienteRequestDTO);
+			ClienteResponseDTO cliente = clienteService.criarCliente(clienteRequestDTO);
 			return new ResponseEntity<ClienteResponseDTO>(cliente, HttpStatus.CREATED);
 		} catch (ClienteAlreadyCreatedException e) {
 			return ErroCliente.erroClienteJaCadastrado(clienteRequestDTO);
@@ -115,10 +115,10 @@ public class ClienteController {
 	}
 	
 	@PutMapping(value = "/cliente/{idCliente}")
-	public ResponseEntity<?> atualizaCliente(@PathVariable("idCliente") long idCliente, @RequestBody ClienteRequestDTO clienteRequestDTO) {
+	public ResponseEntity<?> atualizarCliente(@PathVariable("idCliente") long idCliente, @RequestBody ClienteRequestDTO clienteRequestDTO) {
 
 		try {
-			ClienteResponseDTO cliente = clienteService.atualizaCliente(idCliente, clienteRequestDTO);
+			ClienteResponseDTO cliente = clienteService.atualizarCliente(idCliente, clienteRequestDTO);
 			return new ResponseEntity<ClienteResponseDTO>(cliente, HttpStatus.OK);
 		} catch (ClienteNotFoundException e) {
 			return ErroCliente.erroClienteNaoEnconrtrado(idCliente);

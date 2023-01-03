@@ -62,13 +62,13 @@ public class FuncionarioServiceImpl implements FuncionarioService {
         return true;
     }
 
-    private Funcionario getFuncionarioId(Long id) throws FuncionarioNotFoundException {
-        return funcionarioRepository.findById(id)
+    private Funcionario getFuncionarioId(Long idFuncionario) throws FuncionarioNotFoundException {
+        return funcionarioRepository.findById(idFuncionario)
                 .orElseThrow(() -> new FuncionarioNotFoundException());
     }
 
     @Override
-    public FuncionarioResponseDTO criaFuncionario(FuncionarioRequestDTO funcionarioRequestDTO) throws FuncionarioAlreadyCreatedException, InvalidCodigoAcessoException {
+    public FuncionarioResponseDTO criarFuncionario(FuncionarioRequestDTO funcionarioRequestDTO) throws FuncionarioAlreadyCreatedException, InvalidCodigoAcessoException {
         if(funcionarioRequestDTO.getCodigoAcesso().length() != 6){
             throw new InvalidCodigoAcessoException();
         }
@@ -80,8 +80,8 @@ public class FuncionarioServiceImpl implements FuncionarioService {
     }
 
     @Override
-    public void removeFuncionarioCadastrado(Long id) throws FuncionarioNotFoundException {
-        Funcionario funcionario = getFuncionarioId(id);
+    public void removerFuncionarioCadastrado(Long idFuncionario) throws FuncionarioNotFoundException {
+        Funcionario funcionario = getFuncionarioId(idFuncionario);
         funcionarioRepository.delete(funcionario);
     }
 

@@ -89,7 +89,7 @@ public class SaborServiceImpl implements SaborService {
         return modelMapper.map(sabor, SaborResponseDTO.class);
     }
 
-    private Sabor getSaborId(Long id) throws SaborNotFoundException {
+    public Sabor getSaborId(Long id) throws SaborNotFoundException {
         return saborRepository.findById(id)
                 .orElseThrow(() -> new SaborNotFoundException());
     }
@@ -209,11 +209,10 @@ public class SaborServiceImpl implements SaborService {
 
         if (sabor == null) {
             throw new SaborNotFoundException();
-        } else {
-        	sabor.setEstaDisponivel(estaDisponivel);
-            salvarSabor(sabor);
-
-        }
+        } 
+        
+        sabor.setEstaDisponivel(estaDisponivel);
+        salvarSabor(sabor);
 
         if(sabor.isEstaDisponivel()) {
         	sabor.dispararAviso();
@@ -242,4 +241,3 @@ public class SaborServiceImpl implements SaborService {
 		return modelMapper.map(sabor, SaborResponseDTO.class);
 	}
 }
-
